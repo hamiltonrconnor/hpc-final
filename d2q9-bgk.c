@@ -244,7 +244,7 @@ int accelerate_flow(const t_param params,  int* obstacles,soa* grid_ptr)
 
   /* modify the 2nd row of the grid */
   int jj = params.ny - 2;
-  #pragma omp parallel for schedule(runtime)
+  #pragma omp parallel for 
   for (int ii = 0; ii < params.nx; ii++)
   {
     /* if the cell is not occupied and
@@ -440,7 +440,7 @@ float av_velocity(const t_param params, int* obstacles,soa* grid_ptr)
   tot_u = 0.f;
 
   /* loop over all non-blocked cells */
-  //#pragma omp parallel for
+
   for (int jj = 0; jj < params.ny; jj++)
   {
     for (int ii = 0; ii < params.nx; ii++)
