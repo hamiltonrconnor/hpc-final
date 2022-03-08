@@ -440,7 +440,7 @@ float av_velocity(const t_param params, int* obstacles,soa* grid_ptr)
   tot_u = 0.f;
 
   /* loop over all non-blocked cells */
-  #pragma omp parallel for
+  //#pragma omp parallel for
   for (int jj = 0; jj < params.ny; jj++)
   {
     for (int ii = 0; ii < params.nx; ii++)
@@ -544,10 +544,10 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
 
     const int ny = params.ny;
     const int nx = params.nx;
-      #pragma omp parallel for reduction(+:tot_u,tot_cells) schedule(runtime)
+      //#pragma omp parallel for reduction(+:tot_u,tot_cells) schedule(runtime)
       for (int jj = 0; jj < ny; jj++)
       {
-        #pragma omp simd reduction(+:tot_u,tot_cells)
+        //#pragma omp simd reduction(+:tot_u,tot_cells)
         for (int ii = 0; ii < nx; ii++)
         {
           __assume_aligned((*grid_ptr).s0,64);
@@ -925,7 +925,7 @@ int initialise(const char* paramfile, const char* obstaclefile,
   float w1 = params->density      / 9.f;
   float w2 = params->density      / 36.f;
   //#pragma omp parallel for collapse(2) schedule(runtime)
-  #pragma omp parallel for
+  //#pragma omp parallel for
   for (int jj = 0; jj < params->ny; jj++)
   {
     for (int ii = 0; ii < params->nx; ii++)
@@ -957,7 +957,7 @@ int initialise(const char* paramfile, const char* obstaclefile,
 
 
   /* first set all cells in obstacle array to zero */
-  #pragma omp parallel for
+  //#pragma omp parallel for
   for (int jj = 0; jj < params->ny; jj++)
   {
     for (int ii = 0; ii < params->nx; ii++)
