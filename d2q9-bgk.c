@@ -487,8 +487,6 @@ float av_velocity(const t_param params, int* obstacles,soa* grid_ptr)
 float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_ptr,soa* restrict tmp_grid_ptr)
 {
 
-   // soa grid = *grid_ptr;
-   // soa tmp_grid = *tmp_grid_ptr;
   //CONSTS FROM COLLISION
   const float c_sq = 1.f / 3.f; /* square of speed of sound */
   const float w0 = 4.f / 9.f;  /* weighting factor */
@@ -527,20 +525,12 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
 
 
 
-
-  //t_speed* output = *output_ptr;
-
   int    tot_cells = 0;  /* no. of cells used in calculation */
   float tot_u;          /* accumulated magnitudes of velocity for each cell */
 
   /* initialise */
   tot_u = 0.f;
 
-	//Comment asdas
-  /* loop over _all_ cells */
-  //
-    // for(int n=0; n<params.ny*params.nx; n++) {
-    //   int ii = n/params.nx; int jj=n%params.nx;
 
     const int ny = params.ny;
     const int nx = params.nx;
@@ -676,18 +666,7 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
 
         /* equilibrium densities */
          float d_equ[NSPEEDS];
-         // float d_equ[NSPEEDS]  = {w0 * local_density * (1.f - u_sq / (2.f * c_sq)),
-         //                          w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[1])+(u[1]*u[1])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[2])+(u[2]*u[2])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[3])+(u[3]*u[3])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[4])+(u[4]*u[4])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[5])+(u[5]*u[5])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[6])+(u[6]*u[6])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[7])+(u[7]*u[7])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //                          w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[8])+(u[8]*u[8])-(u_sq*c_sq))/(2.f*c_sq*c_sq),
-         //
-         //
-         // };
+
 
          d_equ[0] = w0 * local_density * (1.f - u_sq / (2.f * c_sq));
 
@@ -700,68 +679,7 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
          d_equ[7] =w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[7])+(u[7]*u[7])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
          d_equ[8] =w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[8])+(u[8]*u[8])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
 
-         // d_equ[0] = w0 * local_density
-         //            * (1.f - u_sq / (2.f * c_sq));
-         // /* axis speeds: weight w1 */
-         // d_equ[1] = w1 * local_density * (1.f + u[1] / c_sq
-         //                                  + (u[1] * u[1]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // d_equ[2] = w1 * local_density * (1.f + u[2] / c_sq
-         //                                  + (u[2] * u[2]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // d_equ[3] = w1 * local_density * (1.f + u[3] / c_sq
-         //                                  + (u[3] * u[3]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // d_equ[4] = w1 * local_density * (1.f + u[4] / c_sq
-         //                                  + (u[4] * u[4]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // /* diagonal speeds: weight w2 */
-         // d_equ[5] = w2 * local_density * (1.f + u[5] / c_sq
-         //                                  + (u[5] * u[5]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // d_equ[6] = w2 * local_density * (1.f + u[6] / c_sq
-         //                                  + (u[6] * u[6]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // d_equ[7] = w2 * local_density * (1.f + u[7] / c_sq
-         //                                  + (u[7] * u[7]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
-         // d_equ[8] = w2 * local_density * (1.f + u[8] / c_sq
-         //                                  + (u[8] * u[8]) / (2.f * c_sq * c_sq)
-         //                                  - u_sq / (2.f * c_sq));
 
-
-
-
-
-
-
-      //   /* zero velocity density: weight w0 */
-      //   d_equ[0] = w0 * local_density
-      //              * (1.f - u_sq / (2.f * c_sq));
-      // //   /* axis speeds: weight w1 */
-      // //   // d_equ[1] = w1 * local_density *
-      // //   // (1.f + (u[1] / c_sq )+ ((u[1] * u[1]) / (2.f * c_sq * c_sq)) - (u_sq / (2.f * c_sq)));
-      // //
-      // //   //printf("%f\n",w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[1])+(u[1]*u[1])-(u_sq*c_sq))/(2.f*c_sq*c_sq));
-        // for(int i = 1;i<9;i++){
-        //   if(i<5){
-        //   d_equ[i] = w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[i])+(u[i]*u[i])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-        //   }else{
-        //     d_equ[i] = w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[i])+(u[i]*u[i])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-        //   }
-        // }
-      //
-      //
-      //   // d_equ[2] = w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[2])+(u[2]*u[2])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //   // d_equ[3] = w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[3])+(u[3]*u[3])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //   // d_equ[4] = w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[4])+(u[4]*u[4])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //   // d_equ[5] = w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[5])+(u[5]*u[5])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //   // d_equ[6] = w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[6])+(u[6]*u[6])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //   // d_equ[7] = w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[7])+(u[7]*u[7])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //   // d_equ[8] = w2 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[8])+(u[8]*u[8])-(u_sq*c_sq))/(2.f*c_sq*c_sq);
-      //
-      //
-      //   /* local density total */
 
         /* relaxation step */
 
