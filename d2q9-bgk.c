@@ -89,7 +89,7 @@ typedef struct
   float* s6;
   float* s7;
   float* s8;
-}  soa __attribute__((aligned(256)));
+}  soa __attribute__((aligned(64)));
 
 
 /*
@@ -496,25 +496,25 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
   const float w2 = 1.f / 36.f; /* weighting factor */
 
 
-  __assume_aligned((*grid_ptr).s0,256);
-  __assume_aligned((*grid_ptr).s1,256);
-  __assume_aligned((*grid_ptr).s2,256);
-  __assume_aligned((*grid_ptr).s3,256);
-  __assume_aligned((*grid_ptr).s4,256);
-  __assume_aligned((*grid_ptr).s5,256);
-  __assume_aligned((*grid_ptr).s6,256);
-  __assume_aligned((*grid_ptr).s7,256);
-  __assume_aligned((*grid_ptr).s8,256);
+  __assume_aligned((*grid_ptr).s0,64);
+  __assume_aligned((*grid_ptr).s1,64);
+  __assume_aligned((*grid_ptr).s2,64);
+  __assume_aligned((*grid_ptr).s3,64);
+  __assume_aligned((*grid_ptr).s4,64);
+  __assume_aligned((*grid_ptr).s5,64);
+  __assume_aligned((*grid_ptr).s6,64);
+  __assume_aligned((*grid_ptr).s7,64);
+  __assume_aligned((*grid_ptr).s8,64);
 
-  __assume_aligned((*tmp_grid_ptr).s0,256);
-  __assume_aligned((*tmp_grid_ptr).s1,256);
-  __assume_aligned((*tmp_grid_ptr).s2,256);
-  __assume_aligned((*tmp_grid_ptr).s3,256);
-  __assume_aligned((*tmp_grid_ptr).s4,256);
-  __assume_aligned((*tmp_grid_ptr).s5,256);
-  __assume_aligned((*tmp_grid_ptr).s6,256);
-  __assume_aligned((*tmp_grid_ptr).s7,256);
-  __assume_aligned((*tmp_grid_ptr).s8,256);
+  __assume_aligned((*tmp_grid_ptr).s0,64);
+  __assume_aligned((*tmp_grid_ptr).s1,64);
+  __assume_aligned((*tmp_grid_ptr).s2,64);
+  __assume_aligned((*tmp_grid_ptr).s3,64);
+  __assume_aligned((*tmp_grid_ptr).s4,64);
+  __assume_aligned((*tmp_grid_ptr).s5,64);
+  __assume_aligned((*tmp_grid_ptr).s6,64);
+  __assume_aligned((*tmp_grid_ptr).s7,64);
+  __assume_aligned((*tmp_grid_ptr).s8,64);
   __assume((params.nx)%2==0);
   __assume((params.nx)%4==0);
   __assume((params.nx)%8==0);
@@ -551,25 +551,25 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
         //#pragma omp simd
         for (int ii = 0; ii < nx; ii++)
         {
-          __assume_aligned((*grid_ptr).s0,256);
-          __assume_aligned((*grid_ptr).s1,256);
-          __assume_aligned((*grid_ptr).s2,256);
-          __assume_aligned((*grid_ptr).s3,256);
-          __assume_aligned((*grid_ptr).s4,256);
-          __assume_aligned((*grid_ptr).s5,256);
-          __assume_aligned((*grid_ptr).s6,256);
-          __assume_aligned((*grid_ptr).s7,256);
-          __assume_aligned((*grid_ptr).s8,256);
+          __assume_aligned((*grid_ptr).s0,64);
+          __assume_aligned((*grid_ptr).s1,64);
+          __assume_aligned((*grid_ptr).s2,64);
+          __assume_aligned((*grid_ptr).s3,64);
+          __assume_aligned((*grid_ptr).s4,64);
+          __assume_aligned((*grid_ptr).s5,64);
+          __assume_aligned((*grid_ptr).s6,64);
+          __assume_aligned((*grid_ptr).s7,64);
+          __assume_aligned((*grid_ptr).s8,64);
 
-          __assume_aligned((*tmp_grid_ptr).s0,256);
-          __assume_aligned((*tmp_grid_ptr).s1,256);
-          __assume_aligned((*tmp_grid_ptr).s2,256);
-          __assume_aligned((*tmp_grid_ptr).s3,256);
-          __assume_aligned((*tmp_grid_ptr).s4,256);
-          __assume_aligned((*tmp_grid_ptr).s5,256);
-          __assume_aligned((*tmp_grid_ptr).s6,256);
-          __assume_aligned((*tmp_grid_ptr).s7,256);
-          __assume_aligned((*tmp_grid_ptr).s8,256);
+          __assume_aligned((*tmp_grid_ptr).s0,64);
+          __assume_aligned((*tmp_grid_ptr).s1,64);
+          __assume_aligned((*tmp_grid_ptr).s2,64);
+          __assume_aligned((*tmp_grid_ptr).s3,64);
+          __assume_aligned((*tmp_grid_ptr).s4,64);
+          __assume_aligned((*tmp_grid_ptr).s5,64);
+          __assume_aligned((*tmp_grid_ptr).s6,64);
+          __assume_aligned((*tmp_grid_ptr).s7,64);
+          __assume_aligned((*tmp_grid_ptr).s8,64);
       //printf("%d\n",omp_get_num_threads());
       //propagate(params,cells,tmp_cells,ii,jj);
       //PROPAGATE
@@ -900,26 +900,26 @@ int initialise(const char* paramfile, const char* obstaclefile,
   */
 
 
-  (*grid_ptr).s0 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s1 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s2 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s3 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s4 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s5 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s6 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s7 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*grid_ptr).s8 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
+  (*grid_ptr).s0 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s1 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s2 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s3 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s4 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s5 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s6 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s7 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*grid_ptr).s8 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
   // soa tmp_grid;
   // tmp_grid_ptr = &tmp_grid;
-  (*tmp_grid_ptr).s0 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s1 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s2 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s3 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s4 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s5 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s6 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s7 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
-  (*tmp_grid_ptr).s8 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),256);
+  (*tmp_grid_ptr).s0 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s1 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s2 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s3 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s4 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s5 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s6 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s7 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
+  (*tmp_grid_ptr).s8 = (float*)_mm_malloc(sizeof(float) * (params->ny * params->nx),64);
 
   /* initialise densities */
   float w0 = params->density * 4.f / 9.f;
