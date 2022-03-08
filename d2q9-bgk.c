@@ -562,10 +562,11 @@ float fusion(const t_param params,  int* restrict  obstacles,soa* restrict grid_
 
     const int ny = params.ny;
     const int nx = params.nx;
-      #pragma omp parallel for reduction(+:tot_u,tot_cells) schedule(runtime)
+      //#pragma omp parallel for reduction(+:tot_u,tot_cells) schedule(runtime)
       for (int jj = 0; jj < ny; jj++)
       {
-        #pragma omp simd reduction(+:tot_u,tot_cells)
+        //#pragma omp simd reduction(+:tot_u,tot_cells)
+        #pragma omp simd 
         for (int ii = 0; ii < nx; ii++)
         {
           __assume_aligned((*grid_ptr).s0,64);
@@ -942,7 +943,7 @@ int initialise(const char* paramfile, const char* obstaclefile,
   float w0 = params->density * 4.f / 9.f;
   float w1 = params->density      / 9.f;
   float w2 = params->density      / 36.f;
-  #pragma omp parallel for collapse(2) schedule(runtime)
+  //#pragma omp parallel for collapse(2) schedule(runtime)
   for (int jj = 0; jj < params->ny; jj++)
   {
     for (int ii = 0; ii < params->nx; ii++)
