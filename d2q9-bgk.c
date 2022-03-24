@@ -631,7 +631,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
                       - (tmp_cells[ii + jj*params.nx].speeds[3]
                          + tmp_cells[ii + jj*params.nx].speeds[6]
                          + tmp_cells[ii + jj*params.nx].speeds[7]));
-                         //*inv_av_local_density;
+                         *inv_av_local_density;
 
         /* compute y velocity component */
         const float av_u_y = (tmp_cells[ii + jj*params.nx].speeds[2]
@@ -640,7 +640,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
                       - (tmp_cells[ii + jj*params.nx].speeds[4]
                          + tmp_cells[ii + jj*params.nx].speeds[7]
                          + tmp_cells[ii + jj*params.nx].speeds[8]));
-                     //*inv_av_local_density;
+                     *inv_av_local_density;
 
 
         // /* x-component of velocity */
@@ -661,7 +661,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
         //              / av_local_density;
 
         /* accumulate the norm of x- and y- velocity components */
-        tot_u += sqrtf(((av_u_x * av_u_x) + (av_u_y * av_u_y))*inv_av_local_density*in);
+        tot_u += sqrtf(((av_u_x * av_u_x) + (av_u_y * av_u_y)));
         /* increase counter of inspected cells */
         ++tot_cells;
 
