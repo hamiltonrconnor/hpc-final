@@ -630,7 +630,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
                       + tmp_cells[ii + jj*params.nx].speeds[8]
                       - (tmp_cells[ii + jj*params.nx].speeds[3]
                          + tmp_cells[ii + jj*params.nx].speeds[6]
-                         + tmp_cells[ii + jj*params.nx].speeds[7]));
+                         + tmp_cells[ii + jj*params.nx].speeds[7]))
                          *inv_av_local_density;
 
         /* compute y velocity component */
@@ -639,7 +639,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
                       + tmp_cells[ii + jj*params.nx].speeds[6]
                       - (tmp_cells[ii + jj*params.nx].speeds[4]
                          + tmp_cells[ii + jj*params.nx].speeds[7]
-                         + tmp_cells[ii + jj*params.nx].speeds[8]));
+                         + tmp_cells[ii + jj*params.nx].speeds[8]))
                      *inv_av_local_density;
 
 
