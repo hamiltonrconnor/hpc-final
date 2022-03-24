@@ -1,6 +1,6 @@
 # Makefile
 
-EXE=hello
+EXE=d2q9-bgk
 
 CC=mpiicc
 
