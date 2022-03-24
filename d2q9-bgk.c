@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
   MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  printf("Hello from rank %d of %d\n",r);
+  printf("Hello from rank %d of %d\n",rank,nprocs);
   char*    paramfile = NULL;    /* name of the input parameter file */
   char*    obstaclefile = NULL; /* name of a the input obstacle file */
   t_param  params;              /* struct to hold parameter values */
