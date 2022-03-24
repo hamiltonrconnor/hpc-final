@@ -48,7 +48,7 @@
 ** Be sure to adjust the grid dimensions in the parameter file
 ** if you choose a different obstacle file.
 */
-
+#include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
