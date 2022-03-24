@@ -124,6 +124,13 @@ void usage(const char* exe);
 */
 int main(int argc, char* argv[])
 {
+  MPI_Init(&argc,&argv);
+
+  int nprocs,rank;
+  MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
+  MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
+  printf("Hello from rank %d of %d\n",r);
   char*    paramfile = NULL;    /* name of the input parameter file */
   char*    obstaclefile = NULL; /* name of a the input obstacle file */
   t_param  params;              /* struct to hold parameter values */
@@ -194,6 +201,7 @@ int main(int argc, char* argv[])
   write_values(params, cells, obstacles, av_vels);
   finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
 
+  MPI_Finalize();
   return EXIT_SUCCESS;
 }
 
@@ -643,22 +651,6 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
                      *inv_av_local_density;
 
 
-        // /* x-component of velocity */
-        // float av_u_x = (output[ii + jj*params.nx].speeds[1]
-        //               + output[ii + jj*params.nx].speeds[5]
-        //               + output[ii + jj*params.nx].speeds[8]
-        //               - (output[ii + jj*params.nx].speeds[3]
-        //                  + output[ii + jj*params.nx].speeds[6]
-        //                  + output[ii + jj*params.nx].speeds[7]))
-        //              / av_local_density;
-        // /* compute y velocity component */
-        // float av_u_y = (output[ii + jj*params.nx].speeds[2]
-        //               + output[ii + jj*params.nx].speeds[5]
-        //               + output[ii + jj*params.nx].speeds[6]
-        //               - (output[ii + jj*params.nx].speeds[4]
-        //                  + output[ii + jj*params.nx].speeds[7]
-        //                  + output[ii + jj*params.nx].speeds[8]))
-        //              / av_local_density;
 
         /* accumulate the norm of x- and y- velocity components */
         tot_u += sqrtf(((av_u_x * av_u_x) + (av_u_y * av_u_y)));
