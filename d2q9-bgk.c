@@ -484,6 +484,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     //#pragma omp parallel for collapse(2) reduction(+:tot_u,tot_cells)
     //Init local regions
+    nt tag = 0;
     int N = params.ny;
     int work = N / nprocs;
     int start = rank * work;
@@ -503,7 +504,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     memcpy( sendbuff, cells+end, sizeof(float) * buffSize  );
     MPI_Sendrecv(sendbuff, buffSize , MPI_FLOAT, right, tag,
-    	  recvbuff, * buffSize  ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    	  recvbuff, buffSize  ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
     memcpy( cells+start-buffSize, recvbuff, sizeof(float) * buffSize  );
 
 
