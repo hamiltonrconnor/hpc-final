@@ -494,18 +494,16 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
     //Get the right data
-    int numElements = (end - start + 1)
-    int initAddress = cells + start;
     float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
     float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
     memcpy( sendbuff, cells+start-buffSize, sizeof(float) * buffSize  );
     MPI_Sendrecv(sendbuff,buffSize , MPI_FLOAT, left, tag,
-	      recvbuff,  buffSize ,  MPI_FLOAT right, tag, MPI_COMM_WORLD, &status);
+	      recvbuff,  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     memcpy( cells+end, recvbuff, sizeof(float) * buffSize  );
 
     memcpy( sendbuff, cells+end, sizeof(float) * buffSize  );
-    MPI_Sendrecv(sendbuff, * buffSize   , MPI_FLOAT, right, tag,
-    	  recvbuff, * buffSize  ,  MPI_FLOAT left, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(sendbuff, buffSize , MPI_FLOAT, right, tag,
+    	  recvbuff, * buffSize  ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
     memcpy( cells+start-buffSize, recvbuff, sizeof(float) * buffSize  );
 
 
