@@ -78,6 +78,7 @@ typedef struct
   float speeds[NSPEEDS];
 } t_speed;
 
+int nprocs,rank;
 /*
 ** function prototypes
 */
@@ -126,7 +127,7 @@ int main(int argc, char* argv[])
 {
   MPI_Init(&argc,&argv);
 
-  int nprocs,rank;
+
   MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
@@ -480,13 +481,39 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 	//Comment asdas
   /* loop over _all_ cells */
   //
-    // for(int n=0; n<params.ny*params.nx; n++) {
-    //   int ii = n/params.nx; int jj=n%params.nx;
+
     //#pragma omp parallel for collapse(2) reduction(+:tot_u,tot_cells)
-      for (int jj = 0; jj < params.ny; jj++)
+    //Init local regions
+    int N = params.ny;
+    int work = N / nprocs;
+    int start = rank * work;
+    int end = start + work;
+    int buffSize = NSPEEDS*params.nx;
+    //Find the neigbours
+    int right = (rank + 1) % nprocs;
+    int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
+
+    //Get the right data
+    int numElements = (end - start + 1)
+    int initAddress = cells + start;
+    float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
+    float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
+    memcpy( sendbuff, cells+start-buffSize, sizeof(float) * buffSize  );
+    MPI_Sendrecv(sendbuff,buffSize , MPI_FLOAT, left, tag,
+	      recvbuff,  buffSize ,  MPI_FLOAT right, tag, MPI_COMM_WORLD, &status);
+    memcpy( cells+end, recvbuff, sizeof(float) * buffSize  );
+
+    memcpy( sendbuff, cells+end, sizeof(float) * buffSize  );
+    MPI_Sendrecv(sendbuff, * buffSize   , MPI_FLOAT, right, tag,
+    	  recvbuff, * buffSize  ,  MPI_FLOAT left, tag, MPI_COMM_WORLD, &status);
+    memcpy( cells+start-buffSize, recvbuff, sizeof(float) * buffSize  );
+
+
+
+    for (int jj = start; jj < end; jj++)
+    {
+      for (int ii = 0; ii < params.nx; ii++)
       {
-        for (int ii = 0; ii < params.nx; ii++)
-        {
       //printf("%d\n",omp_get_num_threads());
       //propagate(params,cells,tmp_cells,ii,jj);
       //PROPAGATE
