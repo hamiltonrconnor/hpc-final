@@ -484,7 +484,8 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     //#pragma omp parallel for collapse(2) reduction(+:tot_u,tot_cells)
     //Init local regions
-    nt tag = 0;
+    int tag = 0;
+    MPI_Status status;
     int N = params.ny;
     int work = N / nprocs;
     int start = rank * work;
