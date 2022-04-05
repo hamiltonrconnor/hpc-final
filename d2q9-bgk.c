@@ -519,8 +519,15 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     MPI_Sendrecv(&cells[memRight],buffSize , MPI_FLOAT, right, tag,
 	      &cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
     //memcpy(&cells[memLeft],recvbuff,buffSize*params.nx);
-
-    //printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,right,memRight);
+    memRight = (end)*params.nx;
+    if(rank == nprocs-1){
+      memRight = 0;
+    }
+    memLeft =(start)*params.nx;
+    printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,right,memRight);
+    printf("I am Rank %d. I need send %d to rank %d \n'",rank,left,memLeft);
+    MPI_Sendrecv(&cells[memLeft],buffSize , MPI_FLOAT, left, tag,
+	      &cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     // membegin = start*params.nx;
     // memend = (end+1)*params.nx;
     // if(rank == nprocs-1){
