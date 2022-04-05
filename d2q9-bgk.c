@@ -510,7 +510,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
     printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
-    printf("I am Rank: %d membegin is %d memend is %d LEFT \n",rank,membegin,memend);
+    printf("I am Rank: %d and im sending %d to rank %d im recieving from rank %d and placing it at location %d  LEFT \n",rank,membegin,left,right,memend);
     printf("\n");
 
     memcpy(sendbuff,&cells[membegin],buffSize*params.nx);
@@ -522,7 +522,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     if(rank == nprocs-1){
       memend = 0;
     }
-    printf("I am Rank: %d membegin is %d memend is %d RIGHT \n",rank,membegin,memend);
+    //printf("I am Rank: %d membegin is %d memend is %d RIGHT \n",rank,membegin,memend);
     memcpy(sendbuff,&cells[membegin],buffSize*params.nx);
     MPI_Sendrecv(sendbuff, buffSize , MPI_FLOAT, right, tag,
     	  recvbuff, buffSize  ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
