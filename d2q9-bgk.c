@@ -501,13 +501,21 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     //Get the right data
     float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
     float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
+
+    int membegin = start*params.nx-buffSize;
+    if(rank==0){
+      membegin=params.ny*params.nx-buffSize;
+    }
+    int memend = end*params.nx-buffSize;
+
     printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
-    printf("I am Rank: %d membegin is %d memend is %d LEFT \n",rank,start*params.nx-buffSize,start*params.nx);
+    printf("I am Rank: %d membegin is %d memend is %d LEFT \n",rank,membegin,memend);
     printf("\n");
-    memcpy( sendbuff, cells+start*params.nx-buffSize, sizeof(float) * buffSize  );
+
+    memcpy( sendbuff, cells+membegin, sizeof(float) * buffSize  );
     MPI_Sendrecv(sendbuff,buffSize , MPI_FLOAT, left, tag,
 	      recvbuff,  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    memcpy( cells+end*params.nx, recvbuff, sizeof(float) * buffSize  );
+    memcpy( cells+memend, recvbuff, sizeof(float) * buffSize  );
 
     memcpy( sendbuff, cells+end*params.nx, sizeof(float) * buffSize  );
     MPI_Sendrecv(sendbuff, buffSize , MPI_FLOAT, right, tag,
