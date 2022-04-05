@@ -502,11 +502,11 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
     float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
 
-    int membegin = start*params.nx-buffSize;
+    int membegin = (start-1)*params.nx;
     if(rank==0){
-      membegin=params.ny*params.nx-buffSize;
+      membegin=(params.ny-1)*params.nx;
     }
-    int memend = end*params.nx-buffSize;
+    int memend = (end-1)*params.nx;
 
     printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
     printf("I am Rank: %d membegin is %d memend is %d LEFT \n",rank,membegin,memend);
