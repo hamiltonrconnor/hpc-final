@@ -499,6 +499,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     //Get the right data
     float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
     float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
+    print("I am Rank: %d start is %d",rank,start);
     memcpy( sendbuff, cells+start-buffSize, sizeof(float) * buffSize  );
     MPI_Sendrecv(sendbuff,buffSize , MPI_FLOAT, left, tag,
 	      recvbuff,  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
