@@ -493,7 +493,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     int work = N / nprocs;
     int start = rank * work;
     int end = start + work;
-    int objSize = sizeof(float) *NSPEEDS;
+    int buffSize = sizeof(float) *NSPEEDS;
     //Find the neigbours
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
@@ -513,18 +513,20 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     printf("I am Rank: %d membegin is %d memend is %d LEFT \n",rank,membegin,memend);
     printf("\n");
 
-
+    memcpy(sendbuff,cells[membegin],buffSize*params.nx);
     MPI_Sendrecv(cells[membegin],buffSize , MPI_FLOAT, left, tag,
-	      cells[memend],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-
+	      recvbuff,  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    memcpy(cells[memend],recvbuff,buffSize*params.nx);
     membegin = start*params.nx;
     memend = (end+1)*params.nx;
     if(rank == nprocs-1){
       memend = 0;
     }
     printf("I am Rank: %d membegin is %d memend is %d RIGHT \n",rank,membegin,memend);
+    memcpy(sendbuff,cells[membegin],buffSize*params.nx);
     MPI_Sendrecv(cells[membegin], buffSize , MPI_FLOAT, right, tag,
-    	  cells[memend], buffSize  ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    	  recvbuff, buffSize  ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    memcpy(cells[memend],recvbuff,buffSize*params.nx);
 
 
 
