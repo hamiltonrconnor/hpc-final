@@ -167,10 +167,10 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
 
-  // for (int tt = 0; tt < params.maxIters; tt++)
-  // {
-  for (int tt = 0; tt < 1; tt++)
+  for (int tt = 0; tt < params.maxIters; tt++)
   {
+  // for (int tt = 0; tt < 1; tt++)
+  // {
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
     cells_ptr= tmp_cells_ptr;
@@ -510,10 +510,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
 
-    printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
+    // printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
     // printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,left,memLeft);
     // printf("I am Rank %d. I need send %d to rank %d \n'",rank,right,memRight);
-        printf("\n");
+        // printf("\n");
 
     //memcpy(sendbuff,,buffSize*params.nx);
     MPI_Sendrecv(&cells[memRight],buffSize , MPI_FLOAT, right, tag,
@@ -524,8 +524,8 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
       memRight = 0;
     }
     memLeft =(start)*params.nx;
-    printf("I am Rank %d. I need recieve from rank %d and place it at %d RIGHT \n",rank,right,memRight);
-    printf("I am Rank %d. I need send %d to rank %d RIGHT\n'",rank,left,memLeft);
+    // printf("I am Rank %d. I need recieve from rank %d and place it at %d RIGHT \n",rank,right,memRight);
+    // printf("I am Rank %d. I need send %d to rank %d RIGHT\n'",rank,left,memLeft);
     MPI_Sendrecv(&cells[memLeft],buffSize , MPI_FLOAT, left, tag,
 	      &cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     // membegin = start*params.nx;
