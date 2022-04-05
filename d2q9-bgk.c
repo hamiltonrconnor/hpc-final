@@ -502,16 +502,18 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
     float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
 
-    int membegin = (start-1)*params.nx;
+    int memLeft = (start-1)*params.nx;
     if(rank==0){
-      membegin=(params.ny-1)*params.nx;
+      memLeft=(params.ny-1)*params.nx;
     }
-    int memend = (end-1)*params.nx;
+    int memRight = (end-1)*params.nx;
+
 
 
     printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
-    printf("I am Rank: %d and im sending %d to rank %d im recieving from rank %d and placing it at location %d  LEFT \n",rank,membegin,left,right,memend);
-    printf("\n");
+    printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,left,memLeft);
+    printf("I am Rank %d. I need send %d to rank %d \n'",rank,right,memRight);
+        printf("\n");
 
     memcpy(sendbuff,&cells[membegin],buffSize*params.nx);
     MPI_Sendrecv(sendbuff,buffSize , MPI_FLOAT, left, tag,
