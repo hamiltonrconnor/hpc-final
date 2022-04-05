@@ -167,7 +167,9 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
 
-  for (int tt = 0; tt < params.maxIters; tt++)
+  // for (int tt = 0; tt < params.maxIters; tt++)
+  // {
+  for (int tt = 0; tt < 1; tt++)
   {
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
