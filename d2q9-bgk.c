@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
   int start = rank * work;
   int end = start + work;
   int tag = 0;
-  MPI_Status status; 
+  MPI_Status status;
   if (rank != MASTER) {
    int dest = MASTER;
 
@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
      int size = findWork(N,nprocs,i);
      int mystart = size*i;
      /* recieving their messages.. */
-     MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, source, tag, MPI_COMM_WORLD, &status);
+     MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
 
    }
   }
