@@ -189,8 +189,10 @@ int main(int argc, char* argv[])
   int work = N / nprocs;
   int start = rank * work;
   int end = start + work;
+  int tag = 0;
+  MPI_Status status; 
   if (rank != MASTER) {
-   dest = MASTER;
+   int dest = MASTER;
 
    MPI_Send(&cells[start*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
 
@@ -202,7 +204,7 @@ int main(int argc, char* argv[])
      int mystart = size*i;
      /* recieving their messages.. */
      MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, source, tag, MPI_COMM_WORLD, &status);
-     
+
    }
   }
   /* Compute time stops here, collate time starts*/
