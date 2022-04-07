@@ -186,13 +186,14 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
+  int N = params.ny;
   int work = N / nprocs;
   int start = rank * work;
   int end = start + work;
   int tag = 0;
   MPI_Status status;
-  if (rank != MASTER) {
-   int dest = MASTER;
+  if (rank != 0) {
+   int dest = 0;
 
    MPI_Send(&cells[start*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
 
