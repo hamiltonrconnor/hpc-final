@@ -120,6 +120,10 @@ float calc_reynolds(const t_param params, t_speed* cells, int* obstacles);
 void die(const char* message, const int line, const char* file);
 void usage(const char* exe);
 
+int findWork(int n,int procs,int rank){
+  return (int)(round(n/procs*(rank+1)) -round(n/procs*(rank))) ;
+
+}
 /*
 ** main program:
 ** initialise, timestep loop, finalise
@@ -182,7 +186,25 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
+  int work = N / nprocs;
+  int start = rank * work;
+  int end = start + work;
+  if (rank != MASTER) {
+   dest = MASTER;
 
+   MPI_Send(&cells[start*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
+
+  }
+  else {             /* i.e. this is the master process */
+
+   for (int i=1; i<nprocs; i++) {
+     int size = findWork(N,nprocs,i);
+     int mystart = size*i;
+     /* recieving their messages.. */
+     MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, source, tag, MPI_COMM_WORLD, &status);
+     
+   }
+  }
   /* Compute time stops here, collate time starts*/
   gettimeofday(&timstr, NULL);
   comp_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
@@ -490,7 +512,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     int tag = 0;
     MPI_Status status;
     int N = params.ny;
-    int work = N / nprocs;
+    int work =findWork(N,nprocs,rank);
     int start = rank * work;
     int end = start + work;
     int buffSize = sizeof(float) *NSPEEDS;
