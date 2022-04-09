@@ -171,10 +171,10 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
 
-  for (int tt = 0; tt < params.maxIters; tt++)
-  {
-  // for (int tt = 0; tt < 1; tt++)
+  // for (int tt = 0; tt < params.maxIters; tt++)
   // {
+  for (int tt = 0; tt < 1; tt++)
+  {
     //Init local regions
     int tag = 0;
     MPI_Status status;
@@ -608,6 +608,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     // for (int jj = start; jj < end; jj++)
     // {
+    printf(rank+"    "+start+"  "+end);
     for (int jj = 0; jj < params.ny; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
