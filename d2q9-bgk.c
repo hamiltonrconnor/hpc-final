@@ -931,9 +931,12 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     // {
       for (int ii = 0; ii < params.nx; ii++)
       {
-        if(test_ptr[ii + jj*params.nx]!=tmp_cells[ii + jj*params.nx]){
+        for (int kk = 0; kk < NSPEEDS; kk++)
+          {
+        if(test_ptr[ii + jj*params.nx].speeds[kk]!=tmp_cells[ii + jj*params.nx].speeds[kk]){
           printf("rank: %d ii:%d  jj:%d\n",rank,ii,jj);
         }
+      }
       }
     }
     return tot_u / (float)tot_cells;
