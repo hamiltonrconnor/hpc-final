@@ -932,7 +932,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
       for (int ii = 0; ii < params.nx; ii++)
       {
         if(test_ptr[ii + jj*params.nx]!=tmp_cells[ii + jj*params.nx]){
-          printf("rank: %d ii:%d  jj:%d",rank,ii,jj);
+          printf("rank: %d ii:%d  jj:%d\n",rank,ii,jj);
         }
       }
     }
