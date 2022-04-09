@@ -608,7 +608,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     // for (int jj = start; jj < end; jj++)
     // {
-    printf("rank: %d start: %d end: %d",rank,start,end);
+    printf("rank: %d start: %d end: %d\n",rank,start,end);
     for (int jj = 0; jj < params.ny; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
