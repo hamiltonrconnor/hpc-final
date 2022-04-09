@@ -775,6 +775,15 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
       }
     }
+    for (int jj = 0; jj < params.ny; jj++)
+    {
+      for (int ii = 0; ii < params.nx; ii++)
+      {
+        for (int kk = 0; kk < NSPEEDS; kk++)
+          {
+        tmp_cells[ii + jj*params.nx].speeds[kk] =0;
+      }
+      }}
     for (int jj = start; jj < end; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
