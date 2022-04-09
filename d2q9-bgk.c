@@ -563,7 +563,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
 
-    t_speed* *test_ptr = (t_speed*)malloc(sizeof(t_speed) * (params->ny * params->nx));
+    t_speed test_ptr = (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
     // for (int jj = start; jj < end; jj++)
     // {
     printf("rank: %d start: %d end: %d\n",rank,start,end);
