@@ -772,7 +772,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
           {
             test_ptr[ii + jj*params.nx].speeds[kk]=tmp_cells[ii + jj*params.nx].speeds[kk]
         }
-      }
+      
       }
     }
     for (int jj = 0; jj < params.ny; jj++)
@@ -960,9 +960,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
           {
             if(test_ptr[ii + jj*params.nx].speeds[kk]!=tmp_cells[ii + jj*params.nx].speeds[kk]){
               printf("After rank: %d jj:%d  ii%d kk:%d\n",rank,jj,ii,kk);
+            }
         }
       }
-      }
+
     }
 
     return tot_u / (float)tot_cells;
