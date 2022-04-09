@@ -565,18 +565,18 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     t_speed* test_ptr = (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
 
-    for (int jj = 0; jj < params.ny; jj++)
-    {
-      for (int ii = 0; ii < params.nx; ii++)
-      {
-        for (int kk = 0; kk < NSPEEDS; kk++)
-          {
-        if(test_ptr[ii + jj*params.nx].speeds[kk]!=tmp_cells[ii + jj*params.nx].speeds[kk]){
-          printf("rank: %d jj:%d  ii%d kk:%d\n",rank,jj,ii,kk);
-        }
-      }
-      }
-    }
+    // for (int jj = 0; jj < params.ny; jj++)
+    // {
+    //   for (int ii = 0; ii < params.nx; ii++)
+    //   {
+    //     for (int kk = 0; kk < NSPEEDS; kk++)
+    //       {
+    //     if(test_ptr[ii + jj*params.nx].speeds[kk]!=tmp_cells[ii + jj*params.nx].speeds[kk]){
+    //       printf("rank: %d jj:%d  ii%d kk:%d\n",rank,jj,ii,kk);
+    //     }
+    //   }
+    //   }
+    // }
     // for (int jj = start; jj < end; jj++)\\
     // {
     printf("rank: %d start: %d end: %d\n",rank,start,end);
