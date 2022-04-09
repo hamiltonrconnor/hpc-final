@@ -745,9 +745,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
       }}
     }
 
-
-    for (int jj = 0; jj < params.ny; jj++)
+    for (int jj = start; jj < end; jj++)
     {
+    // for (int jj = 0; jj < params.ny; jj++)
+    // {
       for (int ii = 0; ii < params.nx; ii++)
       {
       //printf("%d\n",omp_get_num_threads());
@@ -924,7 +925,17 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
       }}
     }
 
-
+    for (int jj = start; jj < end; jj++)
+    {
+    // for (int jj = 0; jj < params.ny; jj++)
+    // {
+      for (int ii = 0; ii < params.nx; ii++)
+      {
+        if(test_ptr[ii + jj*params.nx]!=tmp_cells[ii + jj*params.nx]){
+          printf("rank: %d ii:%d  jj:%d",rank,ii,jj);
+        }
+      }
+    }
     return tot_u / (float)tot_cells;
 
 
