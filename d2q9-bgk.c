@@ -556,10 +556,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     // //Init local regions
     // int tag = 0;
     // MPI_Status status;
-    // int N = params.ny;
-    // int work =findWork(N,nprocs,rank);
-    // int start = rank * work;
-    // int end = start + work;
+    int N = params.ny;
+    int work =findWork(N,nprocs,rank);
+    int start = rank * work;
+    int end = start + work;
     // int buffSize = sizeof(float) *NSPEEDS;
     // //Find the neigbours
     // int right = (rank + 1) % nprocs;
