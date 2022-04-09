@@ -175,45 +175,45 @@ int main(int argc, char* argv[])
   // {
   for (int tt = 0; tt < 2; tt++)
   {
-    // //Init local regions
-    // int tag = 0;
-    // MPI_Status status;
-    // int N = params.ny;
-    // int work =findWork(N,nprocs,rank);
-    // int start = rank * work;
-    // int end = start + work;
-    // int buffSize = sizeof(float) *NSPEEDS;
-    // //Find the neigbours
-    // int right = (rank + 1) % nprocs;
-    // int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    //
-    // //Get the right data
-    // int memLeft = (start-1)*params.nx;
-    // if(rank==0){
-    //   memLeft=(params.ny-1)*params.nx;
-    // }
-    // int memRight = (end-1)*params.nx;
-    //
-    //
-    //
-    // // printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
-    // // printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,left,memLeft);
-    // // printf("I am Rank %d. I need send %d to rank %d \n'",rank,right,memRight);
-    //     // printf("\n");
-    //
-    // //memcpy(sendbuff,,buffSize*params.nx);
-    // MPI_Sendrecv(&cells[memRight],buffSize , MPI_FLOAT, right, tag,
-    //     &cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-    // //memcpy(&cells[memLeft],recvbuff,buffSize*params.nx);
-    // memRight = (end)*params.nx;
-    // if(rank == nprocs-1){
-    //   memRight = 0;
-    // }
-    // memLeft =(start)*params.nx;
-    // // printf("I am Rank %d. I need recieve from rank %d and place it at %d RIGHT \n",rank,right,memRight);
-    // // printf("I am Rank %d. I need send %d to rank %d RIGHT\n'",rank,left,memLeft);
-    // MPI_Sendrecv(&cells[memLeft],buffSize , MPI_FLOAT, left, tag,
-    //     &cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    //Init local regions
+    int tag = 0;
+    MPI_Status status;
+    int N = params.ny;
+    int work =findWork(N,nprocs,rank);
+    int start = rank * work;
+    int end = start + work;
+    int buffSize = sizeof(float) *NSPEEDS;
+    //Find the neigbours
+    int right = (rank + 1) % nprocs;
+    int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
+
+    //Get the right data
+    int memLeft = (start-1)*params.nx;
+    if(rank==0){
+      memLeft=(params.ny-1)*params.nx;
+    }
+    int memRight = (end-1)*params.nx;
+
+
+
+    // printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
+    // printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,left,memLeft);
+    // printf("I am Rank %d. I need send %d to rank %d \n'",rank,right,memRight);
+        // printf("\n");
+
+    //memcpy(sendbuff,,buffSize*params.nx);
+    MPI_Sendrecv(&cells[memRight],buffSize , MPI_FLOAT, right, tag,
+        &cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    //memcpy(&cells[memLeft],recvbuff,buffSize*params.nx);
+    memRight = (end)*params.nx;
+    if(rank == nprocs-1){
+      memRight = 0;
+    }
+    memLeft =(start)*params.nx;
+    // printf("I am Rank %d. I need recieve from rank %d and place it at %d RIGHT \n",rank,right,memRight);
+    // printf("I am Rank %d. I need send %d to rank %d RIGHT\n'",rank,left,memLeft);
+    MPI_Sendrecv(&cells[memLeft],buffSize , MPI_FLOAT, left, tag,
+        &cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
 
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
