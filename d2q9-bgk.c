@@ -175,6 +175,46 @@ int main(int argc, char* argv[])
   {
   // for (int tt = 0; tt < 1; tt++)
   // {
+    //Init local regions
+    int tag = 0;
+    MPI_Status status;
+    int N = params.ny;
+    int work =findWork(N,nprocs,rank);
+    int start = rank * work;
+    int end = start + work;
+    int buffSize = sizeof(float) *NSPEEDS;
+    //Find the neigbours
+    int right = (rank + 1) % nprocs;
+    int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
+
+    //Get the right data
+    int memLeft = (start-1)*params.nx;
+    if(rank==0){
+      memLeft=(params.ny-1)*params.nx;
+    }
+    int memRight = (end-1)*params.nx;
+
+
+
+    // printf("I am Rank: %d start is %d end is %d\n",rank,start,end);
+    // printf("I am Rank %d. I need recieve from rank %d and place it at %d \n",rank,left,memLeft);
+    // printf("I am Rank %d. I need send %d to rank %d \n'",rank,right,memRight);
+        // printf("\n");
+
+    //memcpy(sendbuff,,buffSize*params.nx);
+    MPI_Sendrecv(&cells[memRight],buffSize , MPI_FLOAT, right, tag,
+        &cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    //memcpy(&cells[memLeft],recvbuff,buffSize*params.nx);
+    memRight = (end)*params.nx;
+    if(rank == nprocs-1){
+      memRight = 0;
+    }
+    memLeft =(start)*params.nx;
+    // printf("I am Rank %d. I need recieve from rank %d and place it at %d RIGHT \n",rank,right,memRight);
+    // printf("I am Rank %d. I need send %d to rank %d RIGHT\n'",rank,left,memLeft);
+    MPI_Sendrecv(&cells[memLeft],buffSize , MPI_FLOAT, left, tag,
+        &cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
     cells_ptr= tmp_cells_ptr;
@@ -208,6 +248,7 @@ int main(int argc, char* argv[])
 
    }
   }
+
 
   /* Compute time stops here, collate time starts*/
   gettimeofday(&timstr, NULL);
@@ -512,7 +553,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
   //
 
     //#pragma omp parallel for collapse(2) reduction(+:tot_u,tot_cells)
-    //Init local regions
+    // //Init local regions
     // int tag = 0;
     // MPI_Status status;
     // int N = params.ny;
@@ -525,9 +566,6 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     // int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
     //
     // //Get the right data
-    // float *sendbuff = (float*)malloc(sizeof(float) *buffSize  );
-    // float *recvbuff = (float*)malloc(sizeof(float) * buffSize );
-    //
     // int memLeft = (start-1)*params.nx;
     // if(rank==0){
     //   memLeft=(params.ny-1)*params.nx;
@@ -568,10 +606,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
 
-    // for (int jj = start; jj < end; jj++)
-    // {
-    for (int jj = 0; jj < params.ny; jj++)
+    for (int jj = start; jj < end; jj++)
     {
+    // for (int jj = 0; jj < params.ny; jj++)
+    // {
       for (int ii = 0; ii < params.nx; ii++)
       {
       //printf("%d\n",omp_get_num_threads());
