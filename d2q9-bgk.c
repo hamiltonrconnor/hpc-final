@@ -228,15 +228,8 @@ int main(int argc, char* argv[])
 
 
 
-    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
-    t_speed** temp = cells_ptr;
-    cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp;
 
-    av_vels[tt] = timestep(params, test_cells_ptr, test_tmp_cells_ptr, obstacles,1);
-    t_speed** test_temp = test_cells_ptr;
-    test_cells_ptr= test_tmp_cells_ptr;
-    test_tmp_cells_ptr= test_temp;
+
     int flag = 0;
 
 
@@ -302,6 +295,15 @@ int main(int argc, char* argv[])
         printf("Rank: %d jj: %d\n",rank,jj);
       }
     }
+    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
+    t_speed** temp = cells_ptr;
+    cells_ptr= tmp_cells_ptr;
+    tmp_cells_ptr= temp;
+
+    av_vels[tt] = timestep(params, test_cells_ptr, test_tmp_cells_ptr, obstacles,1);
+    t_speed** test_temp = test_cells_ptr;
+    test_cells_ptr= test_tmp_cells_ptr;
+    test_tmp_cells_ptr= test_temp;
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
