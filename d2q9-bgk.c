@@ -243,7 +243,7 @@ int main(int argc, char* argv[])
         for (int kk = 0; kk < NSPEEDS; kk++)
         {
           if(cells[ii + jj*params.nx].speeds[kk] !=test_cells[ii + jj*params.nx].speeds[kk] ){
-            flag =1
+            flag =1;
 
           }
         }
