@@ -171,6 +171,8 @@ int main(int argc, char* argv[])
 
   t_speed* test_cells     = NULL;    /* grid containing fluid densities */
   t_speed* test_tmp_cells = NULL;    /* scratch space */
+  t_speed** test_cells_ptr = &test_cells;
+  t_speed** test_tmp_cells_ptr= &test_tmp_cells;
   initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
   /* Init time stops here, compute time starts*/
