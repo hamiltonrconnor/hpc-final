@@ -192,7 +192,7 @@ int main(int argc, char* argv[])
     int work =findWork(N,nprocs,rank);
     int start = rank * work;
     int end = start + work;
-    int buffSize = sizeof(float) *NSPEEDS;
+    int buffSize = params.nx *NSPEEDS;
     //Find the neigbours
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
@@ -205,6 +205,7 @@ int main(int argc, char* argv[])
     int memRight = (end-1)*params.nx;
 
     printf("Rank: %d sending %d to rank: %d\n",rank,memRight/params.nx,right);
+    //memcmp(&test_cells[memRight])
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
