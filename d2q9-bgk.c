@@ -219,9 +219,12 @@ int main(int argc, char* argv[])
     }
     memLeft =(start)*params.nx;
     //printf("Rank: %d sending %d to rank: %d\n",rank,memLeft/params.nx,left);
+    t_speed* test= (t_speed*)malloc(sizeof(float) * buffSize);
+    memcpy(&test,&test_cells[memRight],sizeof(float) * buffSize)
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
 
+    printf("SendRecv Rank:%d result: %d\n",rank,memcmp(&test,test_cells[memRight],buffSize*sizeof(float)));
     int posRight = (end);
     if(rank == nprocs-1){
       posRight = 0;
