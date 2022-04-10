@@ -207,6 +207,23 @@ int main(int argc, char* argv[])
 
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+        int posLeft = (start-1);
+        if(rank==0){
+          posLeft=(params.ny-1);
+        }
+        for (int ii = 0; ii < params.nx; ii++)
+        {
+          for (int kk = 0; kk < NSPEEDS; kk++)
+          {
+            if(cells[ii + posLeft*params.nx].speeds[kk] !=test_cells[ii + posLeft*params.nx].speeds[kk] ){
+              printf("Rank: %d memLeft: %d  ii:%d kk:%d\n",rank,memLeft,ii,kk);
+            }
+          }
+
+        }
+
+
+
     memRight = (end)*params.nx;
     if(rank == nprocs-1){
       memRight = 0;
@@ -214,18 +231,9 @@ int main(int argc, char* argv[])
     memLeft =(start)*params.nx;
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    
 
-        for (int ii = 0; ii < params.nx; ii++)
-        {
-          for (int kk = 0; kk < NSPEEDS; kk++)
-          {
-            if(cells[ii + (memLeft)].speeds[kk] !=test_cells[ii + (memLeft)].speeds[kk] ){
-              printf("Rank: %d memLeft: %d  ii:%d kk:%d\n",rank,memLeft,ii,kk);
-            }
-          }
 
-        }
+
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
     t_speed** temp = cells_ptr;
     cells_ptr= tmp_cells_ptr;
