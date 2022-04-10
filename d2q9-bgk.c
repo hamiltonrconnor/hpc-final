@@ -233,22 +233,23 @@ int main(int argc, char* argv[])
     t_speed** test_temp = test_cells_ptr;
     test_cells_ptr= test_tmp_cells_ptr;
     test_tmp_cells_ptr= test_temp;
-    bool flag = false;
+    int flag = 0;
+
     for (int jj =start; jj < end; jj++)
     {
-      flag = false;
+      flag = 0;
       for (int ii = 0; ii < params.nx; ii++)
       {
         for (int kk = 0; kk < NSPEEDS; kk++)
         {
           if(cells[ii + jj*params.nx].speeds[kk] !=test_cells[ii + jj*params.nx].speeds[kk] ){
-            flag =true;
+            flag =1
 
           }
         }
 
       }
-      if(flag){
+      if(flag==1){
         printf("Rank: %d jj: %d ii:%d kk:%d\n",rank,jj);
       }
     }
