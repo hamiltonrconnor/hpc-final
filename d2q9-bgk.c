@@ -251,11 +251,11 @@ int main(int argc, char* argv[])
         }
       }
 
-
+    }
     if(flag==1){
       printf("posRight Rank: %d jj: %d\n",rank,posRight);
     }
-  }
+
 
 
     int posLeft = (start-1);
@@ -273,11 +273,11 @@ int main(int argc, char* argv[])
         }
       }
 
-
+    }
     if(flag==1){
       printf("PosLeft Rank: %d jj: %d\n",rank,posLeft);
     }
-  }
+
 
 
     for (int jj =start; jj < end; jj++)
