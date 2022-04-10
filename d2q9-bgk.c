@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
     }
     int memRight = (end-1)*params.nx;
 
-    printf("Rank: %d sending %d to rank: %d",rank,memRight/params.nx,right);
+    printf("Rank: %d sending %d to rank: %d\n",rank,memRight/params.nx,right);
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
@@ -217,7 +217,7 @@ int main(int argc, char* argv[])
       memRight = 0;
     }
     memLeft =(start)*params.nx;
-    printf("Rank: %d sending %d to rank: %d",rank,memLeft/params.nx,left);
+    printf("Rank: %d sending %d to rank: %d\n",rank,memLeft/params.nx,left);
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
 
