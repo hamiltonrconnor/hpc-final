@@ -235,6 +235,49 @@ int main(int argc, char* argv[])
     test_tmp_cells_ptr= test_temp;
     int flag = 0;
 
+
+    int posRight = (end);
+    if(rank == nprocs-1){
+      memRight = 0;
+    }
+    flag = 0;
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+      for (int kk = 0; kk < NSPEEDS; kk++)
+      {
+        if(cells[ii + posRight].speeds[kk] !=test_cells[ii + posRight].speeds[kk] ){
+          flag =1;
+
+        }
+      }
+
+
+    if(flag==1){
+      printf("posRight Rank: %d jj: %d\n",rank,jj);
+    }
+
+
+    int posLeft = (start-1);
+    if(rank==0){
+      posLeft=(params.ny-1);
+    }
+    flag = 0;
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+      for (int kk = 0; kk < NSPEEDS; kk++)
+      {
+        if(cells[ii + posLeft].speeds[kk] !=test_cells[ii + posLeft].speeds[kk] ){
+          flag =1;
+
+        }
+      }
+
+
+    if(flag==1){
+      printf("PosLeft Rank: %d jj: %d\n",rank,jj);
+    }
+
+
     for (int jj =start; jj < end; jj++)
     {
       flag = 0;
