@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
   t_speed** local_tmp_cells_ptr= &local_tmp_cells;
   memcpy(&local_cells[1* params.x],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
-  memcpy(&local_obstacles[1* params.x],&obstacles[start*params.nx],sizeof(t_speed) * (work * params.nx));
+  memcpy(&local_obstacles[1* params.nx],&obstacles[start*params.nx],sizeof(t_speed) * (work * params.nx));
 
 
   // for (int tt = 0; tt < params.maxIters; tt++)
@@ -225,7 +225,7 @@ int main(int argc, char* argv[])
     av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
     t_speed** local_temp = test_cells_ptr;
     local_cells_ptr= local_tmp_cells_ptr;
-    local_tmp_cells_ptr= test_temp;
+    local_tmp_cells_ptr= local_temp;
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
@@ -301,10 +301,7 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
-  int N = params.ny;
-  int work = N / nprocs;
-  int start = rank * work;
-  int end = start + work;
+
   int tag = 0;
   MPI_Status status;
   if (rank != 0) {
