@@ -209,16 +209,16 @@ int main(int argc, char* argv[])
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
-
+printf("5\n");
 
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &local_cells[end*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-
+printf("6\n");
     MPI_Sendrecv(&local_cells[(end-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
-
+printf("6\n");
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
     cells_ptr= tmp_cells_ptr;
@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("3\n");
+    printf("7\n");
 
     //int flag = 0;
 
