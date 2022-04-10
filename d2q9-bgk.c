@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
   int work =findWork(N,nprocs,rank);
   int start = rank * work;
   int end = start + work;
-
+  printf("1\n");
   t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * (work+2 * params.nx));
   t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * (work+2 * params.nx));
   t_speed** local_cells_ptr = &local_cells;
@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
   memcpy(&local_obstacles[1* params.nx],&obstacles[start*params.nx],sizeof(t_speed) * (work * params.nx));
 
-
+  printf("2\n");
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
   for (int tt = 0; tt < 2; tt++)
@@ -231,7 +231,7 @@ int main(int argc, char* argv[])
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("\n");
+    printf("3\n");
 
     //int flag = 0;
 
@@ -301,6 +301,7 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
+  printf("4\n");
 
   int tag = 0;
   MPI_Status status;
@@ -320,6 +321,7 @@ int main(int argc, char* argv[])
 
    }
   }
+  printf("5\n");
 
 
   /* Compute time stops here, collate time starts*/
