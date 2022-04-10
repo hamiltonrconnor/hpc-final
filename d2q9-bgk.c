@@ -223,7 +223,7 @@ int main(int argc, char* argv[])
     memcpy(&test,&test_cells[memRight],sizeof(float) * buffSize);
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-
+    printf("Rank:%d memright: %d\n",rank,memRight);
     printf("SendRecv Rank:%d result: %d\n",rank,memcmp(&test,&test_cells[memRight],buffSize*sizeof(float)));
     int posRight = (end);
     if(rank == nprocs-1){
@@ -233,10 +233,10 @@ int main(int argc, char* argv[])
     if(rank==0){
       posLeft=(params.ny-1);
     }
-    printf("Before Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("Before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-
+    // printf("Before Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    // printf("Before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    // printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
+    //
 
 
 
@@ -250,12 +250,12 @@ int main(int argc, char* argv[])
     t_speed** test_temp = test_cells_ptr;
     test_cells_ptr= test_tmp_cells_ptr;
     test_tmp_cells_ptr= test_temp;
-    printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
+    // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("\n");
+    // printf("\n");
 
     //int flag = 0;
 
