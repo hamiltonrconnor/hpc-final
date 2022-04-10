@@ -250,7 +250,7 @@ int main(int argc, char* argv[])
 
       }
       if(flag==1){
-        printf("Rank: %d jj: %d ii:%d kk:%d\n",rank,jj);
+        printf("Rank: %d jj: %d\n",rank,jj);
       }
     }
 
