@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
     int memRight = (end-1)*params.nx;
 
     //printf("Rank: %d sending %d to rank: %d\n",rank,memRight/params.nx,right);
-
+    printf(&test_cells[1*params.nx]-&test_cells[0*params.nx])
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
