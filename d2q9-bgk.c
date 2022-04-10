@@ -207,10 +207,10 @@ int main(int argc, char* argv[])
 
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-        // int posLeft = (start-1);
-        // if(rank==0){
-        //   posLeft=(params.ny-1);
-        // }
+        int posLeft = (start-1);
+        if(rank==0){
+          posLeft=(params.ny-1);
+        }
         // for (int ii = 0; ii < params.nx; ii++)
         // {
         //   for (int kk = 0; kk < NSPEEDS; kk++)
