@@ -181,10 +181,10 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
 
-  // for (int tt = 0; tt < params.maxIters; tt++)
-  // {
-  for (int tt = 0; tt < 2; tt++)
+  for (int tt = 0; tt < params.maxIters; tt++)
   {
+  // for (int tt = 0; tt < 2; tt++)
+  // {
     //Init local regions
     int tag = 0;
     MPI_Status status;
