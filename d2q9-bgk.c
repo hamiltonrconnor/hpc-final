@@ -181,10 +181,10 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
 
-  for (int tt = 0; tt < params.maxIters; tt++)
-  {
-  // for (int tt = 0; tt < 2; tt++)
+  // for (int tt = 0; tt < params.maxIters; tt++)
   // {
+  for (int tt = 0; tt < 2; tt++)
+  {
     //Init local regions
     int tag = 0;
     MPI_Status status;
@@ -207,21 +207,8 @@ int main(int argc, char* argv[])
 
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-        int posLeft = (start-1);
-        if(rank==0){
-          posLeft=(params.ny-1);
-        }
-        printf("Rank: %d memLeft: %d \n",rank,posLeft);
-        for (int ii = 0; ii < params.nx; ii++)
-        {
-          for (int kk = 0; kk < NSPEEDS; kk++)
-          {
-            if(cells[ii + posLeft*params.nx].speeds[kk] !=test_cells[ii + posLeft*params.nx].speeds[kk] ){
-              printf("Rank: %d memLeft: %d  ii:%d kk:%d\n",rank,memLeft,ii,kk);
-            }
-          }
 
-        }
+
 
 
 
@@ -232,6 +219,22 @@ int main(int argc, char* argv[])
     memLeft =(start)*params.nx;
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+
+        int posRight = (end);
+        if(rank == nprocs-1){
+          memRight = 0;
+        }
+        printf("Rank: %d memLeft: %d \n",rank,posLeft);
+        for (int ii = 0; ii < params.nx; ii++)
+        {
+          for (int kk = 0; kk < NSPEEDS; kk++)
+          {
+            if(cells[ii + posRight*params.nx].speeds[kk] !=test_cells[ii + posRight*params.nx].speeds[kk] ){
+              printf("Rank: %d memLeft: %d  ii:%d kk:%d\n",rank,memLeft,ii,kk);
+            }
+          }
+
+        }
 
 
 
