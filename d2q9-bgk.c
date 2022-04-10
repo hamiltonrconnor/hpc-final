@@ -225,7 +225,7 @@ int main(int argc, char* argv[])
     test_cells_ptr= test_tmp_cells_ptr;
     test_tmp_cells_ptr= test_temp;
 
-    for (int jj = 0; jj < params.ny; jj++)
+    for (int jj =start; jj < end; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
       {
