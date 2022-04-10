@@ -230,9 +230,9 @@ int main(int argc, char* argv[])
     if(rank==0){
       posLeft=(params.ny-1);
     }
-    printf("Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
+    printf("Before Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    printf("Before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
 
 
@@ -247,9 +247,9 @@ int main(int argc, char* argv[])
     t_speed** test_temp = test_cells_ptr;
     test_cells_ptr= test_tmp_cells_ptr;
     test_tmp_cells_ptr= test_temp;
-    printf("Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
+    printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     //int flag = 0;
 
