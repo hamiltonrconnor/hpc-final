@@ -235,6 +235,8 @@ int main(int argc, char* argv[])
     printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
 
+    
+
 
 
 
