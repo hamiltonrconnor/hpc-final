@@ -223,8 +223,8 @@ int main(int argc, char* argv[])
     memcpy(&test,&test_cells[memRight],sizeof(float) * buffSize);
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    printf("Rank:%d memright: %d\n",rank,memRight);
-    printf("SendRecv Rank:%d result: %d\n",rank,memcmp(&test,&test_cells[memRight],buffSize*sizeof(float)));
+    //printf("Rank:%d memright: %d\n",rank,memRight);
+    //printf("SendRecv Rank:%d result: %d\n",rank,memcmp(&test,&test_cells[memRight],buffSize*sizeof(float)));
     int posRight = (end);
     if(rank == nprocs-1){
       posRight = 0;
