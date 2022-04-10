@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
   memcpy(&local_cells[1* params.nx],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
   printf("3\n");
-  memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(t_speed) * (work * params.nx));
+  memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
 
   printf("4\n");
   // for (int tt = 0; tt < params.maxIters; tt++)
