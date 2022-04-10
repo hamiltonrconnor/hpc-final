@@ -205,15 +205,15 @@ int main(int argc, char* argv[])
     int memRight = (end-1)*params.nx;
 
 
-    MPI_Sendrecv(&cells[memRight],buffSize , MPI_FLOAT, right, tag,
-        &cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
+        &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
     memRight = (end)*params.nx;
     if(rank == nprocs-1){
       memRight = 0;
     }
     memLeft =(start)*params.nx;
-    MPI_Sendrecv(&cells[memLeft],buffSize , MPI_FLOAT, left, tag,
-        &cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
+        &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
 
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
     t_speed** temp = cells_ptr;
