@@ -247,65 +247,69 @@ int main(int argc, char* argv[])
     t_speed** test_temp = test_cells_ptr;
     test_cells_ptr= test_tmp_cells_ptr;
     test_tmp_cells_ptr= test_temp;
-    int flag = 0;
+    printf("Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    printf("Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    printf("Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
+
+    //int flag = 0;
 
 
 
-    flag = 0;
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-      for (int kk = 0; kk < NSPEEDS; kk++)
-      {
-        if(cells[ii + posRight].speeds[kk] !=test_cells[ii + posRight].speeds[kk] ){
-          flag =1;
-
-        }
-      }
-
-    }
-    if(flag==1){
-      printf("posRight Rank: %d jj: %d\n",rank,posRight);
-    }
-
-
-
-
-    flag = 0;
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-      for (int kk = 0; kk < NSPEEDS; kk++)
-      {
-        if(cells[ii + posLeft].speeds[kk] !=test_cells[ii + posLeft].speeds[kk] ){
-          flag =1;
-
-        }
-      }
-
-    }
-    if(flag==1){
-      printf("PosLeft Rank: %d jj: %d\n",rank,posLeft);
-    }
-
-
-
-    for (int jj =start; jj < end; jj++)
-    {
-      flag = 0;
-      for (int ii = 0; ii < params.nx; ii++)
-      {
-        for (int kk = 0; kk < NSPEEDS; kk++)
-        {
-          if(cells[ii + jj*params.nx].speeds[kk] !=test_cells[ii + jj*params.nx].speeds[kk] ){
-            flag =1;
-
-          }
-        }
-
-      }
-      if(flag==1){
-        printf("Rank: %d jj: %d\n",rank,jj);
-      }
-    }
+    // flag = 0;
+    // for (int ii = 0; ii < params.nx; ii++)
+    // {
+    //   for (int kk = 0; kk < NSPEEDS; kk++)
+    //   {
+    //     if(cells[ii + posRight].speeds[kk] !=test_cells[ii + posRight].speeds[kk] ){
+    //       flag =1;
+    //
+    //     }
+    //   }
+    //
+    // }
+    // if(flag==1){
+    //   printf("posRight Rank: %d jj: %d\n",rank,posRight);
+    // }
+    //
+    //
+    //
+    //
+    // flag = 0;
+    // for (int ii = 0; ii < params.nx; ii++)
+    // {
+    //   for (int kk = 0; kk < NSPEEDS; kk++)
+    //   {
+    //     if(cells[ii + posLeft].speeds[kk] !=test_cells[ii + posLeft].speeds[kk] ){
+    //       flag =1;
+    //
+    //     }
+    //   }
+    //
+    // }
+    // if(flag==1){
+    //   printf("PosLeft Rank: %d jj: %d\n",rank,posLeft);
+    // }
+    //
+    //
+    //
+    // for (int jj =start; jj < end; jj++)
+    // {
+    //   flag = 0;
+    //   for (int ii = 0; ii < params.nx; ii++)
+    //   {
+    //     for (int kk = 0; kk < NSPEEDS; kk++)
+    //     {
+    //       if(cells[ii + jj*params.nx].speeds[kk] !=test_cells[ii + jj*params.nx].speeds[kk] ){
+    //         flag =1;
+    //
+    //       }
+    //     }
+    //
+    //   }
+    //   if(flag==1){
+    //     printf("Rank: %d jj: %d\n",rank,jj);
+    //   }
+    // }
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
