@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
     int memRight = (end-1)*params.nx;
 
     //printf("Rank: %d sending %d to rank: %d\n",rank,memRight/params.nx,right);
-    printf(&test_cells[1*params.nx]-&test_cells[0*params.nx])
+    printf("%d %d",buffSize*sizeof(float),sizeof(test_cells[0])*params.nx );
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
@@ -228,8 +228,15 @@ int main(int argc, char* argv[])
 
 
 
+    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
+    t_speed** temp = cells_ptr;
+    cells_ptr= tmp_cells_ptr;
+    tmp_cells_ptr= temp;
 
-
+    av_vels[tt] = timestep(params, test_cells_ptr, test_tmp_cells_ptr, obstacles,1);
+    t_speed** test_temp = test_cells_ptr;
+    test_cells_ptr= test_tmp_cells_ptr;
+    test_tmp_cells_ptr= test_temp;
     int flag = 0;
 
 
@@ -295,15 +302,6 @@ int main(int argc, char* argv[])
         printf("Rank: %d jj: %d\n",rank,jj);
       }
     }
-    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
-    t_speed** temp = cells_ptr;
-    cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp;
-
-    av_vels[tt] = timestep(params, test_cells_ptr, test_tmp_cells_ptr, obstacles,1);
-    t_speed** test_temp = test_cells_ptr;
-    test_cells_ptr= test_tmp_cells_ptr;
-    test_tmp_cells_ptr= test_temp;
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
