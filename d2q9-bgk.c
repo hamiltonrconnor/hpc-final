@@ -223,7 +223,7 @@ int main(int argc, char* argv[])
         int posRight = (end);
         printf("%d\n",nprocs );
         if(rank == nprocs-1){
-          memRight = 0;
+          posRight = 0;
         }
         printf("Rank: %d memLeft: %d \n",rank,posRight);
         for (int ii = 0; ii < params.nx; ii++)
