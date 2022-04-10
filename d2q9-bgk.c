@@ -96,8 +96,8 @@ int initialise(const char* paramfile, const char* obstaclefile,
 */
 float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles);
 float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles);
-float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles,int test);
-//float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles);
+float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles);
+float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles);
 int accelerate_flow(const t_param params, t_speed* cells, int* obstacles);
 int propagate(const t_param params, t_speed* cells, t_speed* tmp_cells);
 int rebound(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles);
@@ -173,12 +173,25 @@ int main(int argc, char* argv[])
   t_speed* test_tmp_cells = NULL;    /* scratch space */
   t_speed** test_cells_ptr = &test_cells;
   t_speed** test_tmp_cells_ptr= &test_tmp_cells;
-  initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
+
+  //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
   /* Init time stops here, compute time starts*/
   gettimeofday(&timstr, NULL);
   init_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   comp_tic=init_toc;
+  int N = params.ny;
+  int work =findWork(N,nprocs,rank);
+  int start = rank * work;
+  int end = start + work;
+
+  t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * (work+2 * params.nx));
+  t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * (work+2 * params.nx));
+  t_speed** local_cells_ptr = &local_cells;
+  t_speed** local_tmp_cells_ptr= &local_tmp_cells;
+  memcpy(&local_cells[1* params.x],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
+  int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
+  memcpy(&local_obstacles[1* params.x],&obstacles[start*params.nx],sizeof(t_speed) * (work * params.nx));
 
 
   // for (int tt = 0; tt < params.maxIters; tt++)
@@ -188,70 +201,34 @@ int main(int argc, char* argv[])
     //Init local regions
     int tag = 0;
     MPI_Status status;
-    int N = params.ny;
-    int work =findWork(N,nprocs,rank);
-    int start = rank * work;
-    int end = start + work;
+
     int buffSize = params.nx *NSPEEDS;
     //Find the neigbours
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
-    //Get the right data
-    int memLeft = (start-1)*params.nx;
-    if(rank==0){
-      memLeft=(params.ny-1)*params.nx;
-    }
-    int memRight = (end-1)*params.nx;
 
-    //printf("Rank: %d sending %d to rank: %d\n",rank,memRight/params.nx,right);
-    //printf("%d %d\n ",buffSize*sizeof(float),sizeof(test_cells[0])*params.nx );
-    MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
-        &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+
+    MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &local_cells[end*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+
+    MPI_Sendrecv(&local_cells[(end-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
 
-
-
-    memRight = (end)*params.nx;
-    if(rank == nprocs-1){
-      memRight = 0;
-    }
-    memLeft =(start)*params.nx;
-    //printf("Rank: %d sending %d to rank: %d\n",rank,memLeft/params.nx,left);
-    MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
-        &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-
-    int posRight = (end);
-    if(rank == nprocs-1){
-      posRight = 0;
-    }
-    int posLeft = (start-1);
-    if(rank==0){
-      posLeft=(params.ny-1);
-    }
-    printf("Before Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("Before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-
-
-    
-
-
-
-
-    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles,0);
+    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
     cells_ptr= tmp_cells_ptr;
     tmp_cells_ptr= temp;
 
-    av_vels[tt] = timestep(params, test_cells_ptr, test_tmp_cells_ptr, obstacles,0);
-    t_speed** test_temp = test_cells_ptr;
-    test_cells_ptr= test_tmp_cells_ptr;
-    test_tmp_cells_ptr= test_temp;
-    printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
+    av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
+    t_speed** local_temp = test_cells_ptr;
+    local_cells_ptr= local_tmp_cells_ptr;
+    local_tmp_cells_ptr= test_temp;
+    // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     MPI_Barrier(MPI_COMM_WORLD);
     printf("\n");
@@ -373,15 +350,17 @@ int main(int argc, char* argv[])
   MPI_Finalize();
   return EXIT_SUCCESS;
 }
-
-float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles,int test)
+float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
+{   //accelerate_flow(params, *cells_ptr, obstacles);
+    return halo_fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
+}
+float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
 {
-  if(test==0){
+
   //accelerate_flow(params, *cells_ptr, obstacles);
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
-  }
-  //accelerate_flow(params, *cells_ptr, obstacles);
-  return halo_fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
+
+
 }
 
 int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
@@ -662,12 +641,13 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     int end = start + work;
 
 
+    //Intialiase local cells
 
 
 
 
 
-    for (int jj =start; jj < end; jj++)
+    for (int jj =1; jj < work+1; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
       {
@@ -772,15 +752,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
         u[8] =   u_x - u_y;  /* south-east */
 
         /* equilibrium densities */
-        //float d_equ[NSPEEDS];
-        /* zero velocity density: weight w0 */
-        // d_equ[0] = w0 * local_density
-        //            * (1.f - u_sq / (2.f * c_sq));
-        /* axis speeds: weight w1 */
-        // d_equ[1] = w1 * local_density *
-        // (1.f + (u[1] / c_sq )+ ((u[1] * u[1]) / (2.f * c_sq * c_sq)) - (u_sq / (2.f * c_sq)));
 
-        //printf("%f\n",w1 *local_density *((2.f*c_sq*c_sq)+(2.f*c_sq*u[1])+(u[1]*u[1])-(u_sq*c_sq))/(2.f*c_sq*c_sq));
         const float c_w1 = w1*local_density;
         const float c_w2 = w2*local_density;
 
