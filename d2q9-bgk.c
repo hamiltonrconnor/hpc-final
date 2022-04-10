@@ -190,12 +190,13 @@ int main(int argc, char* argv[])
   t_speed** local_cells_ptr = &local_cells;
   t_speed** local_tmp_cells_ptr= &local_tmp_cells;
   printf("2\n");
-  memcpy(&local_cells[0],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
-  int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
+  memcpy(&local_cells[0],&cells[0],sizeof(t_speed) * (work * params.nx));
   printf("3\n");
+  int* local_obstacles = (int*)malloc(sizeof(int) * (work * params.nx));
+  printf("4\n");
   memcpy(&local_obstacles[1* params.nx],&obstacles[start*params.nx],sizeof(t_speed) * (work * params.nx));
 
-  printf("4\n");
+  printf("5\n");
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
   for (int tt = 0; tt < 2; tt++)
