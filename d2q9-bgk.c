@@ -221,7 +221,7 @@ int main(int argc, char* argv[])
           for (int kk = 0; kk < NSPEEDS; kk++)
           {
             if(cells[ii + (memLeft)*params.nx].speeds[kk] !=test_cells[ii + (memLeft)*params.nx].speeds[kk] ){
-              printf("Rank: %d memLeft: %d  jj: %d ii:%d kk:%d\n",rank,memLeft,jj,ii,kk);
+              printf("Rank: %d memLeft: %d  ii:%d kk:%d\n",rank,memLeft,ii,kk);
             }
           }
 
