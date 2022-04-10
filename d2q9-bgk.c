@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
     int memRight = (end-1)*params.nx;
 
     //printf("Rank: %d sending %d to rank: %d\n",rank,memRight/params.nx,right);
-    printf("%d %d\n ",buffSize*sizeof(float),sizeof(test_cells[0])*params.nx );
+    //printf("%d %d\n ",buffSize*sizeof(float),sizeof(test_cells[0])*params.nx );
     MPI_Sendrecv(&test_cells[memRight],buffSize , MPI_FLOAT, right, tag,
         &test_cells[memLeft],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
@@ -221,8 +221,18 @@ int main(int argc, char* argv[])
     //printf("Rank: %d sending %d to rank: %d\n",rank,memLeft/params.nx,left);
     MPI_Sendrecv(&test_cells[memLeft],buffSize , MPI_FLOAT, left, tag,
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    printf("Memcompare Rank:%d memRight: %d result: %d\n",rank,memRight/params.nx,memcmp(&test_cells[memRight],&cells[memRight],buffSize*sizeof(float)));
 
+    int posRight = (end);
+    if(rank == nprocs-1){
+      posRight = 0;
+    }
+    int posLeft = (start-1);
+    if(rank==0){
+      posLeft=(params.ny-1);
+    }
+    printf("Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
+    printf("Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    printf("Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
 
 
@@ -240,10 +250,7 @@ int main(int argc, char* argv[])
     int flag = 0;
 
 
-    int posRight = (end);
-    if(rank == nprocs-1){
-      memRight = 0;
-    }
+
     flag = 0;
     for (int ii = 0; ii < params.nx; ii++)
     {
@@ -262,10 +269,7 @@ int main(int argc, char* argv[])
 
 
 
-    int posLeft = (start-1);
-    if(rank==0){
-      posLeft=(params.ny-1);
-    }
+
     flag = 0;
     for (int ii = 0; ii < params.nx; ii++)
     {
