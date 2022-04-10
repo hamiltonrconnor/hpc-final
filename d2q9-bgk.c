@@ -181,10 +181,10 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
 
 
-  for (int tt = 0; tt < params.maxIters; tt++)
-  {
-  // for (int tt = 0; tt < 2; tt++)
+  // for (int tt = 0; tt < params.maxIters; tt++)
   // {
+  for (int tt = 0; tt < 2; tt++)
+  {
     //Init local regions
     int tag = 0;
     MPI_Status status;
@@ -232,7 +232,7 @@ int main(int argc, char* argv[])
         for (int kk = 0; kk < NSPEEDS; kk++)
         {
           if(cells[ii + jj*params.nx].speeds[kk] !=test_cells[ii + jj*params.nx].speeds[kk] ){
-            printf("Rank: %d jj: %d ii:%d kk:%d",rank,jj,ii,kk);
+            printf("Rank: %d jj: %d ii:%d kk:%d\n",rank,jj,ii,kk);
           }
         }
 
