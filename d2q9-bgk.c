@@ -253,7 +253,7 @@ int main(int argc, char* argv[])
 
 
     if(flag==1){
-      printf("posRight Rank: %d jj: %d\n",rank,jj);
+      printf("posRight Rank: %d jj: %d\n",rank,posRight);
     }
 
 
@@ -274,7 +274,7 @@ int main(int argc, char* argv[])
 
 
     if(flag==1){
-      printf("PosLeft Rank: %d jj: %d\n",rank,jj);
+      printf("PosLeft Rank: %d jj: %d\n",rank,posLeft);
     }
 
 
