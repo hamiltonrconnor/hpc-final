@@ -224,6 +224,22 @@ int main(int argc, char* argv[])
     t_speed** test_temp = test_cells_ptr;
     test_cells_ptr= test_tmp_cells_ptr;
     test_tmp_cells_ptr= test_temp;
+
+    for (int jj = 0; jj < params.ny; jj++)
+    {
+      for (int ii = 0; ii < params.nx; ii++)
+      {
+        for (int kk = 0; kk < NSPEEDS; kk++)
+        {
+          if(cells[ii + jj*params.nx].speeds[kk] !=test_cells[ii + jj*params.nx].speeds[kk] ){
+            printf("Rank: %d jj: %d ii:%d kk:%d",rank,jj,ii,kk);
+          }
+        }
+
+      }
+    }
+
+
     //av_vels[tt] = av_velocity(params, cells, obstacles);
 #ifdef DEBUG
     printf("==timestep: %d==\n", tt);
