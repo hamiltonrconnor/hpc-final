@@ -221,6 +221,7 @@ int main(int argc, char* argv[])
         &test_cells[memRight],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
 
         int posRight = (end);
+        printf("%d\n",nprocs );
         if(rank == nprocs-1){
           memRight = 0;
         }
