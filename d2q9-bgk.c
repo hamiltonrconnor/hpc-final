@@ -183,7 +183,7 @@ int main(int argc, char* argv[])
 
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
-  for (int tt = 0; tt < 2; tt++)
+  for (int tt = 0; tt < 1; tt++)
   {
     //Init local regions
     int tag = 0;
