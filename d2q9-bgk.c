@@ -315,10 +315,10 @@ int main(int argc, char* argv[])
 float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles,int test)
 {
   if(test==0){
-  accelerate_flow(params, *cells_ptr, obstacles);
+  //accelerate_flow(params, *cells_ptr, obstacles);
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
   }
-  accelerate_flow(params, *cells_ptr, obstacles);
+  //accelerate_flow(params, *cells_ptr, obstacles);
   return halo_fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 }
 
