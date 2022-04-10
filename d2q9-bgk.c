@@ -211,6 +211,7 @@ int main(int argc, char* argv[])
         if(rank==0){
           posLeft=(params.ny-1);
         }
+        printf("Rank: %d memLeft: %d "rank,memLeft);
         for (int ii = 0; ii < params.nx; ii++)
         {
           for (int kk = 0; kk < NSPEEDS; kk++)
