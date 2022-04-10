@@ -650,9 +650,10 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     for (int jj =1; jj < work+1; jj++)
     {
+      printf("%d\n",jj);
       for (int ii = 0; ii < params.nx; ii++)
       {
-          printf("%d\n",work);
+
       //printf("%d\n",omp_get_num_threads());
       //propagate(params,cells,tmp_cells,ii,jj);
       //PROPAGATE
