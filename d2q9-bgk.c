@@ -185,7 +185,7 @@ int main(int argc, char* argv[])
   int start = rank * work;
   int end = start + work;
 
-  t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
+  t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+5) * params.nx));
   t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
   t_speed** local_cells_ptr = &local_cells;
   t_speed** local_tmp_cells_ptr= &local_tmp_cells;
