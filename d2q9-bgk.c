@@ -184,22 +184,23 @@ int main(int argc, char* argv[])
   int work =findWork(N,nprocs,rank);
   int start = rank * work;
   int end = start + work;
-  printf("1\n");
+
   t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
   t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
   t_speed** local_cells_ptr = &local_cells;
   t_speed** local_tmp_cells_ptr= &local_tmp_cells;
-  printf("2\n");
+
   memcpy(&local_cells[1* params.nx],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
-  printf("3\n");
+
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
 
-  printf("4\n");
+
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
   for (int tt = 0; tt < 2; tt++)
   {
+    printf("rank: %d tt:%d 1",rank,tt);
     //Init local regions
     int tag = 0;
     MPI_Status status;
@@ -209,16 +210,16 @@ int main(int argc, char* argv[])
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
-printf("5\n");
+
 
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &local_cells[end*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-printf("6\n");
+
     MPI_Sendrecv(&local_cells[(end-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
-printf("7\n");
+
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
     t_speed** temp = cells_ptr;
     cells_ptr= tmp_cells_ptr;
@@ -233,7 +234,7 @@ printf("7\n");
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("10\n");
+
 
     //int flag = 0;
 
@@ -303,7 +304,7 @@ printf("7\n");
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
-  printf("4\n");
+
 
   int tag = 0;
   MPI_Status status;
@@ -323,7 +324,7 @@ printf("7\n");
 
    }
   }
-  printf("5\n");
+
 
 
   /* Compute time stops here, collate time starts*/
@@ -648,7 +649,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-    for (int jj =1; jj < work; jj++)
+    for (int jj =1; jj < work+1; jj++)
     {
       printf("%d\n",jj);
       for (int ii = 0; ii < params.nx; ii++)
