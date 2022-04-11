@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
   // {
   for (int tt = 0; tt < 2; tt++)
   {
-    printf("rank: %d tt:%d 1",rank,tt);
+    printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
     int tag = 0;
     MPI_Status status;
@@ -232,7 +232,7 @@ int main(int argc, char* argv[])
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-    printf("rank: %d tt:%d 2",rank,tt);
+    printf("rank: %d tt:%d 2\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
 
 
