@@ -212,8 +212,8 @@ int main(int argc, char* argv[])
 
 
     printf("rank: %d tt:%d 2\n",rank,tt);
-    printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speed[0]);
-    printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[end*params.nx].speed[0]);
+    printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
+    printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[end*params.nx].speeds[0]);
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &local_cells[end*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
