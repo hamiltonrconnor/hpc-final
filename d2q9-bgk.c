@@ -211,10 +211,10 @@ int main(int argc, char* argv[])
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
 
-
+    printf("rank: %d tt:%d 2\n",rank,tt);
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &local_cells[end*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-
+    printf("rank: %d tt:%d 3\n",rank,tt);
     MPI_Sendrecv(&local_cells[(end-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
@@ -232,7 +232,7 @@ int main(int argc, char* argv[])
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-    printf("rank: %d tt:%d 2\n",rank,tt);
+    printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
 
 
