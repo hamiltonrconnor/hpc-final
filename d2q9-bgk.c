@@ -217,9 +217,9 @@ int main(int argc, char* argv[])
     MPI_Barrier(MPI_COMM_WORLD);
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-        &local_cells[end*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+        &local_cells[work*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     printf("rank: %d tt:%d 3\n",rank,tt);
-    MPI_Sendrecv(&local_cells[(end-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
+    MPI_Sendrecv(&local_cells[(work-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
