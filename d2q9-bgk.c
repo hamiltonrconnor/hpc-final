@@ -228,7 +228,7 @@ int main(int argc, char* argv[])
 
     printf("Before Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     printf("Before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
+    printf("Before Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
 
 
