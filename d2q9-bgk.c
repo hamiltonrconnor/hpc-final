@@ -205,6 +205,14 @@ int main(int argc, char* argv[])
     //Find the neigbours
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
+    int posLeft = (start-1);
+    if(rank==0){
+      posLeft=(params.ny-1);
+    }
+    int posRight = (end);
+   if(rank == nprocs-1){
+     posRight = 0;
+   }
     printf("%d",work);
       // printf("rank: %d tt:%d 2\n",rank,tt);
     // printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
@@ -221,14 +229,7 @@ int main(int argc, char* argv[])
     MPI_Sendrecv(&local_cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-    int posLeft = (start-1);
-    if(rank==0){
-      posLeft=(params.ny-1);
-    }
-    int posRight = (end);
-   if(rank == nprocs-1){
-     posRight = 0;
-   }
+
 
     printf("mid Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
