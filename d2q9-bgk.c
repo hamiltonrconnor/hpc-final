@@ -211,9 +211,9 @@ int main(int argc, char* argv[])
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
 
-    printf("rank: %d tt:%d 2\n",rank,tt);
-    printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
-    printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[work*params.nx].speeds[0]);
+    // printf("rank: %d tt:%d 2\n",rank,tt);
+    // printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
+    // printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[work*params.nx].speeds[0]);
     MPI_Barrier(MPI_COMM_WORLD);
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
@@ -678,7 +678,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-      printf("in %d  jj %d, ii%d\n",ii + jj*params.nx,jj ,ii);
+      //printf("in %d  jj %d, ii%d\n",ii + jj*params.nx,jj ,ii);
       float temp = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[0] =temp;
       tmp_cells[ii + jj*params.nx].speeds[1] = cells[x_w + jj*params.nx].speeds[1]; /* east */
