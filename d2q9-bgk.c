@@ -192,10 +192,10 @@ int main(int argc, char* argv[])
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
 
 
-  // for (int tt = 0; tt < params.maxIters; tt++)
-  // {
-  for (int tt = 0; tt < 2; tt++)
+  for (int tt = 0; tt < params.maxIters; tt++)
   {
+  // for (int tt = 0; tt < 2; tt++)
+  // {
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
     int tag = 0;
@@ -213,14 +213,14 @@ int main(int argc, char* argv[])
    if(rank == nprocs-1){
      posRight = 0;
    }
-    printf("%d",work);
+    //printf("%d",work);
       // printf("rank: %d tt:%d 2\n",rank,tt);
     // printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
     // printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[work*params.nx].speeds[0]);
 
-        printf("before Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
-        printf("before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-        printf("before Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
+        // printf("before Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
+        // printf("before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+        // printf("before Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
@@ -231,9 +231,9 @@ int main(int argc, char* argv[])
 
 
 
-    printf("mid Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
-    printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("mid Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
+    // printf("mid Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
+    // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    // printf("mid Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
 
 
@@ -247,9 +247,9 @@ int main(int argc, char* argv[])
     t_speed** local_temp = local_cells_ptr;
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
-    printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
+    // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
+    // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
     // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
