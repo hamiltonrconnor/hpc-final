@@ -216,11 +216,11 @@ int main(int argc, char* argv[])
     printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[work*params.nx].speeds[0]);
     MPI_Barrier(MPI_COMM_WORLD);
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
-    // MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-    //     &local_cells[work*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    // printf("rank: %d tt:%d 3\n",rank,tt);
-    // MPI_Sendrecv(&local_cells[(work-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
-    //     &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &local_cells[work*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    //printf("rank: %d tt:%d 3\n",rank,tt);
+    MPI_Sendrecv(&local_cells[(work-1)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
 
@@ -230,9 +230,9 @@ int main(int argc, char* argv[])
     // tmp_cells_ptr= temp;
 
     av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
-    //t_speed** local_temp = test_cells_ptr;
-    //local_cells_ptr= local_tmp_cells_ptr;
-    //local_tmp_cells_ptr= local_temp;
+    t_speed** local_temp = test_cells_ptr;
+    local_cells_ptr= local_tmp_cells_ptr;
+    local_tmp_cells_ptr= local_temp;
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
