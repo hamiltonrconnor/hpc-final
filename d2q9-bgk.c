@@ -678,7 +678,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-      printf("in %d  jj %d, ii%d\n",ii + jj*params.nx,jj ,ii);
+    //  printf("in %d  jj %d, ii%d\n",ii + jj*params.nx,jj ,ii);
       float temp = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[0] =temp;
       tmp_cells[ii + jj*params.nx].speeds[1] = cells[x_w + jj*params.nx].speeds[1]; /* east */
