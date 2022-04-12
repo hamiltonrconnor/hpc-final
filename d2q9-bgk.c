@@ -650,7 +650,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //Intialiase local cells
 
     printf("here %f\n",cells[(work+3)*params.nx+params.nx].speeds[0]);
-
+    printf("%p %p",&cells[work*params.nx],&tmp_cells[work*params.nx]);
 
 
     for (int jj =1; jj < work+1; jj++)
@@ -673,7 +673,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       ** appropriate directions of travel and writing into
       ** scratch space grid */
       //printf("%d 2\n",jj);
-      printf("in %d  jj %d, ii%d",ii + jj*params.nx,jj ,ii);
+      //printf("in %d  jj %d, ii%d",ii + jj*params.nx,jj ,ii);
       float temp = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[0] =temp;
       tmp_cells[ii + jj*params.nx].speeds[1] = cells[x_w + jj*params.nx].speeds[1]; /* east */
