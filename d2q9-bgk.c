@@ -295,6 +295,7 @@ int main(int argc, char* argv[])
     //
     //
     //
+    int flag;
     for (int jj =1; jj < work+1; jj++)
     {
       flag = 0;
