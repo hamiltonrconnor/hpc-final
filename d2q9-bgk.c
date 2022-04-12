@@ -653,7 +653,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     printf("%p %p",&cells[work*params.nx].speeds[0],&tmp_cells[work*params.nx].speeds[0]);
 
 
-    for (int jj =1; jj < work+1; jj++)
+    for (int jj =0; jj < 2; jj++)
     {
       //printf("%d\n",jj);
       for (int ii = 0; ii < params.nx; ii++)
@@ -677,7 +677,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-      
+
       printf("in %d  jj %d, ii%d\n",ii + jj*params.nx,jj ,ii);
       float temp = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[0] =temp;
