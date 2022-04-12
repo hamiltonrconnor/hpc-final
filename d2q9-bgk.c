@@ -230,9 +230,9 @@ int main(int argc, char* argv[])
     // tmp_cells_ptr= temp;
 
     av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
-    //t_speed** local_temp = test_cells_ptr;
-    //local_cells_ptr= local_tmp_cells_ptr;
-    //local_tmp_cells_ptr= local_temp;
+    t_speed** local_temp = test_cells_ptr;
+    local_cells_ptr= local_tmp_cells_ptr;
+    local_tmp_cells_ptr= local_temp;
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&test_cells[posLeft*params.nx],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&test_cells[start*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[posRight*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
