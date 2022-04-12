@@ -645,8 +645,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     //Intialiase local cells
 
-    printf("here %f\n",cells[128].speeds[0]);
-    printf("%p %p",&cells[work*params.nx].speeds[0],&tmp_cells[work*params.nx].speeds[0]);
+  
 
 
     for (int jj =1; jj < work+1; jj++)
@@ -668,15 +667,8 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       /* propagate densities from neighbouring cells, following
       ** appropriate directions of travel and writing into
       ** scratch space grid */
-      //printf("%d 2\n",jj);
 
-
-
-
-
-    //  printf("in %d  jj %d, ii%d\n",ii + jj*params.nx,jj ,ii);
-      float temp = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
-      tmp_cells[ii + jj*params.nx].speeds[0] =temp;
+      tmp_cells[ii + jj*params.nx].speeds[0] =cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[1] = cells[x_w + jj*params.nx].speeds[1]; /* east */
       tmp_cells[ii + jj*params.nx].speeds[2] = cells[ii + y_s*params.nx].speeds[2]; /* north */
       tmp_cells[ii + jj*params.nx].speeds[3] = cells[x_e + jj*params.nx].speeds[3]; /* west */
