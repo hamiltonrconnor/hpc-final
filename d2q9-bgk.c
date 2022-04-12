@@ -296,7 +296,7 @@ int main(int argc, char* argv[])
     //
     //
     int flag;
-    for (int jj =1; jj < work+1; jj++)
+    for (int jj =0; jj < work+2; jj++)
     {
       flag = 0;
       for (int ii = 0; ii < params.nx; ii++)
