@@ -650,7 +650,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //Intialiase local cells
 
     printf("here %f\n",cells[(work+3)*params.nx+params.nx].speeds[0]);
-    printf("%p %p",&cells[work*params.nx],&tmp_cells[work*params.nx]);
+    printf("%p %p",&cells[work*params.nx].speeds[0],&tmp_cells[work*params.nx].speeds[0]);
 
 
     for (int jj =1; jj < work+1; jj++)
