@@ -4,7 +4,7 @@ EXE=d2q9-bgk
 
 CC=mpiicc
 
-CFLAGS= -xHOST  -fopenmp  -std=c99 -Wall -Ofast -mtune=native  
+CFLAGS= -xHOST -g  -fopenmp  -std=c99 -Wall -Ofast -mtune=native  
 LIBS = -lm 
 
 FINAL_STATE_FILE=./final_state.dat
