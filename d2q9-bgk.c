@@ -242,6 +242,7 @@ int main(int argc, char* argv[])
     // // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     //  printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
     //
+    printf("%d",work);
     memcpy(&local_cells[0],&local_cells[128*params.nx],sizeof(t_speed) *  params.nx);
     memcpy(&local_cells[129*params.nx],&local_cells[1*params.nx],sizeof(t_speed) *  params.nx);
 
