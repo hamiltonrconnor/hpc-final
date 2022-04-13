@@ -187,7 +187,7 @@ int main(int argc, char* argv[])
 
     for (int ii = 0; ii < params.nx; ii++)
     {
-      cells[ii+jj*params.nx] = i;
+      cells[ii+jj*params.nx] = ii+jj*params.nx;
     }
   }
 
