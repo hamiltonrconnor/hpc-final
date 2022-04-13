@@ -289,43 +289,43 @@ int main(int argc, char* argv[])
     //
     //
     //
-    // flag = 0;
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //   for (int kk = 0; kk < NSPEEDS; kk++)
-    //   {
-    //     if(cells[ii + posLeft].speeds[kk] !=test_cells[ii + posLeft].speeds[kk] ){
-    //       flag =1;
-    //
-    //     }
-    //   }
-    //
-    // }
-    // if(flag==1){
-    //   printf("PosLeft Rank: %d jj: %d\n",rank,posLeft);
-    // }
-    //
-    //
-    //
-    int flag;
-    for (int jj =1; jj < work+1; jj++)
+    flag = 0;
+    for (int ii = 0; ii < params.nx; ii++)
     {
-      flag = 0;
-      for (int ii = 0; ii < params.nx; ii++)
+      for (int kk = 0; kk < NSPEEDS; kk++)
       {
-        for (int kk = 0; kk < NSPEEDS; kk++)
-        {
-          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
-            flag =1;
+        if(cells[ii + (params.ny-1)*params.nx].speeds[kk] !=local_cells[ii+0*params.nx].speeds[kk] ){
+          flag =1;
 
-          }
         }
+      }
 
-      }
-      if(flag==1){
-        printf("Rank: %d jj: %d\n",rank,jj);
-      }
     }
+    if(flag==1){
+      printf(" Rank: %d 127\n",rank);
+    }
+    //
+    //
+    //
+    // int flag;
+    // for (int jj =1; jj < work+1; jj++)
+    // {
+    //   flag = 0;
+    //   for (int ii = 0; ii < params.nx; ii++)
+    //   {
+    //     for (int kk = 0; kk < NSPEEDS; kk++)
+    //     {
+    //       if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
+    //         flag =1;
+    //
+    //       }
+    //     }
+    //
+    //   }
+    //   if(flag==1){
+    //     printf("Rank: %d jj: %d\n",rank,jj);
+    //   }
+    // }
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
