@@ -463,8 +463,8 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   //     cells[ii + jj*params.nx].speeds[7] -= w2;
   //   }
   // }
-  // cells[200+1*params.nx].speeds[0] = 0;
-  // cells[200+1*params.nx].speeds[1] = 0;
+  // cells[4+1*params.nx].speeds[0] = 0;
+  // cells[4+1*params.nx].speeds[1] = 0;
   // cells[200+1*params.nx].speeds[2] = 0;
   // cells[200+1*params.nx].speeds[3] = 0;
   // cells[200+1*params.nx].speeds[4] = 0;
@@ -517,6 +517,7 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   // cells[200].speeds[6] = 0;
   // cells[200].speeds[7] = 0;
   // cells[200].speeds[8] = 0;
+  cells[]
 
   return EXIT_SUCCESS;
 }
@@ -780,6 +781,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //
     //   }
     // }
+    cells[5+1*params.nx].speeds[0] = 0;
     // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
     // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
     int tag = 0;
@@ -1019,7 +1021,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     int start = rank * work;
     int end = start + work;
 
-
+    cells[5].speeds[0] = 0;
 
 
 
