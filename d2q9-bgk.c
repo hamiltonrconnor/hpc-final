@@ -304,7 +304,7 @@ int main(int argc, char* argv[])
     if(flag==1){
       printf(" Rank: %d 127\n",rank);
     }
-    int flag = 0;
+    flag = 0;
     for (int ii = 0; ii < params.nx; ii++)
     {
       for (int kk = 0; kk < NSPEEDS; kk++)
