@@ -243,16 +243,15 @@ int main(int argc, char* argv[])
     //  printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
     //
     printf("%d",work);
-    // memcpy(&local_cells[0],&local_cells[128*params.nx],sizeof(t_speed) *  params.nx);
-    // memcpy(&local_cells[129*params.nx],&local_cells[1*params.nx],sizeof(t_speed) *  params.nx);
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-      for (int kk = 0; kk < NSPEEDS; kk++)
-      {
-      local_cells[ii+0*params.nx].speeds[kk] = local_cells[ii+128*params.nx].speeds[kk] ;
-      local_cells[ii+129*params.nx].speeds[kk] = local_cells[ii+1*params.nx].speeds[kk] ;
-      }
-    }
+
+    // for (int ii = 0; ii < params.nx; ii++)
+    // {
+    //   for (int kk = 0; kk < NSPEEDS; kk++)
+    //   {
+    //   local_cells[ii+0*params.nx].speeds[kk] = local_cells[ii+128*params.nx].speeds[kk] ;
+    //   local_cells[ii+129*params.nx].speeds[kk] = local_cells[ii+1*params.nx].speeds[kk] ;
+    //   }
+    // }
 
 
 
@@ -706,17 +705,19 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     //Intialiase local cells
     //printf("work %d",work);
-    int flag =0;
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-      for (int kk = 0; kk < NSPEEDS; kk++)
-      {
-        cells[ii + 0*params.nx].speeds[kk] = cells[ii + 128*params.nx].speeds[kk];
-        cells[ii+129*params.nx].speeds[kk] = cells[ii+1*params.nx].speeds[kk] ;
-
-        
-      }
-    }
+    // int flag =0;
+    // for (int ii = 0; ii < params.nx; ii++)
+    // {
+    //   for (int kk = 0; kk < NSPEEDS; kk++)
+    //   {
+    //     cells[ii + 0*params.nx].speeds[kk] = cells[ii + 128*params.nx].speeds[kk];
+    //     cells[ii+129*params.nx].speeds[kk] = cells[ii+1*params.nx].speeds[kk] ;
+    //
+    //
+    //   }
+    // }
+    memcpy(&local_cells[0],&local_cells[128*params.nx],sizeof(t_speed) *  params.nx);
+    memcpy(&local_cells[129*params.nx],&local_cells[1*params.nx],sizeof(t_speed) *  params.nx);
 
 
 
