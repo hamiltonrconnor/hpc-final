@@ -675,7 +675,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
     //Intialiase local cells
-
+    printf("work %d",work);
 
 
 
