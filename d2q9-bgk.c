@@ -707,12 +707,12 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       /* determine indices of axis-direction neighbours
       ** respecting periodic boundary conditions (wrap around) */
 
-      const short y_n = (jj + 1) ;
+      short y_n = (jj + 1) ;
       if(jj ==128){
         y_n = 1;
       }
       const short x_e = (ii + 1) % params.nx;
-      const short y_s = (jj - 1);
+       short y_s = (jj - 1);
       if(jj==1){
         y_s = 128;
       }
