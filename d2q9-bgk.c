@@ -435,34 +435,44 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   // if(rank!=(params.ny-2)/params.ny*nprocs){
   //   return EXIT_SUCCESS;
   // }
-  int work = findWork(params.ny,nprocs,rank);
-  /* compute weighting factors */
-  float w1 = params.density * params.accel / 9.f;
-  float w2 = params.density * params.accel / 36.f;
+  // int work = findWork(params.ny,nprocs,rank);
+  // /* compute weighting factors */
+  // float w1 = params.density * params.accel / 9.f;
+  // float w2 = params.density * params.accel / 36.f;
+  //
+  // /* modify the 2nd row of the grid */
+  // //int jj = (params.ny - 2%work)+1;
+  // int jj = params.ny - 2 +1;
+  //
+  // for (int ii = 0; ii < params.nx; ii++)
+  // {
+  //   /* if the cell is not occupied and
+  //   ** we don't send a negative density */
+  //   if (!obstacles[ii + (jj)*params.nx]
+  //       && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
+  //       && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
+  //       && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
+  //   {
+  //     /* increase 'east-side' densities */
+  //     cells[ii + jj*params.nx].speeds[1] += w1;
+  //     cells[ii + jj*params.nx].speeds[5] += w2;
+  //     cells[ii + jj*params.nx].speeds[8] += w2;
+  //     /* decrease 'west-side' densities */
+  //     cells[ii + jj*params.nx].speeds[3] -= w1;
+  //     cells[ii + jj*params.nx].speeds[6] -= w2;
+  //     cells[ii + jj*params.nx].speeds[7] -= w2;
+  //   }
+  // }
+  cells[4].speeds[0] = 0;
+  cells[4].speeds[1] = 0;
+  cells[4].speeds[2] = 0;
+  cells[4].speeds[3] = 0;
+  cells[4].speeds[4] = 0;
+  cells[4].speeds[5] = 0;
+  cells[4].speeds[6] = 0;
+  cells[4].speeds[7] = 0;
+  cells[4].speeds[8] = 0;
 
-  /* modify the 2nd row of the grid */
-  //int jj = (params.ny - 2%work)+1;
-  int jj = params.ny - 2 +1;
-
-  for (int ii = 0; ii < params.nx; ii++)
-  {
-    /* if the cell is not occupied and
-    ** we don't send a negative density */
-    if (!obstacles[ii + (jj)*params.nx]
-        && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
-        && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
-        && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
-    {
-      /* increase 'east-side' densities */
-      cells[ii + jj*params.nx].speeds[1] += w1;
-      cells[ii + jj*params.nx].speeds[5] += w2;
-      cells[ii + jj*params.nx].speeds[8] += w2;
-      /* decrease 'west-side' densities */
-      cells[ii + jj*params.nx].speeds[3] -= w1;
-      cells[ii + jj*params.nx].speeds[6] -= w2;
-      cells[ii + jj*params.nx].speeds[7] -= w2;
-    }
-  }
 
   return EXIT_SUCCESS;
 }
@@ -470,33 +480,43 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
 
 
-  /* compute weighting factors */
-  float w1 = params.density * params.accel / 9.f;
-  float w2 = params.density * params.accel / 36.f;
+  // /* compute weighting factors */
+  // float w1 = params.density * params.accel / 9.f;
+  // float w2 = params.density * params.accel / 36.f;
+  //
+  // /* modify the 2nd row of the grid */
+  // //int jj = (params.ny - 2%work)+1;
+  // int jj = params.ny - 2 ;
+  //
+  // for (int ii = 0; ii < params.nx; ii++)
+  // {
+  //   /* if the cell is not occupied and
+  //   ** we don't send a negative density */
+  //   if (!obstacles[ii + jj*params.nx]
+  //       && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
+  //       && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
+  //       && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
+  //   {
+  //     /* increase 'east-side' densities */
+  //     cells[ii + jj*params.nx].speeds[1] += w1;
+  //     cells[ii + jj*params.nx].speeds[5] += w2;
+  //     cells[ii + jj*params.nx].speeds[8] += w2;
+  //     /* decrease 'west-side' densities */
+  //     cells[ii + jj*params.nx].speeds[3] -= w1;
+  //     cells[ii + jj*params.nx].speeds[6] -= w2;
+  //     cells[ii + jj*params.nx].speeds[7] -= w2;
+  //   }
+  // }
 
-  /* modify the 2nd row of the grid */
-  //int jj = (params.ny - 2%work)+1;
-  int jj = params.ny - 2 ;
-
-  for (int ii = 0; ii < params.nx; ii++)
-  {
-    /* if the cell is not occupied and
-    ** we don't send a negative density */
-    if (!obstacles[ii + jj*params.nx]
-        && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
-        && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
-        && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
-    {
-      /* increase 'east-side' densities */
-      cells[ii + jj*params.nx].speeds[1] += w1;
-      cells[ii + jj*params.nx].speeds[5] += w2;
-      cells[ii + jj*params.nx].speeds[8] += w2;
-      /* decrease 'west-side' densities */
-      cells[ii + jj*params.nx].speeds[3] -= w1;
-      cells[ii + jj*params.nx].speeds[6] -= w2;
-      cells[ii + jj*params.nx].speeds[7] -= w2;
-    }
-  }
+  cells[4].speeds[0] = 0;
+  cells[4].speeds[1] = 0;
+  cells[4].speeds[2] = 0;
+  cells[4].speeds[3] = 0;
+  cells[4].speeds[4] = 0;
+  cells[4].speeds[5] = 0;
+  cells[4].speeds[6] = 0;
+  cells[4].speeds[7] = 0;
+  cells[4].speeds[8] = 0;
 
   return EXIT_SUCCESS;
 }
