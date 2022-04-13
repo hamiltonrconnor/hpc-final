@@ -304,6 +304,22 @@ int main(int argc, char* argv[])
     if(flag==1){
       printf(" Rank: %d 127\n",rank);
     }
+    int flag = 0;
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+      for (int kk = 0; kk < NSPEEDS; kk++)
+      {
+        if(cells[ii + 0*params.nx].speeds[kk] !=local_cells[ii+(work+1)*params.nx].speeds[kk] ){
+          flag =1;
+
+        }
+      }
+
+    }
+    if(flag==1){
+      printf(" Rank: %d 0\n",rank);
+    }
+
     //
     //
     //
