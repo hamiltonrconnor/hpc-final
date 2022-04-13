@@ -305,59 +305,59 @@ int main(int argc, char* argv[])
     //
     //
     //
-    int flag = 0;
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-      for (int kk = 0; kk < NSPEEDS; kk++)
-      {
-        if(cells[ii + (params.ny-1)*params.nx].speeds[kk] !=local_cells[ii+0*params.nx].speeds[kk] ){
-          flag =1;
-
-        }
-      }
-
-    }
-    if(flag==1){
-      printf(" Rank: %d 127\n",rank);
-    }
-    flag = 0;
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-      for (int kk = 0; kk < NSPEEDS; kk++)
-      {
-        if(cells[ii + 0*params.nx].speeds[kk] !=local_cells[ii+(work+1)*params.nx].speeds[kk] ){
-          flag =1;
-
-        }
-      }
-
-    }
-    if(flag==1){
-      printf(" Rank: %d 0\n",rank);
-    }
-
-    //
-    //
-    //
-    // int flag;
-    // for (int jj =1; jj < work+1; jj++)
+    // int flag = 0;
+    // for (int ii = 0; ii < params.nx; ii++)
     // {
-    //   flag = 0;
-    //   for (int ii = 0; ii < params.nx; ii++)
+    //   for (int kk = 0; kk < NSPEEDS; kk++)
     //   {
-    //     for (int kk = 0; kk < NSPEEDS; kk++)
-    //     {
-    //       if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
-    //         flag =1;
+    //     if(cells[ii + (params.ny-1)*params.nx].speeds[kk] !=local_cells[ii+0*params.nx].speeds[kk] ){
+    //       flag =1;
     //
-    //       }
     //     }
+    //   }
     //
-    //   }
-    //   if(flag==1){
-    //     printf("Rank: %d jj: %d\n",rank,jj);
-    //   }
     // }
+    // if(flag==1){
+    //   printf(" Rank: %d 127\n",rank);
+    // }
+    // flag = 0;
+    // for (int ii = 0; ii < params.nx; ii++)
+    // {
+    //   for (int kk = 0; kk < NSPEEDS; kk++)
+    //   {
+    //     if(cells[ii + 0*params.nx].speeds[kk] !=local_cells[ii+(work+1)*params.nx].speeds[kk] ){
+    //       flag =1;
+    //
+    //     }
+    //   }
+    //
+    // }
+    // if(flag==1){
+    //   printf(" Rank: %d 0\n",rank);
+    // }
+
+    //
+    //
+    //
+    int flag;
+    for (int jj =1; jj < work+1; jj++)
+    {
+      flag = 0;
+      for (int ii = 0; ii < params.nx; ii++)
+      {
+        for (int kk = 0; kk < NSPEEDS; kk++)
+        {
+          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
+            flag =1;
+
+          }
+        }
+
+      }
+      if(flag==1){
+        printf("Rank: %d jj: %d\n",rank,jj);
+      }
+    }
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
@@ -431,7 +431,7 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
-  printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
+  // /printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
   // if(rank!=(params.ny-2)/params.ny*nprocs){
   //   return EXIT_SUCCESS;
   // }
