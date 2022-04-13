@@ -781,7 +781,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //
     //   }
     // }
-    cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
+
     // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
     // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
     int tag = 0;
@@ -795,7 +795,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-
+    cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
 
     for (int jj =1; jj < work+1; jj++)
     {
