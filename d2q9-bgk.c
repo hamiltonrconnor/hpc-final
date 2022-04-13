@@ -182,14 +182,14 @@ int main(int argc, char* argv[])
   int start = rank * work;
   int end = start + work;
   int flag;
-  // for (int jj =0; jj < params.ny; jj++)
-  // {
-  //
-  //   for (int ii = 0; ii < params.nx; ii++)
-  //   {
-  //     cells[ii+jj*params.nx].speeds[0] = ii+jj*params.nx;
-  //   }
-  // }
+  for (int jj =0; jj < params.ny; jj++)
+  {
+
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+      cells[ii+jj*params.nx].speeds[0] = 0.1f;
+    }
+  }
 
   t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
   t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
