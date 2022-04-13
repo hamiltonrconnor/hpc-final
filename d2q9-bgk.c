@@ -429,7 +429,7 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 
 int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
-  printf("%d",(params.ny-2)/params.ny*nprocs));
+  printf("%d",(params.ny-2)/params.ny*nprocs);
   if(rank!=(params.ny-2)/params.ny*nprocs){
     return EXIT_SUCCESS;
   }
