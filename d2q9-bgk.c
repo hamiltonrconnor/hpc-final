@@ -700,7 +700,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       }
     }
     if(flag ==1){
-      printf("128!=0")
+      printf("128!=0");
     }
 
 
