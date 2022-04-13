@@ -415,7 +415,8 @@ int main(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
-{   accelerate_flow(params, *cells_ptr, obstacles);
+{
+    halo_accelerate_flow(params, *cells_ptr, obstacles);
     return halo_fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 }
 float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
@@ -427,7 +428,7 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 
 }
 
-int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
+int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
   printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
   // if(rank!=(params.ny-2)/params.ny*nprocs){
@@ -441,6 +442,40 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   /* modify the 2nd row of the grid */
   //int jj = (params.ny - 2%work)+1;
   int jj = params.ny - 2 +1;
+
+  for (int ii = 0; ii < params.nx; ii++)
+  {
+    /* if the cell is not occupied and
+    ** we don't send a negative density */
+    if (!obstacles[ii + (jj-1)*params.nx]
+        && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
+        && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
+        && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
+    {
+      /* increase 'east-side' densities */
+      cells[ii + jj*params.nx].speeds[1] += w1;
+      cells[ii + jj*params.nx].speeds[5] += w2;
+      cells[ii + jj*params.nx].speeds[8] += w2;
+      /* decrease 'west-side' densities */
+      cells[ii + jj*params.nx].speeds[3] -= w1;
+      cells[ii + jj*params.nx].speeds[6] -= w2;
+      cells[ii + jj*params.nx].speeds[7] -= w2;
+    }
+  }
+
+  return EXIT_SUCCESS;
+}
+int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
+{
+
+
+  /* compute weighting factors */
+  float w1 = params.density * params.accel / 9.f;
+  float w2 = params.density * params.accel / 36.f;
+
+  /* modify the 2nd row of the grid */
+  //int jj = (params.ny - 2%work)+1;
+  int jj = params.ny - 2 ;
 
   for (int ii = 0; ii < params.nx; ii++)
   {
