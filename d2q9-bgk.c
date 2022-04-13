@@ -345,7 +345,7 @@ int main(int argc, char* argv[])
       flag = 0;
       for (int ii = 0; ii < params.nx; ii++)
       {
-        if(ii == 2 &&jj =2){
+        if(ii == 2 &&jj ==2){
           local_cells[ii + jj*params.nx].speeds[0] = 0;
           cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
         }
