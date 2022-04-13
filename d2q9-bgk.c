@@ -482,7 +482,7 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   {
     /* if the cell is not occupied and
     ** we don't send a negative density */
-    if (!obstacles[ii + (jj-1)*params.nx]
+    if (!obstacles[ii + jj*params.nx]
         && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
         && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
         && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
