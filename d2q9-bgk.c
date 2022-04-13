@@ -706,7 +706,19 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     //Intialiase local cells
     //printf("work %d",work);
-
+    int flag =0;
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+      for (int kk = 0; kk < NSPEEDS; kk++)
+      {
+        if(cells[ii + 0*params.nx].speeds[kk] != cells[ii + 128*params.nx].speeds[kk]){
+          flag =1;
+        }
+      }
+    }
+    if(flag ==0){
+      printf("128!=0");
+    }
 
 
     for (int jj =1; jj < work+1; jj++)
