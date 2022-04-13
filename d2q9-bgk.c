@@ -232,8 +232,9 @@ int main(int argc, char* argv[])
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
     for(int i = 0 ;i<work+2;i++){
-      printf("Rank%d result: %d %f",rank,i,local_cells[i*params.nx].speeds[0]); 
+      printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]); 
     }
+
 
     // printf("mid tt :%d Memcompare left Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     // // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
