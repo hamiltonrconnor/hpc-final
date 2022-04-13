@@ -186,12 +186,21 @@ int main(int argc, char* argv[])
   t_speed** local_cells_ptr = &local_cells;
   t_speed** local_tmp_cells_ptr= &local_tmp_cells;
 
-  //memcpy(&local_cells[1* params.nx],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
+  memcpy(&local_cells[1* params.nx],&cells[start*params.nx],sizeof(t_speed) * (work * params.nx));
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
 
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
   for(int i = 0;i<(work+2) * params.nx;i++){
-    local_cells[i].speeds[0] = rank;
+    local_cells[i].speeds[0] = cells ;
+    local_cells[i].speeds[1] = rank;
+    local_cells[i].speeds[2] = rank;
+    local_cells[i].speeds[3] = rank;
+    local_cells[i].speeds[4] = rank;
+    local_cells[i].speeds[5] = rank;
+    local_cells[i].speeds[6] = rank;
+    local_cells[i].speeds[7] = rank;
+    local_cells[i].speeds[8] = rank;
+
   }
 
   // for (int tt = 0; tt < params.maxIters; tt++)
@@ -257,7 +266,7 @@ int main(int argc, char* argv[])
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
     // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    // printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // //printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[work*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     //printf("rank: %d tt:%d 5\n",rank,tt);
