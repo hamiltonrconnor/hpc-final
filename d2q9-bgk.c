@@ -232,7 +232,7 @@ int main(int argc, char* argv[])
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
     for(int i = 0 ;i<params.nx;i++){
-      printf("Rank%d result: %d %f \n",rank,i,local_cells[i+0*params.nx].speeds[0]);
+      printf("Rank%d result: %d %f \n",rank,i,local_cells[i+work*params.nx].speeds[0]);
     }
 
 
