@@ -433,7 +433,7 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   if(rank!=(params.ny-2)/params.ny*nprocs){
     return EXIT_SUCCESS;
   }
-  int work = findWork(N,nprocs,rank);
+  int work = findWork(params.ny,nprocs,rank);
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
