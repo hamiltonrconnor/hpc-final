@@ -181,6 +181,15 @@ int main(int argc, char* argv[])
   int work =findWork(N,nprocs,rank);
   int start = rank * work;
   int end = start + work;
+  int flag;
+  for (int jj =0; jj < params.ny; jj++)
+  {
+
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+      cells[ii+jj*params.nx] = i;
+    }
+  }
 
   t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
   t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
@@ -786,7 +795,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //
     //   }
     // }
-    cells[5 + 5*params.nx].speeds[0] = 0;
+    //cells[5 + 5*params.nx].speeds[0] = 0;
 
 
     // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
@@ -1029,7 +1038,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     int end = start + work;
 
     //cells[5+1*params.nx].speeds[0] = 0;
-    cells[5 + 4*params.nx].speeds[0] = 0;
+    //cells[5 + 4*params.nx].speeds[0] = 0;
 
 
 
