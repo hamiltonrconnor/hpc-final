@@ -786,31 +786,8 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //
     //   }
     // }
+    cells[5 + 5*params.nx].speeds[0] = 0;
 
-    int flag;
-    for (int jj =1; jj < work+1; jj++)
-    {
-      flag = 0;
-      for (int ii = 0; ii < params.nx; ii++)
-      {
-        if(ii == 2 &&jj ==2){
-          local_cells[ii + jj*params.nx].speeds[0] = 0;
-          cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
-        }
-        for (int kk = 0; kk < NSPEEDS; kk++)
-        {
-          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
-            flag =1;
-
-          }
-        }
-
-
-      }
-      if(flag==1){
-        printf("Rank: %d jj: %d\n",rank,jj);
-      }
-    }
 
     // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
     // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
@@ -1052,7 +1029,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     int end = start + work;
 
     //cells[5+1*params.nx].speeds[0] = 0;
-
+    cells[5 + 4*params.nx].speeds[0] = 0;
 
 
 
