@@ -716,8 +716,13 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //
     //   }
     // }
-    memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
-    memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
+    // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
+    // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
+    MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &local_cells[(129)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    //printf("rank: %d tt:%d 3\n",rank,tt);
+    MPI_Sendrecv(&local_cells[(128)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
 
