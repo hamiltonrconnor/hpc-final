@@ -190,18 +190,11 @@ int main(int argc, char* argv[])
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
 
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
-  // for(int i = 0;i<(work+2) * params.nx;i++){
-  //   local_cells[i].speeds[0] = cells ;
-  //   local_cells[i].speeds[1] = rank;
-  //   local_cells[i].speeds[2] = rank;
-  //   local_cells[i].speeds[3] = rank;
-  //   local_cells[i].speeds[4] = rank;
-  //   local_cells[i].speeds[5] = rank;
-  //   local_cells[i].speeds[6] = rank;
-  //   local_cells[i].speeds[7] = rank;
-  //   local_cells[i].speeds[8] = rank;
-  //
-  // }
+  for(int i = 0;i<(work+2) * params.nx;i++){
+    local_cells[i].speeds[0] = i ;
+
+
+  }
 
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
@@ -240,8 +233,8 @@ int main(int argc, char* argv[])
     MPI_Sendrecv(&local_cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-    for(int i = 0 ;i<params.nx;i++){
-      printf("Rank%d result: %d %f \n",rank,i,local_cells[i+(work+1)*params.nx].speeds[0]);
+    for(int i = 0 ;i<work+2;i++){
+      printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]);
     }
 
 
@@ -266,7 +259,7 @@ int main(int argc, char* argv[])
     // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
     // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     // //printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[work*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
 
     //printf("rank: %d tt:%d 5\n",rank,tt);
@@ -698,9 +691,9 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       /* determine indices of axis-direction neighbours
       ** respecting periodic boundary conditions (wrap around) */
 
-      const short y_n = (jj + 1) % params.ny;
+      const short y_n = (jj + 1) ;
       const short x_e = (ii + 1) % params.nx;
-      const short y_s = (jj == 0) ? (jj + params.ny - 1) : (jj - 1);
+      const short y_s = (jj - 1);
       const short x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
       /* propagate densities from neighbouring cells, following
       ** appropriate directions of travel and writing into
