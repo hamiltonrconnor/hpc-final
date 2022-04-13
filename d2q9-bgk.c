@@ -190,11 +190,11 @@ int main(int argc, char* argv[])
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
 
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
-  for(int i = 0;i<(work+2) ;i++){
-    local_cells[i* params.nx].speeds[0] = i ;
-
-
-  }
+  // for(int i = 0;i<(work+2) ;i++){
+  //   local_cells[i* params.nx].speeds[0] = i ;
+  //
+  //
+  // }
 
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
