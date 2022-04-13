@@ -231,8 +231,8 @@ int main(int argc, char* argv[])
     MPI_Sendrecv(&local_cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-    for(int i = 0 ;i<work+2;i++){
-      printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]); 
+    for(int i = 0 ;i<params.nx;i++){
+      printf("Rank%d result: %d %f \n",rank,i,local_cells[i+0*params.nx].speeds[0]);
     }
 
 
