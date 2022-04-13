@@ -517,7 +517,7 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   // cells[200].speeds[6] = 0;
   // cells[200].speeds[7] = 0;
   // cells[200].speeds[8] = 0;
-  cells[]
+  
 
   return EXIT_SUCCESS;
 }
