@@ -233,9 +233,9 @@ int main(int argc, char* argv[])
     MPI_Sendrecv(&local_cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-    for(int i = 0 ;i<work+2;i++){
-      printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]);
-    }
+    // for(int i = 0 ;i<work+2;i++){
+    //   printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]);
+    // }
 
 
     // printf("mid tt :%d Memcompare left Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
@@ -307,25 +307,25 @@ int main(int argc, char* argv[])
     //
     //
     //
-    // int flag;
-    // for (int jj =1; jj < work+1; jj++)
-    // {
-    //   flag = 0;
-    //   for (int ii = 0; ii < params.nx; ii++)
-    //   {
-    //     for (int kk = 0; kk < NSPEEDS; kk++)
-    //     {
-    //       if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
-    //         flag =1;
-    //
-    //       }
-    //     }
-    //
-    //   }
-    //   if(flag==1){
-    //     printf("Rank: %d jj: %d\n",rank,jj);
-    //   }
-    // }
+    int flag;
+    for (int jj =1; jj < work+1; jj++)
+    {
+      flag = 0;
+      for (int ii = 0; ii < params.nx; ii++)
+      {
+        for (int kk = 0; kk < NSPEEDS; kk++)
+        {
+          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
+            flag =1;
+
+          }
+        }
+
+      }
+      if(flag==1){
+        printf("Rank: %d jj: %d\n",rank,jj);
+      }
+    }
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
