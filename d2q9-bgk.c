@@ -723,11 +723,11 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-        &local_cells[(129)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &cells[(129)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     //printf("rank: %d tt:%d 3\n",rank,tt);
-    MPI_Sendrecv(&local_cells[(128)*params.nx],buffSize , MPI_FLOAT, right, tag,
-        &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&cells[(128)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
 
 
