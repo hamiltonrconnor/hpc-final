@@ -716,8 +716,8 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //
     //   }
     // }
-    memcpy(&local_cells[0],&local_cells[128*params.nx],sizeof(t_speed) *  params.nx);
-    memcpy(&local_cells[129*params.nx],&local_cells[1*params.nx],sizeof(t_speed) *  params.nx);
+    memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
+    memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
 
 
 
