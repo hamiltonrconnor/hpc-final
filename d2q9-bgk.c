@@ -463,15 +463,15 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   //     cells[ii + jj*params.nx].speeds[7] -= w2;
   //   }
   // }
-  cells[4].speeds[0] = 0;
-  cells[4].speeds[1] = 0;
-  cells[4].speeds[2] = 0;
-  cells[4].speeds[3] = 0;
-  cells[4].speeds[4] = 0;
-  cells[4].speeds[5] = 0;
-  cells[4].speeds[6] = 0;
-  cells[4].speeds[7] = 0;
-  cells[4].speeds[8] = 0;
+  cells[4+1].speeds[0] = 0;
+  cells[4+1].speeds[1] = 0;
+  cells[4+1].speeds[2] = 0;
+  cells[4+1].speeds[3] = 0;
+  cells[4+1].speeds[4] = 0;
+  cells[4+1].speeds[5] = 0;
+  cells[4+1].speeds[6] = 0;
+  cells[4+1].speeds[7] = 0;
+  cells[4+1].speeds[8] = 0;
 
 
   return EXIT_SUCCESS;
