@@ -415,13 +415,13 @@ int main(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
-{   //accelerate_flow(params, *cells_ptr, obstacles);
+{   accelerate_flow(params, *cells_ptr, obstacles);
     return halo_fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 }
 float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
 {
 
-  //accelerate_flow(params, *cells_ptr, obstacles);
+  accelerate_flow(params, *cells_ptr, obstacles);
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 
 
@@ -429,18 +429,22 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 
 int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
+  if(rank!=3){
+    return;
+  }
+  int work = findWork(N,nprocs,rank);
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
 
   /* modify the 2nd row of the grid */
-  int jj = params.ny - 2;
+  int jj = (params.ny - 2%work)+1;
 
   for (int ii = 0; ii < params.nx; ii++)
   {
     /* if the cell is not occupied and
     ** we don't send a negative density */
-    if (!obstacles[ii + jj*params.nx]
+    if (!obstacles[ii + (jj-1)*params.nx]
         && (cells[ii + jj*params.nx].speeds[3] - w1) > 0.f
         && (cells[ii + jj*params.nx].speeds[6] - w2) > 0.f
         && (cells[ii + jj*params.nx].speeds[7] - w2) > 0.f)
