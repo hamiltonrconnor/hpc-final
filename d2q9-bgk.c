@@ -711,14 +711,13 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     {
       for (int kk = 0; kk < NSPEEDS; kk++)
       {
-        if(cells[ii + 0*params.nx].speeds[kk] != cells[ii + 128*params.nx].speeds[kk]){
-          flag =1;
-        }
+        cells[ii + 0*params.nx].speeds[kk] = cells[ii + 128*params.nx].speeds[kk];
+        cells[ii+129*params.nx].speeds[kk] = cells[ii+1*params.nx].speeds[kk] ;
+
+        
       }
     }
-    if(flag ==0){
-      printf("128!=0");
-    }
+
 
 
     for (int jj =1; jj < work+1; jj++)
