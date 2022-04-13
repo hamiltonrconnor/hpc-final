@@ -194,7 +194,7 @@ int main(int argc, char* argv[])
 
   // for (int tt = 0; tt < params.maxIters; tt++)
   // {
-  for (int tt = 0; tt < 10; tt++)
+  for (int tt = 0; tt < 2; tt++)
   {
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
@@ -224,7 +224,7 @@ int main(int argc, char* argv[])
 
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
     MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-        &local_cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+        &local_cells[(work+2)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     //printf("rank: %d tt:%d 3\n",rank,tt);
     MPI_Sendrecv(&local_cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
 
     printf("mid tt :%d Memcompare left Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-     printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
+     printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+2)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
 
 
