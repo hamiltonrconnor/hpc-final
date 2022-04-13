@@ -289,7 +289,7 @@ int main(int argc, char* argv[])
     //
     //
     //
-    flag = 0;
+    int flag = 0;
     for (int ii = 0; ii < params.nx; ii++)
     {
       for (int kk = 0; kk < NSPEEDS; kk++)
