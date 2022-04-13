@@ -708,8 +708,14 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       ** respecting periodic boundary conditions (wrap around) */
 
       const short y_n = (jj + 1) ;
+      if(jj ==128){
+        y_n = 1;
+      }
       const short x_e = (ii + 1) % params.nx;
       const short y_s = (jj - 1);
+      if(jj==1){
+        y_s = 128;
+      }
       const short x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
       /* propagate densities from neighbouring cells, following
       ** appropriate directions of travel and writing into
