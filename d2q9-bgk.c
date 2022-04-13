@@ -867,7 +867,8 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       //   ++tot_cells;
 
 
-      }}
+      //}
+    }
     }
 
 
@@ -1093,7 +1094,8 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
       //   ++tot_cells;
       //
       //
-      }}
+      //}
+    }
     }
 
 
