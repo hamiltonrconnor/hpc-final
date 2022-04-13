@@ -192,10 +192,10 @@ int main(int argc, char* argv[])
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
 
 
-  for (int tt = 0; tt < params.maxIters; tt++)
-  {
-  // for (int tt = 0; tt < 2; tt++)
+  // for (int tt = 0; tt < params.maxIters; tt++)
   // {
+  for (int tt = 0; tt < 10; tt++)
+  {
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
     int tag = 0;
@@ -231,9 +231,9 @@ int main(int argc, char* argv[])
 
 
 
-    // printf("mid Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
+    printf("mid tt :%d Memcompare left Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    // printf("mid Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
+     printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
 
 
