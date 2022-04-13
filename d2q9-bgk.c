@@ -430,7 +430,7 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
   if(rank!=3){
-    return;
+    return EXIT_SUCCESS;
   }
   int work = findWork(N,nprocs,rank);
   /* compute weighting factors */
