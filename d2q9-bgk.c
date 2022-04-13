@@ -227,11 +227,11 @@ int main(int argc, char* argv[])
         // printf("before Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
 
     //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
-    // MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-    //     &local_cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    // //printf("rank: %d tt:%d 3\n",rank,tt);
-    // MPI_Sendrecv(&local_cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
-    //     &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &local_cells[(129)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    //printf("rank: %d tt:%d 3\n",rank,tt);
+    MPI_Sendrecv(&local_cells[(128)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
     // for(int i = 0 ;i<work+2;i++){
     //   printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]);
@@ -242,8 +242,8 @@ int main(int argc, char* argv[])
     // // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
     //  printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
     //
-    memcpy(&local_cells[0],&local_cells[128*params.nx],sizeof(t_speed) *  params.nx);
-    memcpy(&local_cells[129*params.nx],&local_cells[1*params.nx],sizeof(t_speed) *  params.nx);
+    // memcpy(&local_cells[0],&local_cells[128*params.nx],sizeof(t_speed) *  params.nx);
+    // memcpy(&local_cells[129*params.nx],&local_cells[1*params.nx],sizeof(t_speed) *  params.nx);
 
 
 
