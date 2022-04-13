@@ -429,17 +429,18 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 
 int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
-  printf("%d",(params.ny-2)/params.ny*nprocs);
-  if(rank!=(params.ny-2)/params.ny*nprocs){
-    return EXIT_SUCCESS;
-  }
+  printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
+  // if(rank!=(params.ny-2)/params.ny*nprocs){
+  //   return EXIT_SUCCESS;
+  // }
   int work = findWork(params.ny,nprocs,rank);
   /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
 
   /* modify the 2nd row of the grid */
-  int jj = (params.ny - 2%work)+1;
+  //int jj = (params.ny - 2%work)+1;
+  int jj = params.ny - 2 +1;
 
   for (int ii = 0; ii < params.nx; ii++)
   {
