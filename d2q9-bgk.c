@@ -295,10 +295,11 @@ int main(int argc, char* argv[])
     {
       char buf[20];
       float x =cells[ii+jj*params.nx].speeds[0];
-      snprintf(buf,6,"%f \n",x);
-      printf("\n%s\n", buf);
-      //strcat(matrix,
+      snprintf(buf,6,"%f   ",x);
+      //printf("%s", buf);
+      strcat(matrix,buff);
     }
+    printf("%s", matrix);
     }
 
     //int flag = 0;
