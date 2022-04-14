@@ -861,6 +861,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
     // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
+    print_halo_fushion(params,cells,work);
     int tag = 0;
     MPI_Status status;
     int buffSize = params.nx *NSPEEDS;
@@ -874,7 +875,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-    //print_halo_fushion(params,cells,work);
+    print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
 
     for (int jj =1; jj < work+1; jj++)
