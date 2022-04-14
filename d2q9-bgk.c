@@ -104,6 +104,8 @@ int propagate(const t_param params, t_speed* cells, t_speed* tmp_cells);
 int rebound(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles);
 int collision(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles);
 int write_values(const t_param params, t_speed* cells, int* obstacles, float* av_vels);
+void print_fushion(const t_param params,t_speed* cells);
+void print_halo_fushion(const t_param params,t_speed* cells,int work);
 
 /* finalise, including freeing up allocated memory */
 int finalise(const t_param* params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
@@ -288,48 +290,10 @@ int main(int argc, char* argv[])
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    char matrix[200000] = "";
-    for (int jj = 0; jj < params.ny; jj++)
-    {
-    for (int ii = 0; ii < params.nx; ii++)
-    {
+    print_fushion(params,cells);
+    print_halo_fushion(params,local_cells,work);
 
-      char buf[20];
-      float x =cells[ii+jj*params.nx].speeds[0];
-      snprintf(buf,12,"%f   ",x);
-      //printf("%s", buf);
-      strcat(matrix,buf);
-      // char space[2] ="  ";
-      // strcat(matrix,space);
-    }
-    char newline[1] ="\n";
-    strcat(matrix,newline);
 
-    }
-    printf("CELLS\n%s", matrix);
-    //matrix = " ";
-    memset(matrix, 0, 200000);
-
-    char local_matrix[200000] = "";
-    for (int jj = 0; jj < work+2; jj++)
-    {
-    for (int ii = 0; ii < params.nx; ii++)
-    {
-
-      char buf[20];
-      float x =local_cells[ii+jj*params.nx].speeds[0];
-      snprintf(buf,12,"%f   ",x);
-      //printf("%s", buf);
-      strcat(local_matrix,buf);
-      // char space[2] ="  ";
-      // strcat(matrix,space);
-    }
-    char newline[1] ="\n";
-    strcat(local_matrix,newline);
-
-    }
-    printf("LOCAL CELLS\n%s", local_matrix);
-    memset(local_matrix, 0, 200000);
 
     //int flag = 0;
 
@@ -481,6 +445,53 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 
 
+}
+
+void print_fushion(const t_param params,t_speed* cells){
+  char matrix[200000] = "";
+  for (int jj = 0; jj < params.ny; jj++)
+  {
+  for (int ii = 0; ii < params.nx; ii++)
+  {
+
+    char buf[20];
+    float x =cells[ii+jj*params.nx].speeds[0];
+    snprintf(buf,12,"%f   ",x);
+    //printf("%s", buf);
+    strcat(matrix,buf);
+    // char space[2] ="  ";
+    // strcat(matrix,space);
+  }
+  char newline[1] ="\n";
+  strcat(matrix,newline);
+
+  }
+  printf("CELLS\n%s", matrix);
+  //matrix = " ";
+  memset(matrix, 0, 200000);
+}
+
+void print_halo_fushion(const t_param params,t_speed* cells,int work){
+  char local_matrix[200000] = "";
+  for (int jj = 0; jj < work+2; jj++)
+  {
+  for (int ii = 0; ii < params.nx; ii++)
+  {
+
+    char buf[20];
+    float x =local_cells[ii+jj*params.nx].speeds[0];
+    snprintf(buf,12,"%f   ",x);
+    //printf("%s", buf);
+    strcat(local_matrix,buf);
+    // char space[2] ="  ";
+    // strcat(matrix,space);
+  }
+  char newline[1] ="\n";
+  strcat(local_matrix,newline);
+
+  }
+  printf("LOCAL CELLS\n%s", local_matrix);
+  memset(local_matrix, 0, 200000);
 }
 
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
