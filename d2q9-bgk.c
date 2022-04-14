@@ -450,8 +450,7 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 {
 
   //accelerate_flow(params, *cells_ptr, obstacles);
-  printf("\n 3 \n");
-  print_fushion(params,*cells_ptr);
+
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 
 
@@ -1082,8 +1081,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
   t_speed* cells = *cells_ptr;
   t_speed* tmp_cells = *tmp_cells_ptr;
 
-  printf("\n 4 \n");
-  print_fushion(params,cells);
+
   //t_speed* output = *output_ptr;
 
   int    tot_cells = 0;  /* no. of cells used in calculation */
