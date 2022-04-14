@@ -301,8 +301,11 @@ int main(int argc, char* argv[])
       char space[2] ="  ";
       strcat(matrix,space);
     }
-    printf("%s", matrix);
+    char newline[1] ="\n";
+    strcat(matrix,newline);
+
     }
+    printf("%s", matrix);
 
     //int flag = 0;
 
