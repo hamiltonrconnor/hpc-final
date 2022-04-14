@@ -271,11 +271,9 @@ int main(int argc, char* argv[])
 
 
     printf("\n BEFORE \n");
-
-    printf("\n 2 \n");
-    print_fushion(params,cells);
+    //print_fushion(params,cells);
     print_fushion(params,*cells_ptr);
-    print_halo_fushion(params,local_cells,work);
+    //print_halo_fushion(params,local_cells,work);
     print_halo_fushion(params,*local_cells_ptr,work);
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
@@ -298,7 +296,13 @@ int main(int argc, char* argv[])
     tmp_cells_ptr= temp;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
-    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
+    printf("\n BEFORE \n");
+    //print_fushion(params,cells);
+    print_fushion(params,*cells_ptr);
+    //print_halo_fushion(params,local_cells,work);
+    print_halo_fushion(params,*local_cells_ptr,work);
+
+    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
 
 
 
@@ -860,7 +864,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
     // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
-    print_halo_fushion(params,cells,work);
+    //print_halo_fushion(params,cells,work);
     int tag = 0;
     MPI_Status status;
     int buffSize = params.nx *NSPEEDS;
@@ -874,7 +878,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-    print_halo_fushion(params,cells,work);
+    //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
 
     for (int jj =1; jj < work+2; jj++)
@@ -1106,8 +1110,8 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     //cells[5+1*params.nx].speeds[0] = 0;
     //cells[5 + 4*params.nx].speeds[0] = 0;
     //printf("\n BEFORE \n");
-    printf("\n 5 \n");
-    print_fushion(params,cells);
+    // printf("\n 5 \n");
+    // print_fushion(params,cells);
 
 
     //print_fushion(params,cells);
