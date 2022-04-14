@@ -293,14 +293,14 @@ int main(int argc, char* argv[])
     {
     for (int ii = 0; ii < params.nx; ii++)
     {
-      printf("%d\n",ii+jj*params.nx);
+
       char buf[20];
       float x =cells[ii+jj*params.nx].speeds[0];
       snprintf(buf,6,"%f",x);
       //printf("%s", buf);
       strcat(matrix,buf);
-      char space[2] ="  ";
-      strcat(matrix,space);
+      // char space[2] ="  ";
+      // strcat(matrix,space);
     }
     char newline[1] ="\n";
     strcat(matrix,newline);
