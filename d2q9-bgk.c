@@ -307,7 +307,8 @@ int main(int argc, char* argv[])
 
     }
     printf("CELLS\n%s", matrix);
-    matrix = " ";
+    //matrix = " ";
+    memset(matrix, 0, 200000);
 
     char local_matrix[200000] = "";
     for (int jj = 0; jj < work+2; jj++)
@@ -328,7 +329,7 @@ int main(int argc, char* argv[])
 
     }
     printf("LOCAL CELLS\n%s", local_matrix);
-    local_matrix= " ";
+    memset(local_matrix, 0, 200000);
 
     //int flag = 0;
 
