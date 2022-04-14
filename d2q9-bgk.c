@@ -275,6 +275,8 @@ int main(int argc, char* argv[])
     printf("\n 2 \n");
     print_fushion(params,cells);
     print_fushion(params,*cells_ptr);
+    print_halo_fushion(params,local_cells,work);
+    print_halo_fushion(params,*local_cells_ptr,work);
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
