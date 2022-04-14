@@ -273,7 +273,7 @@ int main(int argc, char* argv[])
 
 
 
-
+    printf("\n MID \n");
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
@@ -867,7 +867,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-    printf("\n MID \n");
+
 
     print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
