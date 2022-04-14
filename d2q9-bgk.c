@@ -212,6 +212,9 @@ int main(int argc, char* argv[])
   // {
   for (int tt = 0; tt < 10; tt++)
   {
+
+    print_fushion(params,cells);
+    print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
     int tag = 0;
@@ -290,8 +293,7 @@ int main(int argc, char* argv[])
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    print_fushion(params,cells);
-    print_halo_fushion(params,local_cells,work);
+
 
 
 
