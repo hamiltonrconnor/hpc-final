@@ -234,7 +234,7 @@ int main(int argc, char* argv[])
     }
     printf("LOCAL CELLS\n%s", local_matrix);
     memset(local_matrix, 0, 200000);
-    print_halo_fushion(params,local_cells,work);
+    //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
