@@ -295,7 +295,7 @@ int main(int argc, char* argv[])
     {
       char buf[20];
       float x =cells[ii+jj*params.nx].speeds[0];
-      snprintf(buff,6,"%f \n",x);
+      snprintf(buf,6,"%f \n",x);
       printf("\n%s\n", buf);
       //strcat(matrix,
     }
