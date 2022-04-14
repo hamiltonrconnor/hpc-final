@@ -234,6 +234,7 @@ int main(int argc, char* argv[])
     }
     printf("LOCAL CELLS\n%s", local_matrix);
     memset(local_matrix, 0, 200000);
+    print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
@@ -493,7 +494,7 @@ void print_fushion(const t_param params,t_speed* cells){
   memset(matrix, 0, 200000);
 }
 
-void print_halo_fushion(const t_param params,t_speed* cells,int work){
+void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
   char local_matrix[200000] = "";
   for (int jj = 0; jj < work+2; jj++)
   {
@@ -501,7 +502,7 @@ void print_halo_fushion(const t_param params,t_speed* cells,int work){
   {
 
     char buf[20];
-    float x =cells[ii+jj*params.nx].speeds[0];
+    float x =local_cells[ii+jj*params.nx].speeds[0];
     snprintf(buf,12,"%f   ",x);
     //printf("%s", buf);
     strcat(local_matrix,buf);
