@@ -453,7 +453,7 @@ float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cel
 float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
 {
 
-  //accelerate_flow(params, *cells_ptr, obstacles);
+  accelerate_flow(params, *cells_ptr, obstacles);
 
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 
@@ -541,15 +541,9 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   //     cells[ii + jj*params.nx].speeds[7] -= w2;
   //   }
   // }
-  // cells[4+1*params.nx].speeds[0] = 0;
-  // cells[4+1*params.nx].speeds[1] = 0;
-  // cells[200+1*params.nx].speeds[2] = 0;
-  // cells[200+1*params.nx].speeds[3] = 0;
-  // cells[200+1*params.nx].speeds[4] = 0;
-  // cells[200+1*params.nx].speeds[5] = 0;
-  // cells[200+1*params.nx].speeds[6] = 0;
-  // cells[200+1*params.nx].speeds[7] = 0;
-  // cells[200+1*params.nx].speeds[8] = 0;
+  cells[1+1*params.nx].speeds[0] = 0;
+
+
 
 
   return EXIT_SUCCESS;
@@ -595,6 +589,7 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   // cells[200].speeds[6] = 0;
   // cells[200].speeds[7] = 0;
   // cells[200].speeds[8] = 0;
+  cells[1].speeds[0] = 0;
 
 
   return EXIT_SUCCESS;
