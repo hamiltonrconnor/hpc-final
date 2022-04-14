@@ -877,7 +877,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
     printf("\n AFTER SENDRECV \n")
-    print_halo_fushion(params,*local_cells_ptr,work);
+    print_halo_fushion(params,cells,work);
 
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
