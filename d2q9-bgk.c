@@ -272,7 +272,7 @@ int main(int argc, char* argv[])
 
     printf("\n BEFORE \n");
 
-    printf("\n 3 \n")
+    printf("\n 2 \n");
     print_fushion(params,cells);
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
@@ -447,7 +447,7 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 {
 
   //accelerate_flow(params, *cells_ptr, obstacles);
-  printf("\n 3 \n")
+  printf("\n 3 \n");
   print_fushion(params,*cells_ptr);
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 
@@ -1078,7 +1078,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
   t_speed* cells = *cells_ptr;
   t_speed* tmp_cells = *tmp_cells_ptr;
 
-  printf("\n 4 \n")
+  printf("\n 4 \n");
   print_fushion(params,cells);
   //t_speed* output = *output_ptr;
 
@@ -1104,7 +1104,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     //cells[5+1*params.nx].speeds[0] = 0;
     //cells[5 + 4*params.nx].speeds[0] = 0;
     //printf("\n BEFORE \n");
-    printf("\n 5 \n")
+    printf("\n 5 \n");
     print_fushion(params,cells);
 
 
