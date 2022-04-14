@@ -882,7 +882,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
 
-    for (int jj =1; jj < work+2; jj++)
+    for (int jj =1; jj < work+1; jj++)
     {
       //printf("%d\n",jj);
       for (int ii = 0; ii < params.nx; ii++)
