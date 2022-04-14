@@ -479,7 +479,7 @@ void print_halo_fushion(const t_param params,t_speed* cells,int work){
   {
 
     char buf[20];
-    float x =local_cells[ii+jj*params.nx].speeds[0];
+    float x =cells[ii+jj*params.nx].speeds[0];
     snprintf(buf,12,"%f   ",x);
     //printf("%s", buf);
     strcat(local_matrix,buf);
