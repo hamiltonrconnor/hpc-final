@@ -308,7 +308,7 @@ int main(int argc, char* argv[])
     }
     printf("CELLS\n%s", matrix);
 
-    char matrix[200000] = "";
+    char local_matrix[200000] = "";
     for (int jj = 0; jj < work+2; jj++)
     {
     for (int ii = 0; ii < params.nx; ii++)
@@ -318,12 +318,12 @@ int main(int argc, char* argv[])
       float x =local_cells[ii+jj*params.nx].speeds[0];
       snprintf(buf,12,"%f   ",x);
       //printf("%s", buf);
-      strcat(matrix,buf);
+      strcat(local_matrix,buf);
       // char space[2] ="  ";
       // strcat(matrix,space);
     }
     char newline[1] ="\n";
-    strcat(matrix,newline);
+    strcat(local_matrix,newline);
 
     }
     printf("LOCAL CELLS\n%s", matrix);
