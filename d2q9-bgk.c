@@ -475,7 +475,8 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 }
 
 void print_fushion(const t_param params,t_speed* cells){
-  char matrix[200000] = "";
+  char matrix[200000];
+  memset(matrix, 0, 200000);
   for (int jj = 0; jj < params.ny; jj++)
   {
   for (int ii = 0; ii < params.nx; ii++)
@@ -499,7 +500,8 @@ void print_fushion(const t_param params,t_speed* cells){
 }
 
 void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
-  char local_matrix[200000] = "";
+  char local_matrix[200000];
+  memset(local_matrix, 0, 200000);
   for (int jj = 0; jj < work+2; jj++)
   {
   for (int ii = 0; ii < params.nx; ii++)
