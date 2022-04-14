@@ -213,9 +213,7 @@ int main(int argc, char* argv[])
   for (int tt = 0; tt < 10; tt++)
   {
 
-    printf("\n BEFORE \n");
-    print_fushion(params,cells);
-    print_halo_fushion(params,local_cells,work);
+
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
@@ -272,8 +270,8 @@ int main(int argc, char* argv[])
     // }
 
 
-
-    printf("\n MID \n");
+    printf("\n BEFORE \n");
+    print_fushion(params,cells);
     av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
@@ -446,7 +444,7 @@ float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cel
 float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
 {
 
-  accelerate_flow(params, *cells_ptr, obstacles);
+  //accelerate_flow(params, *cells_ptr, obstacles);
   return fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
 
 
@@ -869,7 +867,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
 
 
-    print_halo_fushion(params,cells,work);
+    //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
 
     for (int jj =1; jj < work+1; jj++)
@@ -1098,10 +1096,11 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
     //cells[5+1*params.nx].speeds[0] = 0;
     //cells[5 + 4*params.nx].speeds[0] = 0;
-
-
-
+    //printf("\n BEFORE \n");
     print_fushion(params,cells);
+
+
+    //print_fushion(params,cells);
     for (int jj = 0; jj < params.ny; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
