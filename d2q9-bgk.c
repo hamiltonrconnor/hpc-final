@@ -456,6 +456,9 @@ void print_fushion(const t_param params,t_speed* cells){
   char matrix[200000] ={0};
   for (int jj = 0; jj < params.ny; jj++)
   {
+    char id[20];
+    snprintf(id,12,"%d   ",jj);
+    strcat(matrix,id);
   for (int ii = 0; ii < params.nx; ii++)
   {
 
@@ -481,6 +484,9 @@ void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
 
   for (int jj = 0; jj < work+2; jj++)
   {
+    char id[20];
+    snprintf(id,12,"%d   ",jj);
+    strcat(local_matrix,id);
   for (int ii = 0; ii < params.nx; ii++)
   {
 
