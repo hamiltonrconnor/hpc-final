@@ -288,12 +288,12 @@ int main(int argc, char* argv[])
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    char matrix[] = "";
+    char matrix[2000] = "";
     for (int jj = 0; jj < params.ny; jj++)
     {
     for (int ii = 0; ii < params.nx; ii++)
     {
-      printf("%d",ii+jj*params.nx);
+      printf("%d\n",ii+jj*params.nx);
       char buf[20];
       float x =cells[ii+jj*params.nx].speeds[0];
       snprintf(buf,6,"%f   ",x);
