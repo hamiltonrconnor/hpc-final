@@ -213,7 +213,9 @@ int main(int argc, char* argv[])
   for (int tt = 0; tt < 10; tt++)
   {
 
+    prinf("\n BEFORE \n")
     print_fushion(params,cells);
+
     char local_matrix[200000] = "";
     for (int jj = 0; jj < work+2; jj++)
     {
