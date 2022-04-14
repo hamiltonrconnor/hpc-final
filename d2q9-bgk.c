@@ -215,9 +215,6 @@ int main(int argc, char* argv[])
 
     printf("\n BEFORE \n");
     print_fushion(params,cells);
-
-    
-
     print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
@@ -870,6 +867,9 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
+    printf("\n MID \n");
+
+    print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
 
     for (int jj =1; jj < work+1; jj++)
@@ -1101,7 +1101,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
 
-
+    print_fushion(params,cells);
     for (int jj = 0; jj < params.ny; jj++)
     {
       for (int ii = 0; ii < params.nx; ii++)
