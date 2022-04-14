@@ -298,6 +298,8 @@ int main(int argc, char* argv[])
       snprintf(buf,6,"%f   ",x);
       //printf("%s", buf);
       strcat(matrix,buf);
+      char space[2] ="  ";
+      strcat(matrix,space);
     }
     printf("%s", matrix);
     }
