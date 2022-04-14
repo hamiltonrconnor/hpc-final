@@ -306,7 +306,27 @@ int main(int argc, char* argv[])
     strcat(matrix,newline);
 
     }
-    printf("%s", matrix);
+    printf("CELLS\n%s", matrix);
+
+    char matrix[200000] = "";
+    for (int jj = 0; jj < work+2; jj++)
+    {
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+
+      char buf[20];
+      float x =local_cells[ii+jj*params.nx].speeds[0];
+      snprintf(buf,12,"%f   ",x);
+      //printf("%s", buf);
+      strcat(matrix,buf);
+      // char space[2] ="  ";
+      // strcat(matrix,space);
+    }
+    char newline[1] ="\n";
+    strcat(matrix,newline);
+
+    }
+    printf("LOCAL CELLS\n%s", matrix);
 
     //int flag = 0;
 
@@ -365,30 +385,30 @@ int main(int argc, char* argv[])
     //
     //
     //
-    int flag;
-    for (int jj =1; jj < work+1; jj++)
-    {
-      flag = 0;
-      for (int ii = 0; ii < params.nx; ii++)
-      {
-        // if(ii == 2 &&jj ==2){
-        //   local_cells[ii + jj*params.nx].speeds[0] = 0;
-        //   cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
-        // }
-        for (int kk = 0; kk < NSPEEDS; kk++)
-        {
-          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
-            flag =1;
-
-          }
-        }
-
-
-      }
-      if(flag==1){
-        printf("Rank: %d jj: %d\n",rank,jj);
-      }
-    }
+    // int flag;
+    // for (int jj =1; jj < work+1; jj++)
+    // {
+    //   flag = 0;
+    //   for (int ii = 0; ii < params.nx; ii++)
+    //   {
+    //     // if(ii == 2 &&jj ==2){
+    //     //   local_cells[ii + jj*params.nx].speeds[0] = 0;
+    //     //   cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
+    //     // }
+    //     for (int kk = 0; kk < NSPEEDS; kk++)
+    //     {
+    //       if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
+    //         flag =1;
+    //
+    //       }
+    //     }
+    //
+    //
+    //   }
+    //   if(flag==1){
+    //     printf("Rank: %d jj: %d\n",rank,jj);
+    //   }
+    // }
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
