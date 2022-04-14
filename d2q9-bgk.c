@@ -293,7 +293,7 @@ int main(int argc, char* argv[])
     {
     for (int ii = 0; ii < params.nx; ii++)
     {
-      printf(ii+jj*params.nx);
+      printf("%d",ii+jj*params.nx);
       char buf[20];
       float x =cells[ii+jj*params.nx].speeds[0];
       snprintf(buf,6,"%f   ",x);
