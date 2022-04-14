@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
   for (int tt = 0; tt < 10; tt++)
   {
 
-    prinf("\n BEFORE \n")
+    printf("\n BEFORE \n");
     print_fushion(params,cells);
 
     char local_matrix[200000] = "";
@@ -236,6 +236,8 @@ int main(int argc, char* argv[])
     }
     printf("LOCAL CELLS\n%s", local_matrix);
     memset(local_matrix, 0, 200000);
+
+    print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
