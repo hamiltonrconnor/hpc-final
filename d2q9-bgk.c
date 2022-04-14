@@ -214,26 +214,26 @@ int main(int argc, char* argv[])
   {
 
     print_fushion(params,cells);
-    // char local_matrix[200000] = "";
-    // for (int jj = 0; jj < work+2; jj++)
-    // {
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //
-    //   char buf[20];
-    //   float x =local_cells[ii+jj*params.nx].speeds[0];
-    //   snprintf(buf,12,"%f   ",x);
-    //   //printf("%s", buf);
-    //   strcat(local_matrix,buf);
-    //   // char space[2] ="  ";
-    //   // strcat(matrix,space);
-    // }
-    // char newline[1] ="\n";
-    // strcat(local_matrix,newline);
-    //
-    // }
-    // printf("LOCAL CELLS\n%s", local_matrix);
-    // memset(local_matrix, 0, 200000);
+    char local_matrix[200000] = "";
+    for (int jj = 0; jj < work+2; jj++)
+    {
+    for (int ii = 0; ii < params.nx; ii++)
+    {
+
+      char buf[20];
+      float x =local_cells[ii+jj*params.nx].speeds[0];
+      snprintf(buf,12,"%f   ",x);
+      //printf("%s", buf);
+      strcat(local_matrix,buf);
+      // char space[2] ="  ";
+      // strcat(matrix,space);
+    }
+    char newline[1] ="\n";
+    strcat(local_matrix,newline);
+
+    }
+    printf("LOCAL CELLS\n%s", local_matrix);
+    memset(local_matrix, 0, 200000);
     print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
