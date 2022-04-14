@@ -296,7 +296,7 @@ int main(int argc, char* argv[])
 
       char buf[20];
       float x =cells[ii+jj*params.nx].speeds[0];
-      snprintf(buf,10,"%f   ",x);
+      snprintf(buf,12,"%f   ",x);
       //printf("%s", buf);
       strcat(matrix,buf);
       // char space[2] ="  ";
