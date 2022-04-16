@@ -510,9 +510,9 @@ void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
   // /printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
-  // if(rank!=(params.ny-2)/params.ny*nprocs){
-  //   return EXIT_SUCCESS;
-  // }
+  if(rank!=(params.ny-2)/params.ny*nprocs){
+    return EXIT_SUCCESS;
+  }
   int work = findWork(params.ny,nprocs,rank);
   // /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
