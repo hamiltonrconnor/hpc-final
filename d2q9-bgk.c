@@ -277,7 +277,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-    //av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
     av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
@@ -293,9 +293,9 @@ int main(int argc, char* argv[])
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    // t_speed** temp = cells_ptr;
-    // cells_ptr= tmp_cells_ptr;
-    // tmp_cells_ptr= temp;
+    t_speed** temp = cells_ptr;
+    cells_ptr= tmp_cells_ptr;
+    tmp_cells_ptr= temp;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
@@ -414,6 +414,8 @@ int main(int argc, char* argv[])
 
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
+    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
+
     //print_fushion(params,output);
     cells = output;
     //print_fushion(params,cells);
