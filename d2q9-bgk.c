@@ -207,7 +207,8 @@ int main(int argc, char* argv[])
   //
   //
   // }
-  printf("%d\n",work );
+  //printf("%d\n",work );
+  print_halo_fushion(params,*local_cells_ptr,work);
 
   for (int tt = 0; tt < params.maxIters; tt++)
   {
