@@ -406,8 +406,8 @@ int main(int argc, char* argv[])
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   print_halo_fushion(params,*local_cells_ptr,work);
   float* temp = (float*)malloc(sizeof(float)*2);
-  temp[0] = local_cells_ptr[1*params.nx].speeds[0];
-  temp[1] = local_cells_ptr[1*params.nx+1].speeds[0];
+  temp[0] = local_cells_ptr[1*params.nx]->speeds[0];
+  temp[1] = local_cells_ptr[1*params.nx+1]->speeds[0];
   float array[4];
   if(rank==0){
   printf("\n");
