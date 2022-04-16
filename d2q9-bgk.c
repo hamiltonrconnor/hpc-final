@@ -405,7 +405,7 @@ int main(int argc, char* argv[])
   //print_halo_fushion(params,*local_cells_ptr,work);
 
   MPI_Barrier(MPI_COMM_WORLD);
-  float* output= (t_speed*)malloc(sizeof(float) * 20);
+  float* output= (float*)malloc(sizeof(float) * 20);
   print_halo_fushion(params,*local_cells_ptr,work);
 
   float array[20];
