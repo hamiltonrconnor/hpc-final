@@ -406,17 +406,17 @@ int main(int argc, char* argv[])
 print_halo_fushion(params,*local_cells_ptr,work);
 print_halo_fushion(params,local_cells,work);
   MPI_Barrier(MPI_COMM_WORLD);
-  float* output= (float*)malloc(sizeof(float) * 30);
-  t_speed* output1= (t_speed*)malloc(sizeof(t_speed) * 30);
+
+  t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
 
 
-  float array[20];
 
-  MPI_Gather(local_cells,15*NSPEEDS,MPI_FLOAT,output1,15*NSPEEDS,MPI_FLOAT,0,MPI_COMM_WORLD);
+
+  MPI_Gather(local_cells,15*NSPEEDS,MPI_FLOAT,output,15*NSPEEDS,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
   printf("\n");
   for(int i = 0;i<30;i++){
-    printf("%f  ",output1[i].speeds[0]);
+    printf("%f  ",output[i].speeds[0]);
   }
   printf("\n");
   }
