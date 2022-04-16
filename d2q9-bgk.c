@@ -406,8 +406,8 @@ int main(int argc, char* argv[])
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   print_halo_fushion(params,*local_cells_ptr,work);
   float* temp = (float*)malloc(sizeof(float)*2);
-  temp[0] = (float)(rank+1);
-  temp[1] = (float)(rank+1)*2;
+  temp[0] = 1.1f;
+  temp[1] = 1.2f;
   float array[4];
   MPI_Gather(&temp,2,MPI_FLOAT,array,2,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
