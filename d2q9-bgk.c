@@ -421,7 +421,7 @@ int main(int argc, char* argv[])
      MPI_Recv(&output[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
 
    }
-   printf("\n OUTPUT \n")
+   printf("\n OUTPUT \n");
    print_fushion(params,output);
   }
 
