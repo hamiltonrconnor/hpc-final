@@ -415,7 +415,10 @@ int main(int argc, char* argv[])
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
-    printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
+    for(int i =0; i<params.maxIters;i++){
+      printf("%f      %f\n",temp_av_vels,av_vels);
+    }
+    //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     cells = output;
     //print_fushion(params,cells);
