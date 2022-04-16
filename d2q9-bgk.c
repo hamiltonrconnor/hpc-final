@@ -409,7 +409,7 @@ int main(int argc, char* argv[])
   if (rank != 0) {
    int dest = 0;
 
-   MPI_Send(&cells[start*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
+   MPI_Send(&*local_cells_ptr[1*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
 
   }
   else {             /* i.e. this is the master process */
