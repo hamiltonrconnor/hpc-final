@@ -418,7 +418,7 @@ int main(int argc, char* argv[])
   }
   printf("\n");
   }
-  MPI_Gather(temp,2,MPI_FLOAT,array,2,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gather(local_cells,2,MPI_FLOAT,array,2,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
   printf("\n");
   for(int i = 0;i<4;i++){
