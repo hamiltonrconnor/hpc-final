@@ -411,8 +411,8 @@ int main(int argc, char* argv[])
   float array[4];
   if(rank==0){
   printf("\n");
-  for(int i = 0;i<2;i++){
-    printf("%f  ",temp[i]);
+  for(int i = 0;i<20;i++){
+    printf("%f  ",local_cells_ptr[i]->speeds[0]);
   }
   printf("\n");
   }
