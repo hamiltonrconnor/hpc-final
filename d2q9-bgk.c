@@ -403,7 +403,7 @@ int main(int argc, char* argv[])
 
   //print_fushion(params,*cells_ptr);
   //print_halo_fushion(params,*local_cells_ptr,work);
-  t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params->ny * params->nx));
+  t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   print_halo_fushion(params,*local_cells_ptr,work);
   MPI_Gather(&*local_cells_ptr[1*params.nx],NSPEEDS*params.nx*(work),MPI_FLOAT,&output,NSPEEDS*params.nx*(work),MPI_FLOAT,0,MPI_COMM_WORLD);
   print_fushion(params,output);
