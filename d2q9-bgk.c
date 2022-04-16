@@ -403,7 +403,7 @@ int main(int argc, char* argv[])
   //print_halo_fushion(params,*local_cells_ptr,work);
 
 
-  t_speed* output = (t_speed*)malloc(sizeof(t_speed) * (params->ny * params->nx));
+  t_speed* output = (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   int tag = 0;
   MPI_Status status;
   if (rank != 0) {
