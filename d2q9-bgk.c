@@ -457,7 +457,7 @@ print_halo_fushion(params,*local_cells_ptr,work);
   gettimeofday(&timstr, NULL);
   col_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   tot_toc = col_toc;
-
+  MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
   printf("==done==\n");
   printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
