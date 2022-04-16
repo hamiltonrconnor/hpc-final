@@ -405,7 +405,7 @@ int main(int argc, char* argv[])
   //print_halo_fushion(params,*local_cells_ptr,work);
   print_halo_fushion(params,*local_cells_ptr,work);
   MPI_Gather(&*local_cells_ptr[1*params.nx],NSPEEDS*params.nx*(work),MPI_FLOAT,&cells,NSPEEDS*params.nx*(work),MPI_FLOAT,0,MPI_COMM_WORLD);
-  print_fushion(params,*cells);
+  print_fushion(params,cells);
   //
   // int tag = 0;
   // MPI_Status status;
