@@ -1075,7 +1075,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     }
     float global_tot_u;
     float global_tot_cells;
-    float sendarray[2] ={tot_cells,tot_u}
+    float sendarray[2] ={tot_cells,tot_u};
     float recvarray[2];
     MPI_Reduce(sendarray, recvarray, 2, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
     printf("%f %f",recvarray[0],recvarray[1]);
