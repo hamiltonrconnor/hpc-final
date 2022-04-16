@@ -403,7 +403,7 @@ int main(int argc, char* argv[])
 
   //print_fushion(params,*cells_ptr);
   //print_halo_fushion(params,*local_cells_ptr,work);
-print_halo_fushion(params,*local_cells_ptr,work);
+//print_halo_fushion(params,*local_cells_ptr,work);
 //print_halo_fushion(params,local_cells,work);
   MPI_Barrier(MPI_COMM_WORLD);
 
@@ -413,13 +413,10 @@ print_halo_fushion(params,*local_cells_ptr,work);
 
 
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
-  print_fushion(params,output);
   if(rank==0){
-  printf("\n");
-  for(int i = 0;i<30;i++){
-    printf("%f  ",output[i].speeds[0]);
-  }
-  printf("\n");
+    print_fushion(params,output);
+    cells = output;
+    print_fushion(params,cell);
   }
   //print_fushion(params,output);
   //
