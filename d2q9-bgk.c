@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
-  print_halo_fushion(params,*local_cells_ptr,work);
+
 
   for (int tt = 0; tt < params.maxIters; tt++)
   {
@@ -403,29 +403,30 @@ int main(int argc, char* argv[])
 
   //print_fushion(params,*cells_ptr);
   //print_halo_fushion(params,*local_cells_ptr,work);
-
-
-
-  int tag = 0;
-  MPI_Status status;
-  if (rank != 0) {
-   int dest = 0;
-
-   MPI_Send(&*local_cells_ptr[1*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
-
-  }
-  else {             /* i.e. this is the master process */
-
-   for (int i=1; i<nprocs; i++) {
-     int size = findWork(N,nprocs,i);
-     int mystart = size*i;
-     /* recieving their messages.. */
-     MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
-
-   }
-   //printf("\n OUTPUT \n");
-   //print_fushion(params,output);
-  }
+  print_halo_fushion(params,*local_cells_ptr,work);
+  MPI_Gather(&*local_cells_ptr[1*params.nx],NSPEEDS*params.nx*(work),MPI_FLOAT,&cells,NSPEEDS*params.nx*(work),MPI_FLOAT,0,MPI_COMM_WORLD);
+  print_fushion(params,*cells);
+  //
+  // int tag = 0;
+  // MPI_Status status;
+  // if (rank != 0) {
+  //  int dest = 0;
+  //
+  //  MPI_Send(&*local_cells_ptr[1*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
+  //
+  // }
+  // else {             /* i.e. this is the master process */
+  //
+  //  for (int i=1; i<nprocs; i++) {
+  //    int size = findWork(N,nprocs,i);
+  //    int mystart = size*i;
+  //    /* recieving their messages.. */
+  //    MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
+  //
+  //  }
+  //  //printf("\n OUTPUT \n");
+  //  //print_fushion(params,output);
+  // }
 
 
 
