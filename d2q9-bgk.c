@@ -403,6 +403,8 @@ int main(int argc, char* argv[])
 
   //print_fushion(params,*cells_ptr);
   //print_halo_fushion(params,*local_cells_ptr,work);
+
+  MPI_Barrier(MPI_COMM_WORLD);
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   print_halo_fushion(params,*local_cells_ptr,work);
   float* temp = (float*)malloc(sizeof(float)*2);
