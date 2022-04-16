@@ -421,8 +421,9 @@ int main(int argc, char* argv[])
      MPI_Recv(&output[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
 
    }
+   print_fushion(params,output);
   }
-  print_fushion(params,output);
+
 
 
 
