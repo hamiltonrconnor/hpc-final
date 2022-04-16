@@ -410,7 +410,7 @@ int main(int argc, char* argv[])
 
   float array[20];
 
-  MPI_Gather(local_cells,10,MPI_FLOAT,&output,10,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gather(local_cells,10,MPI_FLOAT,output,10,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
   printf("\n");
   for(int i = 0;i<4;i++){
