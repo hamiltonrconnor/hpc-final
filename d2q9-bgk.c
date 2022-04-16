@@ -400,7 +400,7 @@ int main(int argc, char* argv[])
   printf("\n AFTER \n");
 
   print_fushion(params,*cells_ptr);
-  print_halo_fushion(params,*local_cells_ptr,work);
+  //print_halo_fushion(params,*local_cells_ptr,work);
 
 
 
@@ -422,6 +422,7 @@ int main(int argc, char* argv[])
 
    }
   }
+  print_fushion(params,cells);
 
 
 
