@@ -422,7 +422,7 @@ int main(int argc, char* argv[])
 
    }
   }
-  print_fushion(params,cells);
+  print_fushion(params,output);
 
 
 
