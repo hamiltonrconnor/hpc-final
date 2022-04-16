@@ -510,7 +510,7 @@ void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
   // /printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
-  if(rank!=(params.ny-2)/params.ny*nprocs){
+  if(rank != nprocs-1){
     return EXIT_SUCCESS;
   }
   int work = findWork(params.ny,nprocs,rank);
