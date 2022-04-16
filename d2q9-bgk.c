@@ -403,7 +403,7 @@ int main(int argc, char* argv[])
   //print_halo_fushion(params,*local_cells_ptr,work);
 
 
-
+  t_speed* output = (t_speed*)malloc(sizeof(t_speed) * (params->ny * params->nx));
   int tag = 0;
   MPI_Status status;
   if (rank != 0) {
@@ -418,7 +418,7 @@ int main(int argc, char* argv[])
      int size = findWork(N,nprocs,i);
      int mystart = size*i;
      /* recieving their messages.. */
-     MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
+     MPI_Recv(&output[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
 
    }
   }
