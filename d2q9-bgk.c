@@ -406,9 +406,12 @@ int main(int argc, char* argv[])
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   print_halo_fushion(params,*local_cells_ptr,work);
   float temp = rank/2;
-  int array[4]
+  float array[4];
   MPI_Gather(&temp,1,MPI_FLOAT,array,1,MPI_FLOAT,0,MPI_COMM_WORLD);
-  print_fushion(params,output);
+  for(int i = 0;i<4;i++){
+    printf("%f",array[i]);
+  }
+  //print_fushion(params,output);
   //
   // int tag = 0;
   // MPI_Status status;
