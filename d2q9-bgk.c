@@ -411,7 +411,7 @@ int main(int argc, char* argv[])
   float array[4];
   if(rank==0){
   printf("\n");
-  for(int i = 0;i<4;i++){
+  for(int i = 0;i<2;i++){
     printf("%f  ",temp[i]);
   }
   printf("\n");
