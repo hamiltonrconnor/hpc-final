@@ -409,9 +409,11 @@ int main(int argc, char* argv[])
   int array[4];
   MPI_Gather(&temp,1,MPI_INT,array,1,MPI_INT,0,MPI_COMM_WORLD);
   if(rank==0){
-  for(int i = 0;i<4;i++){
-    printf("%d",array[i]);
+  printf("\n");
+  for(int i = 0;i<2;i++){
+    printf("%d  ",array[i]);
   }
+  printf("\n");
   }
   //print_fushion(params,output);
   //
