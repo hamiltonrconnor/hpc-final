@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
-
+  float* temp_av_vels   = (float*)malloc(sizeof(float) * params.maxIters);
 
   for (int tt = 0; tt < params.maxIters; tt++)
   {
@@ -277,7 +277,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-    av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+    temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
     av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
@@ -415,7 +415,7 @@ int main(int argc, char* argv[])
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
-
+    printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     cells = output;
     //print_fushion(params,cells);
@@ -1078,10 +1078,10 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     float sendarray[2] ={tot_u,(float)tot_cells};
     float recvarray[2];
     MPI_Reduce(sendarray, recvarray, 2, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
-    printf("%f    %f\n",recvarray[0],recvarray[1]);
+    //printf("%f    %f\n",recvarray[0],recvarray[1]);
 
 
-    return tot_u / (float)tot_cells;
+    return recvarray[0]/ recvarray[1];
 
 
 
