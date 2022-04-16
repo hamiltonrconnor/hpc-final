@@ -414,9 +414,9 @@ int main(int argc, char* argv[])
 
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
-    print_fushion(params,output);
+    //print_fushion(params,output);
     cells = output;
-    print_fushion(params,cells);
+    //print_fushion(params,cells);
   }
   //print_fushion(params,output);
   //
