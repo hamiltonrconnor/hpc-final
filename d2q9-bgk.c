@@ -416,7 +416,7 @@ int main(int argc, char* argv[])
   if(rank==0){
     print_fushion(params,output);
     cells = output;
-    print_fushion(params,cell);
+    print_fushion(params,cells);
   }
   //print_fushion(params,output);
   //
