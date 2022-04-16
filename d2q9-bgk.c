@@ -416,7 +416,7 @@ int main(int argc, char* argv[])
   if(rank==0){
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
     for(int i =0; i<params.maxIters;i++){
-      printf("%f      %f\n",temp_av_vels,av_vels);
+      printf("%f      %f\n",temp_av_vels[i],av_vels[i]);
     }
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
