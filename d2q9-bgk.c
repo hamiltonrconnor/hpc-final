@@ -414,7 +414,7 @@ int main(int argc, char* argv[])
   if(rank==0){
   printf("\n");
   for(int i = 0;i<20;i++){
-    printf("%f  ",output[i].speed[0]);
+    printf("%f  ",output[i].speeds[0]);
   }
   printf("\n");
   }
