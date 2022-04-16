@@ -407,18 +407,10 @@ int main(int argc, char* argv[])
   MPI_Barrier(MPI_COMM_WORLD);
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * (params.ny * params.nx));
   print_halo_fushion(params,*local_cells_ptr,work);
-  float* temp = (float*)malloc(sizeof(float)*2);
-  temp[0] = local_cells[3].speeds[0];
-  temp[1] = local_cells[4].speeds[0];
-  float array[4];
-  if(rank==0){
-  printf("\n");
-  for(int i = 0;i<20;i++){
-    printf("%f  ",local_cells[i].speeds[0]);
-  }
-  printf("\n");
-  }
-  MPI_Gather(local_cells,2,MPI_FLOAT,array,2,MPI_FLOAT,0,MPI_COMM_WORLD);
+
+  float array[20];
+
+  MPI_Gather(local_cells,10,MPI_FLOAT,array,10,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
   printf("\n");
   for(int i = 0;i<4;i++){
