@@ -207,6 +207,7 @@ int main(int argc, char* argv[])
   //
   //
   // }
+  printf("%d\n",work );
 
   for (int tt = 0; tt < params.maxIters; tt++)
   {
