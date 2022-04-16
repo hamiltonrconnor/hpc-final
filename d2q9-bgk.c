@@ -412,7 +412,7 @@ print_halo_fushion(params,*local_cells_ptr,work);
 
 
 
-  MPI_Gather(local_cells,params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gather(local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   print_fushion(params,output);
   if(rank==0){
   printf("\n");
