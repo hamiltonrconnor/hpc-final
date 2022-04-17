@@ -415,9 +415,7 @@ int main(int argc, char* argv[])
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
-    for(int i =0; i<params.maxIters;i++){
-      printf("%f      %f\n",temp_av_vels[i],av_vels[i]);
-    }
+
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     cells = output;
@@ -468,7 +466,8 @@ int main(int argc, char* argv[])
   printf("Elapsed Compute time:\t\t\t%.6lf (s)\n", comp_toc - comp_tic);
   printf("Elapsed Collate time:\t\t\t%.6lf (s)\n", col_toc  - col_tic);
   printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
-  write_values(params, cells, obstacles, av_vels);
+  if(rank==0)write_values(params, cells, obstacles, av_vels);
+
   finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
 
   MPI_Finalize();
