@@ -1112,9 +1112,11 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
+    struct pair_tot result;
+    result.tot_u = tot_u;
+    result.tot_cells = tot_cells;
+    return result;
 
-    struct  Book1;
-    return tot_u/ (float)tot_cells;
 
 
 
@@ -1346,10 +1348,9 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     }
     }
 
-    struct pair_tot result;
-    result.tot_u = tot_u;
-    result.tot_cells = tot_cells;
-    return result;
+    return tot_u/ (float)tot_cells;
+
+
 
 
 
