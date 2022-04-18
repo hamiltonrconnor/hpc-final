@@ -79,6 +79,11 @@ typedef struct
   float speeds[NSPEEDS];
 } t_speed;
 
+struct pair_tot {
+    int tot_cells
+    float tot_u;
+};
+
 int nprocs,rank;
 /*
 ** function prototypes
@@ -208,7 +213,9 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
-  float* temp_av_vels   = (float*)malloc(sizeof(float) * params.maxIters);
+
+  float * tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
+  int * tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
   for (tt = 0; tt < params.maxIters; tt++)
   {
@@ -277,10 +284,12 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-    temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+    //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
-    av_vels[tt] = halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
+    pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
+    tot_u[tt] = temp.tot_u;
+    tot_cells[tt] = temp.tot_cells;
 
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
@@ -413,14 +422,19 @@ int main(int argc, char* argv[])
 
 
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
-  float* t_av_vels   = (float*)malloc(sizeof(float) * params.maxIters);
-  int q;
-  for(q = 0;q<5;q++){
-    printf("Rank: %d %d %f   %f    %f\n",rank,q,av_vels[q],temp_av_vels[q],t_av_vels[q]);
-  }
-  MPI_Reduce(av_vels, t_av_vels, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+  float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
+  int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
+  float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
+
+  MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+  MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,MPI_COMM_WORLD);
+
 
   if(rank==0){
+    int i;
+    for(i =0;i<params.maxIters;i++){
+      av_vels[i] = t_tot_u[i]/(float)t_tot_cells;
+    }
 
 
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
@@ -428,7 +442,7 @@ int main(int argc, char* argv[])
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     cells = output;
-    av_vels = temp_av_vels;
+
 
     //print_fushion(params,cells);
   }
@@ -484,7 +498,7 @@ int main(int argc, char* argv[])
   MPI_Finalize();
   return EXIT_SUCCESS;
 }
-float halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
+pair_tot halo_timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
 {
     halo_accelerate_flow(params, *cells_ptr, obstacles);
     return halo_fusion(params, cells_ptr,tmp_cells_ptr, obstacles);
@@ -843,7 +857,7 @@ float av_velocity(const t_param params, t_speed* cells, int* obstacles)
 
   return tot_u / (float)tot_cells;
 }
-float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
+pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr, int* obstacles)
 {
   //CONSTS FROM COLLISION
   const float c_sq = 1.f / 3.f; /* square of speed of sound */
@@ -1099,7 +1113,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
 
-
+    struct  Book1;
     return tot_u/ (float)tot_cells;
 
 
@@ -1332,8 +1346,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     }
     }
 
-
-    return tot_u / (float)tot_cells;
+    struct pair_tot result;
+    result.tot_u = tot_u;
+    result.tot_cells = tot_cells;
+    return result;
 
 
 
