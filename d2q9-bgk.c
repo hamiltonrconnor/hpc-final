@@ -416,12 +416,13 @@ int main(int argc, char* argv[])
   float* t_av_vels   = (float*)malloc(sizeof(float) * params.maxIters);
 
   MPI_Reduce(av_vels, t_av_vels, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
-
+  int q;
+  for(q = 0;q<5;q++){
+    printf("Rank: %d %f   %f \n",rank,t_av_vels[q],temp_av_vels[q]);
+  }
   if(rank==0){
-    int q;
-    for(q = 0;q<params.maxIters;q++){
-      printf("%f   %f \n",t_av_vels[q],temp_av_vels[q]);
-    }
+
+
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
