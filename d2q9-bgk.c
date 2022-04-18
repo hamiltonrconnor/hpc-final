@@ -434,7 +434,7 @@ int main(int argc, char* argv[])
   if(rank==0){
     int i;
     for(i =0;i<params.maxIters;i++){
-      av_vels[i] = t_tot_u[i]/(float)t_tot_cells;
+      av_vels[i] = t_tot_u[i]/(float)t_tot_cells[i];
     }
 
 
