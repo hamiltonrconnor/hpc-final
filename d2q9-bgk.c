@@ -209,8 +209,8 @@ int main(int argc, char* argv[])
   // }
   //printf("%d\n",work );
   //float* temp_av_vels   = (float*)malloc(sizeof(float) * params.maxIters);
-
-  for (int tt = 0; tt < params.maxIters; tt++)
+  int tt;
+  for (tt = 0; tt < params.maxIters; tt++)
   {
   // for (int tt = 0; tt < 10; tt++)
   // {
@@ -493,9 +493,11 @@ float timestep(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_pt
 
 void print_fushion(const t_param params,t_speed* cells){
   char matrix[200000] ={0};
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj;
+  int ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-  for (int ii = 0; ii < params.nx; ii++)
+  for (ii = 0; ii < params.nx; ii++)
   {
 
     char buf[20];
@@ -517,10 +519,11 @@ void print_fushion(const t_param params,t_speed* cells){
 
 void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
   char local_matrix[200000] ={0};
-
-  for (int jj = 0; jj < work+2; jj++)
+  int jj;
+  int ii;
+  for (jj = 0; jj < work+2; jj++)
   {
-  for (int ii = 0; ii < params.nx; ii++)
+  for (ii = 0; ii < params.nx; ii++)
   {
 
     char buf[20];
@@ -552,8 +555,8 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   /* modify the 2nd row of the grid */
   int jj = ((params.ny - 2)%work)+1;
   //int jj = params.ny - 2 +1;
-
-  for (int ii = 0; ii < params.nx; ii++)
+  int ii;
+  for (ii = 0; ii < params.nx; ii++)
   {
     /* if the cell is not occupied and
     ** we don't send a negative density */
