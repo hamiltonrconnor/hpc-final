@@ -405,7 +405,7 @@ int main(int argc, char* argv[])
   //print_halo_fushion(params,*local_cells_ptr,work);
 //print_halo_fushion(params,*local_cells_ptr,work);
 //print_halo_fushion(params,local_cells,work);
-  MPI_Barrier(MPI_COMM_WORLD);
+  //MPI_Barrier(MPI_COMM_WORLD);
 
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
 
