@@ -2,7 +2,7 @@
 
 EXE=d2q9-bgk
 
-CC=mpiicc
+CC=tau_cc.sh
 
 CFLAGS= -xHOST -g  -fopenmp  -std=c11 -Wall -O0 -mtune=native  
 LIBS = -lm 
