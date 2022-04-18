@@ -79,7 +79,7 @@ typedef struct
   float speeds[NSPEEDS];
 } t_speed;
 
-struct Pair_tot
+typedef struct Pair_tot
 {
     int tot_cells;
     float tot_u;
