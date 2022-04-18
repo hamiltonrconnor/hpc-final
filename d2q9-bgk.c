@@ -418,7 +418,7 @@ int main(int argc, char* argv[])
   MPI_Reduce(av_vels, t_av_vels, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
   int q;
   for(q = 0;q<5;q++){
-    printf("Rank: %d %d %f   %f \n",rank,q,t_av_vels[q],temp_av_vels[q]);
+    printf("Rank: %d %d %f   %f \n",rank,q,av_vels[q],temp_av_vels[q],t_av_vels[q]);
   }
   if(rank==0){
 
