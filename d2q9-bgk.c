@@ -1082,7 +1082,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
 
 
-    return rtot_u/ (float)tot_cells;
+    return tot_u/ (float)tot_cells;
 
 
 
