@@ -689,7 +689,7 @@ int collision(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obs
   ** NB the collision step is called after
   ** the propagate step and so values of interest
   ** are in the scratch-space grid */
-  int jj,ii;
+  int jj,ii,kk;
   for (jj = 0; jj < params.ny; jj++)
   {
     for (ii = 0; ii < params.nx; ii++)
@@ -700,7 +700,7 @@ int collision(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obs
         /* compute local density total */
         float local_density = 0.f;
 
-        for (int kk = 0; kk < NSPEEDS; kk++)
+        for (kk = 0; kk < NSPEEDS; kk++)
         {
           local_density += tmp_cells[ii + jj*params.nx].speeds[kk];
         }
@@ -769,7 +769,8 @@ int collision(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obs
                                          - u_sq / (2.f * c_sq));
 
         /* relaxation step */
-        for (int kk = 0; kk < NSPEEDS; kk++)
+
+        for (kk = 0; kk < NSPEEDS; kk++)
         {
           cells[ii + jj*params.nx].speeds[kk] = tmp_cells[ii + jj*params.nx].speeds[kk]
                                                   + params.omega
@@ -791,7 +792,7 @@ float av_velocity(const t_param params, t_speed* cells, int* obstacles)
   tot_u = 0.f;
 
   /* loop over all non-blocked cells */
-  int jj,ii;
+  int jj,ii,kk;
   for (jj = 0; jj < params.ny; jj++)
   {
     for (ii = 0; ii < params.nx; ii++)
@@ -802,7 +803,7 @@ float av_velocity(const t_param params, t_speed* cells, int* obstacles)
         /* local density total */
         float local_density = 0.f;
 
-        for (int kk = 0; kk < NSPEEDS; kk++)
+        for (kk = 0; kk < NSPEEDS; kk++)
         {
           local_density += cells[ii + jj*params.nx].speeds[kk];
         }
@@ -903,7 +904,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
-    int jj,ii;
+    int jj,ii,kk;
     for (jj =1; jj < work+1; jj++)
     {
       //printf("%d\n",jj);
@@ -983,7 +984,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
         /* compute local density total */
         float local_density = 0.f;
 
-        for (int kk = 0; kk < NSPEEDS; kk++)
+        for (kk = 0; kk < NSPEEDS; kk++)
         {
           local_density += tmp_cells[ii + jj*params.nx].speeds[kk];
         }
@@ -1037,7 +1038,9 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
         float av_local_density =0.0f;
         float outVal;
         float diffVal;
-        for(int i = 0; i<NSPEEDS;i++){
+
+        int i;
+        for(i = 0; i<NSPEEDS;i++){
           if(i==0){
             diffVal = w0 * local_density* (1.f - u_sq / (2.f * c_sq));
           }else if(i<5){
@@ -1140,7 +1143,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
     //print_fushion(params,cells);
-    int jj,ii;
+    int jj,ii,kk;
     for (jj = 0; jj < params.ny; jj++)
     {
       for (ii = 0; ii < params.nx; ii++)
@@ -1209,7 +1212,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
         /* compute local density total */
         float local_density = 0.f;
 
-        for (int kk = 0; kk < NSPEEDS; kk++)
+        for (kk = 0; kk < NSPEEDS; kk++)
         {
           local_density += tmp_cells[ii + jj*params.nx].speeds[kk];
         }
@@ -1271,7 +1274,8 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
         float av_local_density =0.0f;
         float outVal;
         float diffVal;
-        for(int i = 0; i<NSPEEDS;i++){
+        int i;
+        for(i = 0; i<NSPEEDS;i++){
           if(i==0){
             diffVal = w0 * local_density* (1.f - u_sq / (2.f * c_sq));
           }else if(i<5){
