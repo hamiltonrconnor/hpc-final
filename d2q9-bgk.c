@@ -1610,8 +1610,8 @@ int write_values(const t_param params, t_speed* cells, int* obstacles, float* av
   {
     die("could not open file output file", __LINE__, __FILE__);
   }
-
-  for (int ii = 0; ii < params.maxIters; ii++)
+  int ii;
+  for (ii = 0; ii < params.maxIters; ii++)
   {
     fprintf(fp, "%d:\t%.12E\n", ii, av_vels[ii]);
   }
