@@ -593,8 +593,8 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   /* modify the 2nd row of the grid */
   //int jj = (params.ny - 2%work)+1;
   int jj = params.ny - 2 ;
-
-  for (int ii = 0; ii < params.nx; ii++)
+  int ii;
+  for (ii = 0; ii < params.nx; ii++)
   {
     /* if the cell is not occupied and
     ** we don't send a negative density */
@@ -621,9 +621,10 @@ int accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 int propagate(const t_param params, t_speed* cells, t_speed* tmp_cells)
 {
   /* loop over _all_ cells */
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj,ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
       /* determine indices of axis-direction neighbours
       ** respecting periodic boundary conditions (wrap around) */
@@ -652,9 +653,10 @@ int propagate(const t_param params, t_speed* cells, t_speed* tmp_cells)
 int rebound(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obstacles)
 {
   /* loop over the cells in the grid */
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj,ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
       /* if the cell contains an obstacle */
       if (obstacles[jj*params.nx + ii])
@@ -687,9 +689,10 @@ int collision(const t_param params, t_speed* cells, t_speed* tmp_cells, int* obs
   ** NB the collision step is called after
   ** the propagate step and so values of interest
   ** are in the scratch-space grid */
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj,ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
       /* don't consider occupied cells */
       if (!obstacles[ii + jj*params.nx])
@@ -788,9 +791,10 @@ float av_velocity(const t_param params, t_speed* cells, int* obstacles)
   tot_u = 0.f;
 
   /* loop over all non-blocked cells */
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj,ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
       /* ignore occupied cells */
       if (!obstacles[ii + jj*params.nx])
@@ -899,11 +903,11 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
 
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
-
-    for (int jj =1; jj < work+1; jj++)
+    int jj,ii;
+    for (jj =1; jj < work+1; jj++)
     {
       //printf("%d\n",jj);
-      for (int ii = 0; ii < params.nx; ii++)
+      for (ii = 0; ii < params.nx; ii++)
       {
 
       //printf("%d\n",omp_get_num_threads());
@@ -1136,9 +1140,10 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
 
 
     //print_fushion(params,cells);
-    for (int jj = 0; jj < params.ny; jj++)
+    int jj,ii;
+    for (jj = 0; jj < params.ny; jj++)
     {
-      for (int ii = 0; ii < params.nx; ii++)
+      for (ii = 0; ii < params.nx; ii++)
       {
       //printf("%d\n",omp_get_num_threads());
       //propagate(params,cells,tmp_cells,ii,jj);
@@ -1414,9 +1419,10 @@ int initialise(const char* paramfile, const char* obstaclefile,
   float w1 = params->density      / 9.f;
   float w2 = params->density      / 36.f;
   //#pragma omp parallel for collapse(2)
-  for (int jj = 0; jj < params->ny; jj++)
+  int jj,ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params->nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
       /* centre */
       (*cells_ptr)[ii + jj*params->nx].speeds[0] = w0;
@@ -1512,11 +1518,12 @@ float total_density(const t_param params, t_speed* cells)
 {
   float total = 0.f;  /* accumulator */
 
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj,ii,kk;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
-      for (int kk = 0; kk < NSPEEDS; kk++)
+      for (kk = 0; kk < NSPEEDS; kk++)
       {
         total += cells[ii + jj*params.nx].speeds[kk];
       }
@@ -1543,9 +1550,10 @@ int write_values(const t_param params, t_speed* cells, int* obstacles, float* av
     die("could not open file output file", __LINE__, __FILE__);
   }
 
-  for (int jj = 0; jj < params.ny; jj++)
+  int jj,ii;
+  for (jj = 0; jj < params.ny; jj++)
   {
-    for (int ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params.nx; ii++)
     {
       /* an occupied cell */
       if (obstacles[ii + jj*params.nx])
