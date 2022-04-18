@@ -4,7 +4,7 @@ EXE=d2q9-bgk
 
 CC=tau_cc.sh
 
-CFLAGS= -xHOST -g  -fopenmp  -std=c11 -Wall -O0 -mtune=native  
+CFLAGS= -xHOST -g  -fopenmp  -std=c11 -Wall -Ofast -mtune=native  
 LIBS = -lm 
 
 FINAL_STATE_FILE=./final_state.dat

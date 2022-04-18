@@ -413,15 +413,17 @@ int main(int argc, char* argv[])
 
 
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
+  float* temp_av_vels   = (float*)malloc(sizeof(float) * params.maxIters);
 
-
-  MPI_Reduce(av_vels, av_vels, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+  MPI_Reduce(av_vels, temp_av_vels, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
   if(rank==0){
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     cells = output;
+    av_vels = temp_av_vels;
+
     //print_fushion(params,cells);
   }
   //print_fushion(params,output);
@@ -1610,7 +1612,7 @@ int write_values(const t_param params, t_speed* cells, int* obstacles, float* av
   {
     die("could not open file output file", __LINE__, __FILE__);
   }
-  
+
   for (ii = 0; ii < params.maxIters; ii++)
   {
     fprintf(fp, "%d:\t%.12E\n", ii, av_vels[ii]);
