@@ -79,7 +79,7 @@ typedef struct
   float speeds[NSPEEDS];
 } t_speed;
 
-typedef struct
+struct Pair_tot
 {
     int tot_cells;
     float tot_u;
@@ -215,8 +215,8 @@ int main(int argc, char* argv[])
   // }
   //printf("%d\n",work );
 
-  float * tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
-  int * tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
+  float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
+  int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
   for (tt = 0; tt < params.maxIters; tt++)
   {
@@ -425,7 +425,6 @@ int main(int argc, char* argv[])
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
-  float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
 
   MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
   MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,MPI_COMM_WORLD);
