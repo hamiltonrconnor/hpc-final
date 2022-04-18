@@ -1420,9 +1420,9 @@ int initialise(const char* paramfile, const char* obstaclefile,
   float w2 = params->density      / 36.f;
   //#pragma omp parallel for collapse(2)
   int jj,ii;
-  for (jj = 0; jj < params.ny; jj++)
+  for (jj = 0; jj < params->ny; jj++)
   {
-    for (ii = 0; ii < params.nx; ii++)
+    for (ii = 0; ii < params->nx; ii++)
     {
       /* centre */
       (*cells_ptr)[ii + jj*params->nx].speeds[0] = w0;
@@ -1440,9 +1440,9 @@ int initialise(const char* paramfile, const char* obstaclefile,
   }
 
   /* first set all cells in obstacle array to zero */
-  for (int jj = 0; jj < params->ny; jj++)
+  for (jj = 0; jj < params->ny; jj++)
   {
-    for (int ii = 0; ii < params->nx; ii++)
+    for (ii = 0; ii < params->nx; ii++)
     {
       (*obstacles_ptr)[ii + jj*params->nx] = 0;
     }
@@ -1550,7 +1550,7 @@ int write_values(const t_param params, t_speed* cells, int* obstacles, float* av
     die("could not open file output file", __LINE__, __FILE__);
   }
 
-  int jj,ii;
+  int jj,ii,kk;
   for (jj = 0; jj < params.ny; jj++)
   {
     for (ii = 0; ii < params.nx; ii++)
@@ -1566,7 +1566,7 @@ int write_values(const t_param params, t_speed* cells, int* obstacles, float* av
       {
         local_density = 0.f;
 
-        for (int kk = 0; kk < NSPEEDS; kk++)
+        for (kk = 0; kk < NSPEEDS; kk++)
         {
           local_density += cells[ii + jj*params.nx].speeds[kk];
         }
