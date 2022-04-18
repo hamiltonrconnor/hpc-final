@@ -413,6 +413,9 @@ int main(int argc, char* argv[])
 
 
   MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
+
+
+  MPI_Reduce(av_vels, av_vels, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
   if(rank==0){
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
@@ -1075,15 +1078,11 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
       }
     }
     }
-    float global_tot_u;
-    float global_tot_cells;
-    float sendarray[2] ={tot_u,(float)tot_cells};
-    float recvarray[2];
-    MPI_Reduce(sendarray, recvarray, 2, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
 
 
-    return recvarray[0]/ recvarray[1];
+    return rtot_u/ (float)tot_cells;
 
 
 
