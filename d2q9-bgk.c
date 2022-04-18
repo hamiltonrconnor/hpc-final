@@ -1112,7 +1112,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
-    struct pair_tot result;
+    pair_tot result;
     result.tot_u = tot_u;
     result.tot_cells = tot_cells;
     return result;
