@@ -210,8 +210,8 @@ int main(int argc, char* argv[])
   init_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   comp_tic=init_toc;
   int N = params.ny;
-  int work =findWork(N,nprocs,rank);
-  int start = findStart(N,nprocs,rank);
+  work =findWork(N,nprocs,rank);
+  start = findStart(N,nprocs,rank);
   printf("Rank: %d work: %d start: %d \n",rank,work,start);
   int flag;
   // for (int jj =0; jj < params.ny; jj++)
