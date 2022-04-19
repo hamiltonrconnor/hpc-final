@@ -211,7 +211,7 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
   int N = params.ny;
   int work =findWork(N,nprocs,rank);
-  int start = findStart(N,nprocs,rank));
+  int start = findStart(N,nprocs,rank);
   int flag;
   // for (int jj =0; jj < params.ny; jj++)
   // {
@@ -895,7 +895,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     // //Init local regions
     // int tag = 0;
     // MPI_Status status;
-    
+
 
 
     //Intialiase local cells
