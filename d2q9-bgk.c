@@ -443,8 +443,8 @@ for(j = 0;j<nprocs;j++){
   rcounts[j] = b;
   //displs[j]=
 }
-float r = rank;
-MPI_Gatherv(&r,b,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+float r[2] = {rank,rank};
+MPI_Gatherv(r,b,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 if(rank==0){
   int t;
   for(t =0;t<nprocs;t++){
