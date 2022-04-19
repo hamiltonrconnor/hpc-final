@@ -430,7 +430,7 @@ int main(int argc, char* argv[])
   //MPI_Barrier(MPI_COMM_WORLD);
 MPI_Barrier(MPI_COMM_WORLD);
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
-  float* test= (float*)malloc(sizeof(float) * nprocs);
+  float* test= (float*)malloc(sizeof(float) * 2*nprocs);
 int * displs = (int*)malloc(sizeof(int)*nprocs);
 int * rcounts = (int*)malloc(sizeof(int)*nprocs);
 int j;
@@ -439,9 +439,9 @@ for(j = 0;j<nprocs;j++){
   b=2;
   // displs[j] = findStart(N,nprocs,j);
   // rcounts[j] = findWork(N,nprocs,j);
-  displs[j] = 2*j;
+  displs[j] = 2*j-1;
   if(j ==0){
-    b=2;
+    b=1;
     displs[j]= 0;
   };
 
