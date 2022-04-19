@@ -430,11 +430,18 @@ int main(int argc, char* argv[])
   //MPI_Barrier(MPI_COMM_WORLD);
 
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
+  int * displs = (int*)malloc(sizeof(int)*nprocs);
+  int * rcounts = (int*)malloc(sizeof(int)*nprocs);
+  int j;
+  for(j = 0;j<nprocs;j++){
+    displs[j] = findStart(N,nprocs,i);
+    rcounts[j] = findWork(N,nprocs,i);
+    //displs[j]=
+  }
 
 
 
-
-  MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
