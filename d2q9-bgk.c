@@ -435,21 +435,21 @@ int main(int argc, char* argv[])
   int * rcounts = (int*)malloc(sizeof(int)*nprocs);
   int j;
   for(j = 0;j<nprocs;j++){
-    // displs[j] = findStart(N,nprocs,j);
-    // rcounts[j] = findWork(N,nprocs,j);
+    displs[j] = params.nx*NSPEEDS*findStart(N,nprocs,j);
+    rcounts[j] = params.nx*NSPEEDS*findWork(N,nprocs,j);
     displs[j] = j;
     rcounts[j] = 1;
     //displs[j]=
   }
-  float r = rank;
-  MPI_Gatherv(&r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-  if(rank==0){
-    int t;
-    for(t =0;t<nprocs;t++){
-      printf("%f  ",test[t]);
-    }
-
-  }
+  // float r = rank;
+  // MPI_Gatherv(&r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  // if(rank==0){
+  //   int t;
+  //   for(t =0;t<nprocs;t++){
+  //     printf("%f  ",test[t]);
+  //   }
+  //
+  // }
 
 
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
