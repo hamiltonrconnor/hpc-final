@@ -446,7 +446,7 @@ int main(int argc, char* argv[])
     int i;
     for(i =0;i<params.maxIters;i++){
       av_vels[i] = t_tot_u[i]/(float)t_tot_cells[i];
-      printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
+      //printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
     }
 
 
