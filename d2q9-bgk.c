@@ -439,7 +439,7 @@ for(j = 0;j<nprocs;j++){
   b=2;
    displs[j] = params.nx*NSPEEDS*11;
 
-  rcounts[j] = params.nx*NSPEEDS;
+  rcounts[j] = 1;
 
   if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
@@ -448,7 +448,7 @@ for(j = 0;j<nprocs;j++){
 
 
 
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.nx],1,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
