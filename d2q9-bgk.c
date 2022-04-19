@@ -449,6 +449,7 @@ int main(int argc, char* argv[])
     int t;
     for(t =0;t<nprocs+1;t++){
       printf("%f  ",test[t]);
+    }
 
   }
 
