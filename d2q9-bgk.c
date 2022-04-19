@@ -437,7 +437,7 @@ int j;
 int b =2;
 for(j = 0;j<nprocs;j++){
   b=2;
-   displs[j] = params.nx*NSPEEDS*11;
+   displs[j] = params.nx*11;
 
   rcounts[j] = 1;
 
