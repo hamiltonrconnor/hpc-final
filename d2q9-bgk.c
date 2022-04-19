@@ -445,7 +445,7 @@ int main(int argc, char* argv[])
   MPI_Gatherv(&r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
-    for(t =0;t<nprocs*(nprocs+1)/2);t++){
+    for(t =0;t<nprocs*(nprocs+1)/2;t++){
       printf("%f  ",test[t]);
     }
 
