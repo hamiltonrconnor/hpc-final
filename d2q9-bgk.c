@@ -437,28 +437,14 @@ int j;
 int b =2;
 for(j = 0;j<nprocs;j++){
   b=2;
-   displs[j] = findStart(N,nprocs,j);
-   printf("work: %d",findWork(N,nprocs,j));
-  rcounts[j] = findWork(N,nprocs,j);
-  displs[j] = 2*j-1;
-  if(j ==0){
-    b=1;
-    displs[j]= 0;
-  };
+   displs[j] = params.nx*findStart(N,nprocs,j);
 
-  rcounts[j] = 2;
-  if(rank==0)printf("%d   %d   %d\n ",j,displs[j],rcounts[j]);
+  rcounts[j] = params.nx*NSPEEDS*11;
+
+  //if(rank==0)printf("%d   %d   %d\n ",j,displs[j],rcounts[j]);
   //displs[j]=
 }
-float r[2] = {rank,rank};
-MPI_Gatherv(r,b,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-if(rank==0){
-  int t;
-  for(t =0;t<nprocs;t++){
-    printf("%f  ",test[t]);
-  }
 
-}
 
 
 
