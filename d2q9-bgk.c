@@ -438,7 +438,7 @@ int b =1;
 for(j = 0;j<nprocs;j++){
   // displs[j] = findStart(N,nprocs,j);
   // rcounts[j] = findWork(N,nprocs,j);
-  if(rank ==npros-1)b=2;
+  if(rank ==nprocs-1)b=2;
   displs[j] = j;
   rcounts[j] = b;
   //displs[j]=
