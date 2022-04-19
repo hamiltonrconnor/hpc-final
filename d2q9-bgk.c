@@ -440,7 +440,7 @@ for(j = 0;j<nprocs;j++){
   // rcounts[j] = findWork(N,nprocs,j);
   displs[j] = 2*j-1;
   if(rank ==0){
-    b=1
+    b=1;
     displs[j]= 0;
   };
 
