@@ -439,9 +439,9 @@ for(j = 0;j<nprocs;j++){
   b=2;
   // displs[j] = findStart(N,nprocs,j);
   // rcounts[j] = findWork(N,nprocs,j);
-  displs[j] = 2*j-1;
+  displs[j] = 2*j;
   if(j ==0){
-    b=1;
+    b=2;
     displs[j]= 0;
   };
 
