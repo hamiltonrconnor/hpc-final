@@ -314,9 +314,9 @@ int main(int argc, char* argv[])
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    t_speed** temp = cells_ptr;
+    t_speed** temp_ptr = cells_ptr;
     cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp;
+    tmp_cells_ptr= temp_ptr;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
@@ -1175,10 +1175,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     // //Init local regions
     // int tag = 0;
     // MPI_Status status;
-    int N = params.ny;
-    int work =findWork(N,nprocs,rank);
-    int start = rank * work;
-    int end = start + work;
+
 
     //cells[5+1*params.nx].speeds[0] = 0;
     //cells[5 + 4*params.nx].speeds[0] = 0;
