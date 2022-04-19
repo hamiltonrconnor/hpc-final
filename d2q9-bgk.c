@@ -228,21 +228,7 @@ int main(int argc, char* argv[])
     //print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 1\n",rank,tt);
     //Init local regions
-    int tag = 0;
-    MPI_Status status;
 
-    int buffSize = params.nx *NSPEEDS;
-    //Find the neigbours
-    int right = (rank + 1) % nprocs;
-    int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    int posLeft = (start-1);
-    if(rank==0){
-      posLeft=(params.ny-1);
-    }
-    int posRight = (end);
-   if(rank == nprocs-1){
-     posRight = 0;
-   }
     //printf("%d",work);
       // printf("rank: %d tt:%d 2\n",rank,tt);
     // printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
@@ -885,10 +871,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     // //Init local regions
     // int tag = 0;
     // MPI_Status status;
-    int N = params.ny;
-    int work =findWork(N,nprocs,rank);
-    int start = rank * work;
-    int end = start + work;
+    int work =findWork(params.ny,nprocs,rank);
 
 
     //Intialiase local cells
