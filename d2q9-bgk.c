@@ -214,7 +214,7 @@ int main(int argc, char* argv[])
   start = findStart(N,nprocs,rank);
   printf("Rank: %d work: %d start: %d \n",rank,work,start);
   int flag;
-  printf("%d    %d",work,(int)(round(N/nprocs*(rank+1)) -round(N/nprocs*(rank))))
+  printf("%d    %d",work,(int)(round(N/nprocs*(rank+1)) -round(N/nprocs*(rank))));
   // for (int jj =0; jj < params.ny; jj++)
   // {
   //
