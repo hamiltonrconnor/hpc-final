@@ -440,11 +440,11 @@ int main(int argc, char* argv[])
     // rcounts[j] = findWork(N,nprocs,j);
     displs[j] = j;
     if(rank = nprocs-1) b =2;
-    rcounts[j] = b;
+    rcounts[j] = 1;
     //displs[j]=
   }
   float r = rank;
-  MPI_Gatherv(&r,b,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
     for(t =0;t<nprocs+1;t++){
