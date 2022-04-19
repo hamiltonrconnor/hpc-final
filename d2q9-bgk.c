@@ -214,6 +214,7 @@ int main(int argc, char* argv[])
   start = findStart(N,nprocs,rank);
   printf("Rank: %d work: %d start: %d \n",rank,work,start);
   int flag;
+  printf("%d    %d",work,(int)(round(N/nprocs*(rank+1)) -round(N/nprocs*(rank))))
   // for (int jj =0; jj < params.ny; jj++)
   // {
   //
@@ -445,7 +446,7 @@ int main(int argc, char* argv[])
     int i;
     for(i =0;i<params.maxIters;i++){
       av_vels[i] = t_tot_u[i]/(float)t_tot_cells[i];
-      printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
+      //printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
     }
 
 
