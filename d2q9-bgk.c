@@ -85,7 +85,7 @@ typedef struct Pair_tot
     float tot_u;
 } pair_tot;
 
-int nprocs,rank;
+int nprocs,rank,start,work;
 /*
 ** function prototypes
 */
@@ -132,7 +132,31 @@ void die(const char* message, const int line, const char* file);
 void usage(const char* exe);
 
 int findWork(int n,int procs,int rank){
-  return (int)(round(n/procs*(rank+1)) -round(n/procs*(rank))) ;
+  int min;
+  if(rank<n%procs)
+        min=rank;
+    else
+        min=n%procs;
+  int start = rank *floor(n/procs) + min;
+
+  int min_plus;
+  if(rank+1<n%procs)
+        min_plus=rank+1;
+    else
+        min_plus=n%procs;
+  int end = (rank+1)*floor(n/procs)+min_plus;
+
+  return end - start ;
+
+}
+int findStart(int n,int procs,int rank){
+  int min;
+  if(rank<n%procs)
+        min=rank;
+    else
+        min=n%procs;
+  int start = rank *floor(n/procs) + min;
+  return start;
 
 }
 /*
@@ -187,8 +211,7 @@ int main(int argc, char* argv[])
   comp_tic=init_toc;
   int N = params.ny;
   int work =findWork(N,nprocs,rank);
-  int start = rank * work;
-  int end = start + work;
+  int start = findStart(N,nprocs,rank));
   int flag;
   // for (int jj =0; jj < params.ny; jj++)
   // {
@@ -552,10 +575,11 @@ void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
   // /printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
-  if(rank != nprocs-1){
+
+  if(start>params.ny - 2||start+work<params.ny - 2){
     return EXIT_SUCCESS;
   }
-  int work = findWork(params.ny,nprocs,rank);
+
   // /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
@@ -871,7 +895,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     // //Init local regions
     // int tag = 0;
     // MPI_Status status;
-    int work =findWork(params.ny,nprocs,rank);
+    
 
 
     //Intialiase local cells
