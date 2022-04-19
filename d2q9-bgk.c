@@ -430,29 +430,25 @@ int main(int argc, char* argv[])
   //MPI_Barrier(MPI_COMM_WORLD);
 
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
-  float* test= (float*)malloc(sizeof(float) * nprocs*(nprocs+1)/2);
+  float* test= (float*)malloc(sizeof(float) * nprocs+1);
   int * displs = (int*)malloc(sizeof(int)*nprocs);
   int * rcounts = (int*)malloc(sizeof(int)*nprocs);
   int j;
+  int b =1;
   for(j = 0;j<nprocs;j++){
-    // displs[j] = params.nx*NSPEEDS*findStart(N,nprocs,j);
-    // rcounts[j] = params.nx*NSPEEDS*findWork(N,nprocs,j);
-    displs[j] = j*(j+1)/2-1;
-    rcounts[j] = rank;
+    // displs[j] = findStart(N,nprocs,j);
+    // rcounts[j] = findWork(N,nprocs,j);
+    displs[j] = j;
+    if(rank = nprocs-1) b =2;
+    rcounts[j] = b;
     //displs[j]=
   }
   float r = rank;
-  float* b= (float*)malloc(sizeof(float) * rank);
-  int c;
-  for(c=0;c<rank;c++){
-    b[c] = rank;
-  }
-  MPI_Gatherv(b,rank,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&r,b,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
-    for(t =0;t<nprocs*(nprocs+1)/2;t++){
+    for(t =0;t<nprocs+1;t++){
       printf("%f  ",test[t]);
-    }
 
   }
 
