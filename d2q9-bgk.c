@@ -434,8 +434,8 @@ int main(int argc, char* argv[])
   int * rcounts = (int*)malloc(sizeof(int)*nprocs);
   int j;
   for(j = 0;j<nprocs;j++){
-    displs[j] = findStart(N,nprocs,i);
-    rcounts[j] = findWork(N,nprocs,i);
+    displs[j] = findStart(N,nprocs,j);
+    rcounts[j] = findWork(N,nprocs,j);
     //displs[j]=
   }
 
