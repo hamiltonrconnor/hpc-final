@@ -446,6 +446,7 @@ int main(int argc, char* argv[])
   float r = rank;
   MPI_Gatherv(&r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
+    printf("\n new line \n ")
     int t;
     for(t =0;t<nprocs+1;t++){
       printf("%f  ",test[t]);
