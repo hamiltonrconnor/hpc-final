@@ -445,7 +445,7 @@ for(j = 0;j<nprocs;j++){
   };
 
   rcounts[j] = b;
-  //if(rank==0)printf("%d   %d   %d",j,displs[j],rcounts[j]);
+  if(rank==0)printf("%d   %d   %d\n ",j,displs[j],rcounts[j]);
   //displs[j]=
 }
 float r[2] = {rank,rank};
