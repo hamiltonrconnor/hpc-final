@@ -592,7 +592,10 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
 {
   // /printf("\n%d\n",(params.ny-2)/params.ny*nprocs);
 
-  if(start>params.ny - 2||start+work<params.ny - 2){
+  // if(start>params.ny - 2||start+work<params.ny - 2){
+  //   return EXIT_SUCCESS;
+  // }
+  if(rank!=nprocs-1){
     return EXIT_SUCCESS;
   }
 
