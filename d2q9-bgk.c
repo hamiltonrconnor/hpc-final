@@ -434,15 +434,17 @@ MPI_Barrier(MPI_COMM_WORLD);
 int * displs = (int*)malloc(sizeof(int)*nprocs);
 int * rcounts = (int*)malloc(sizeof(int)*nprocs);
 int j;
+int b =1;
 for(j = 0;j<nprocs;j++){
   // displs[j] = findStart(N,nprocs,j);
   // rcounts[j] = findWork(N,nprocs,j);
+  if(rank ==npros-1)b=2;
   displs[j] = j;
-  rcounts[j] = 1;
+  rcounts[j] = b;
   //displs[j]=
 }
 float r = rank;
-MPI_Gatherv(&r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+MPI_Gatherv(&r,b,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 if(rank==0){
   int t;
   for(t =0;t<nprocs;t++){
