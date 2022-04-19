@@ -445,7 +445,7 @@ for(j = 0;j<nprocs;j++){
     displs[j]= 0;
   };
 
-  rcounts[j] = b;
+  rcounts[j] = 2;
   if(rank==0)printf("%d   %d   %d\n ",j,displs[j],rcounts[j]);
   //displs[j]=
 }
