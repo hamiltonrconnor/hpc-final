@@ -508,16 +508,16 @@ int main(int argc, char* argv[])
   printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
   if(rank==0)write_values(params, cells, obstacles, av_vels);
 
-  free(local_cells);
-  free(local_tmp_cells);
-  free(local_cells_ptr);
-  free(local_tmp_cells_ptr);
-  free(local_obstacles);
-  free(tot_u);
-  free(tot_cells);
-  free(output);
-  free(t_tot_u);
-  free(t_tot_cells);
+  // free(local_cells);
+  // free(local_tmp_cells);
+  // free(local_cells_ptr);
+  // free(local_tmp_cells_ptr);
+  // free(local_obstacles);
+  // free(tot_u);
+  // free(tot_cells);
+  // free(output);
+  // free(t_tot_u);
+  // free(t_tot_cells);
   finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
 
   MPI_Finalize();
