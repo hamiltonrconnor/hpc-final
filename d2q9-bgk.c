@@ -434,12 +434,12 @@ MPI_Barrier(MPI_COMM_WORLD);
 int * displs = (int*)malloc(sizeof(int)*nprocs);
 int * rcounts = (int*)malloc(sizeof(int)*nprocs);
 int j;
-int b =1;
+int b =2;
 for(j = 0;j<nprocs;j++){
   // displs[j] = findStart(N,nprocs,j);
   // rcounts[j] = findWork(N,nprocs,j);
   if(rank ==nprocs-1)b=2;
-  displs[j] = j;
+  displs[j] = 2*j;
   rcounts[j] = b;
   //displs[j]=
 }
