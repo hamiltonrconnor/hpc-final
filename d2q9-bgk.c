@@ -444,6 +444,15 @@ for(j = 0;j<nprocs;j++){
   if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
 }
+float r[2] = {rank,rank};
+MPI_Gatherv(r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+if(rank==0){
+  int t;
+  for(t =0;t<nprocs;t++){
+    printf("%f  ",test[t]);
+  }
+
+}
 
 
 
