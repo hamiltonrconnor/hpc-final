@@ -437,10 +437,11 @@ int main(int argc, char* argv[])
 //print_halo_fushion(params,*local_cells_ptr,work);
 //print_halo_fushion(params,local_cells,work);
   //MPI_Barrier(MPI_COMM_WORLD);
+  MPI_Barrier(MPI_COMM_WORLD);
   printf("BEFORE SWITCH" );
   print_halo_fushion(params,local_cells,work);
   if(rank==0)print_fushion(params,cells);
-MPI_Barrier(MPI_COMM_WORLD);
+
   t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
 int * displs = (int*)malloc(sizeof(int)*nprocs);
