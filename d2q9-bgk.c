@@ -452,7 +452,7 @@ float r[2] = {rank,rank};
 
 
 
-  MPI_Gatherv(&local_cells[1*params.ny],params.nx*NSPEEDS,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.ny],params.nx*NSPEEDS*findWork(params.ny,nprocs,j),MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
     for(t =0;t<nprocs;t++){
