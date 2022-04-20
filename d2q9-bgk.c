@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-  //  temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+   temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
     pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
@@ -316,9 +316,9 @@ int main(int argc, char* argv[])
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    // t_speed** temp_ptr = cells_ptr;
-    // cells_ptr= tmp_cells_ptr;
-    // tmp_cells_ptr= temp_ptr;
+    t_speed** temp_ptr = cells_ptr;
+    cells_ptr= tmp_cells_ptr;
+    tmp_cells_ptr= temp_ptr;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
@@ -454,9 +454,33 @@ float r[2] = {rank,rank};
 
   MPI_Gatherv(&local_cells[1*params.ny],params.nx*NSPEEDS*findWork(params.ny,nprocs,j),MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
-    int t;
-    for(t =0;t<nprocs;t++){
-      printf("%f  ",test[t]);
+    // int t;
+    // for(t =0;t<nprocs;t++){
+    //   printf("%f  ",test[t]);
+    // }
+    int flag;
+    for (int jj =0; jj < params.ny; jj++)
+    {
+      flag = 0;
+      for (int ii = 0; ii < params.nx; ii++)
+      {
+        // if(ii == 2 &&jj ==2){
+        //   local_cells[ii + jj*params.nx].speeds[0] = 0;
+        //   cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
+        // }
+        for (int kk = 0; kk < NSPEEDS; kk++)
+        {
+          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=output[ii + jj*params.nx].speeds[kk] ){
+            flag =1;
+
+          }
+        }
+
+
+      }
+      if(flag==1){
+        printf("Rank: %d jj: %d\n",rank,jj);
+      }
     }
 
   }
