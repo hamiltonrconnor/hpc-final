@@ -438,7 +438,7 @@ int j;
 int b =2;
 for(j = 0;j<nprocs;j++){
   b=2;
-   displs[j] = params.nx*findStart(params.ny,nprocs,j);
+   displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
 
   rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
 
