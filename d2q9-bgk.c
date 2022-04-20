@@ -438,7 +438,7 @@ int j;
 int b =2;
 for(j = 0;j<nprocs;j++){
   b=2;
-   displs[j] = findStart(params.ny,nprocs,j);
+   displs[j] = params.nx*findStart(params.ny,nprocs,j);
 
   rcounts[j] = 1;
 
@@ -458,7 +458,7 @@ if(rank==0){
 
 
 
-  MPI_Gatherv(&local_cells[1*params.ny],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.ny],1,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
     for(t =0;t<nprocs;t++){
