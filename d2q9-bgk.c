@@ -970,8 +970,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    int leftWork = findWork(params.ny,nprocs,left);
-    int leftWork = findWork(params.ny,nprocs,left);
+  
     // MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
     //     &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     //printf("rank: %d tt:%d 3\n",rank,tt);
