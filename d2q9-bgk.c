@@ -246,8 +246,10 @@ int main(int argc, char* argv[])
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
   for (tt = 0; tt < params.maxIters; tt++)
   {
+
+    
     print_halo_fushion(params,local_cells,work);
-    print_fushion(params,cells);
+    if(rank==0)print_fushion(params,cells);
   // for (int tt = 0; tt < 10; tt++)
   // {
 
