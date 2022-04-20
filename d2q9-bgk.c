@@ -244,14 +244,14 @@ int main(int argc, char* argv[])
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
-  // for (tt = 0; tt < params.maxIters; tt++)
-  // {
-    for (tt = 0; tt < 4; tt++)
-    {
+  for (tt = 0; tt < params.maxIters; tt++)
+  {
+    // for (tt = 0; tt < 4; tt++)
+    // {
 
 
-    print_halo_fushion(params,local_cells,work);
-    if(rank==0)print_fushion(params,cells);
+    // print_halo_fushion(params,local_cells,work);
+    // if(rank==0)print_fushion(params,cells);
   // for (int tt = 0; tt < 10; tt++)
   // {
 
