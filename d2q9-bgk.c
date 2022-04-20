@@ -458,8 +458,8 @@ float r[2] = {rank,rank};
     // for(t =0;t<nprocs;t++){
     //   printf("%f  ",test[t]);
     // }
-    print_fushion(output);
-    print_fushion(cells);
+    print_fushion(params,output);
+    print_fushion(params,cells);
 
   }
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
