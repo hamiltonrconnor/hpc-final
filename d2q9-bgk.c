@@ -470,7 +470,7 @@ float r[2] = {rank,rank};
         // }
         for (int kk = 0; kk < NSPEEDS; kk++)
         {
-          if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=output[ii + jj*params.nx].speeds[kk] ){
+          if(cells[ii + (jj)*params.nx].speeds[kk] !=output[ii + jj*params.nx].speeds[kk] ){
             flag =1;
 
           }
