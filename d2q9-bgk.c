@@ -300,9 +300,9 @@ int main(int argc, char* argv[])
     // temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
-    pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
-    tot_u[tt] = temp.tot_u;
-    tot_cells[tt] = temp.tot_cells;
+    // pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
+    // tot_u[tt] = temp.tot_u;
+    // tot_cells[tt] = temp.tot_cells;
 
     // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
@@ -311,9 +311,10 @@ int main(int argc, char* argv[])
     // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&tmp_cells[start*params.nx],buffSize*sizeof(float)*work));
     // //printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[work*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-    t_speed** local_temp = local_cells_ptr;
-    local_cells_ptr= local_tmp_cells_ptr;
-    local_tmp_cells_ptr= local_temp;
+    // 
+    // t_speed** local_temp = local_cells_ptr;
+    // local_cells_ptr= local_tmp_cells_ptr;
+    // local_tmp_cells_ptr= local_temp;
 
     // t_speed** temp_ptr = cells_ptr;
     // cells_ptr= tmp_cells_ptr;
@@ -970,7 +971,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-  
+
     // MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
     //     &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     //printf("rank: %d tt:%d 3\n",rank,tt);
