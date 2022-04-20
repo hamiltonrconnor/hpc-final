@@ -446,7 +446,7 @@ for(j = 0;j<nprocs;j++){
   //displs[j]=
 }
 float r[2] = {rank,rank};
-//MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 if(rank==0){
   int t;
   for(t =0;t<nprocs;t++){
@@ -458,7 +458,7 @@ if(rank==0){
 
 
 
-  //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
     for(t =0;t<nprocs;t++){
@@ -469,8 +469,8 @@ if(rank==0){
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
-  //MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
-  //MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,MPI_COMM_WORLD);
+  MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+  MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,MPI_COMM_WORLD);
 
 
   if(rank==0){
@@ -972,11 +972,11 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
 
-    // MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-    //     &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     //printf("rank: %d tt:%d 3\n",rank,tt);
-    // MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
-    //     &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
     //printf("\n AFTER SENDRECV \n");
     //print_halo_fushion(params,cells,work);
