@@ -459,6 +459,7 @@ float r[2] = {rank,rank};
     //   printf("%f  ",test[t]);
     // }
     print_fushion(params,output);
+    print_fushion(params,cells);
     print_fushion(params,*cells_ptr);
 
   }
