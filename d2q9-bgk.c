@@ -440,7 +440,7 @@ for(j = 0;j<nprocs;j++){
   b=2;
    displs[j] = params.nx*findStart(params.ny,nprocs,j);
 
-  rcounts[j] = params.nx*NSPEEDS;
+  rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
 
   if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
