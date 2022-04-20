@@ -429,7 +429,7 @@ int main(int argc, char* argv[])
 //print_halo_fushion(params,local_cells,work);
   //MPI_Barrier(MPI_COMM_WORLD);
 MPI_Barrier(MPI_COMM_WORLD);
-  t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
+  float* output= (float*)malloc(sizeof(float)*NSPEEDS * params.nx*params.ny);
   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
 int * displs = (int*)malloc(sizeof(int)*nprocs);
 int * rcounts = (int*)malloc(sizeof(int)*nprocs);
@@ -445,7 +445,7 @@ for(j = 0;j<nprocs;j++){
   //displs[j]=
 }
 float r[2] = {rank,rank};
-MPI_Gatherv(r,1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 if(rank==0){
   int t;
   for(t =0;t<nprocs;t++){
