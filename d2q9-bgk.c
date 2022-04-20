@@ -497,7 +497,9 @@ float r[2] = {rank,rank};
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     //print_halo_fushion(params,local_cells,work);
-    if(rank==0)print_fushion(params,cells);
+    print_fushion(params,output);
+    print_fushion(params,cells);
+
     cells = output;
 
 
