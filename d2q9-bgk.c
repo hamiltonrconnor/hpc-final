@@ -458,30 +458,8 @@ float r[2] = {rank,rank};
     // for(t =0;t<nprocs;t++){
     //   printf("%f  ",test[t]);
     // }
-    int flag;
-    for (int jj =0; jj < params.ny; jj++)
-    {
-      flag = 0;
-      for (int ii = 0; ii < params.nx; ii++)
-      {
-        // if(ii == 2 &&jj ==2){
-        //   local_cells[ii + jj*params.nx].speeds[0] = 0;
-        //   cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
-        // }
-        for (int kk = 0; kk < NSPEEDS; kk++)
-        {
-          if(cells[ii + (jj)*params.nx].speeds[kk] !=output[ii + jj*params.nx].speeds[kk] ){
-            flag =1;
-
-          }
-        }
-
-
-      }
-      if(flag==1){
-        printf("Rank: %d jj: %d\n",rank,jj);
-      }
-    }
+    print_fushion(output);
+    print_fushion(cells);
 
   }
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
