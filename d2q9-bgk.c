@@ -440,25 +440,19 @@ for(j = 0;j<nprocs;j++){
   b=2;
    displs[j] = params.nx*findStart(params.ny,nprocs,j);
 
-  rcounts[j] = 1;
+  rcounts[j] = params.nx*NSPEEDS;
 
   if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
 }
 float r[2] = {rank,rank};
 //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-if(rank==0){
-  int t;
-  for(t =0;t<nprocs;t++){
-    printf("%f  ",test[t]);
-  }
-
-}
 
 
 
 
-  MPI_Gatherv(&local_cells[1*params.ny],1,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+
+  MPI_Gatherv(&local_cells[1*params.ny],params.nx*NSPEEDS,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
     for(t =0;t<nprocs;t++){
