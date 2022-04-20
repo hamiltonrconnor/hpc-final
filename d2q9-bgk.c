@@ -311,7 +311,7 @@ int main(int argc, char* argv[])
     // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&tmp_cells[start*params.nx],buffSize*sizeof(float)*work));
     // //printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[work*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-    // 
+    //
     // t_speed** local_temp = local_cells_ptr;
     // local_cells_ptr= local_tmp_cells_ptr;
     // local_tmp_cells_ptr= local_temp;
@@ -539,15 +539,15 @@ if(rank==0){
   printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
   if(rank==0)write_values(params, cells, obstacles, av_vels);
 
-  free(local_cells);
-  free(local_tmp_cells);
-
-  free(local_obstacles);
-  free(tot_u);
-  free(tot_cells);
-  free(output);
-  free(t_tot_u);
-  free(t_tot_cells);
+  // free(local_cells);
+  // free(local_tmp_cells);
+  //
+  // free(local_obstacles);
+  // free(tot_u);
+  // free(tot_cells);
+  // free(output);
+  // free(t_tot_u);
+  // free(t_tot_cells);
   finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
 
   MPI_Finalize();
