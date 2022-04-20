@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-    temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+  //  temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
     pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
@@ -316,9 +316,9 @@ int main(int argc, char* argv[])
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    t_speed** temp_ptr = cells_ptr;
-    cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp_ptr;
+    // t_speed** temp_ptr = cells_ptr;
+    // cells_ptr= tmp_cells_ptr;
+    // tmp_cells_ptr= temp_ptr;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
