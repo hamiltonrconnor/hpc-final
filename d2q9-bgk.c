@@ -247,7 +247,7 @@ int main(int argc, char* argv[])
   for (tt = 0; tt < params.maxIters; tt++)
   {
     print_halo_fushion(params,local_cells,work);
-    print_fushion(params,cells;
+    print_fushion(params,cells);
   // for (int tt = 0; tt < 10; tt++)
   // {
 
