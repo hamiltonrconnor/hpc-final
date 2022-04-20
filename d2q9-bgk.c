@@ -458,6 +458,13 @@ if(rank==0){
 
 
   MPI_Gatherv(&local_cells[1*params.nx],1,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  if(rank==0){
+    int t;
+    for(t =0;t<nprocs;t++){
+      printf("%f  ",output[t]);
+    }
+
+  }
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
