@@ -457,7 +457,7 @@ if(rank==0){
 
 
 
-  MPI_Gatherv(&local_cells[1*params.nx],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     int t;
     for(t =0;t<nprocs;t++){
