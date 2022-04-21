@@ -239,8 +239,7 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
-  if(rank==0)print_fushion(params,cells);
-  print_halo_fushion(params,local_cells,work);
+
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
@@ -321,6 +320,8 @@ int main(int argc, char* argv[])
     t_speed** temp_ptr = cells_ptr;
     cells_ptr= tmp_cells_ptr;
     tmp_cells_ptr= temp_ptr;
+    if(rank==0)print_fushion(params,cells);
+    print_halo_fushion(params,local_cells,work);
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
