@@ -979,7 +979,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Barrier(MPI_COMM_WORLD);
 
     print_halo_fushion(params,cells,work);
-    MPI_Barrier(MPI_COMM_WORLD);
+  
 
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
@@ -989,7 +989,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Barrier(MPI_COMM_WORLD);
     if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
     print_halo_fushion(params,cells,work);
-    MPI_Barrier(MPI_COMM_WORLD);
+
 
     //printf("\n AFTER SENDRECV \n");
     //print_halo_fushion(params,cells,work);
