@@ -421,6 +421,7 @@ int main(int argc, char* argv[])
     //     printf("Rank: %d jj: %d\n",rank,jj);
     //   }
     // }
+    printf("av velocity: %.12E\n", av_vels[tt]);
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
