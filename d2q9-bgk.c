@@ -558,7 +558,12 @@ float r[2] = {rank,rank};
 
   // free(local_cells);
   // free(local_tmp_cells);
+<<<<<<< HEAD
   //
+=======
+  // free(local_cells_ptr);
+  // free(local_tmp_cells_ptr);
+>>>>>>> parent of a2dfc52 (solving uneven chunks)
   // free(local_obstacles);
   // free(tot_u);
   // free(tot_cells);
