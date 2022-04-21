@@ -477,7 +477,7 @@ float r[2] = {rank,rank};
       av_vels[i] = t_tot_u[i]/(float)t_tot_cells[i];
       //printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
     }
-    if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters],av_vels[params.maxIters]);
+    if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
 
 
 
