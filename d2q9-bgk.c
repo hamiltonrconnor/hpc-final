@@ -1076,7 +1076,7 @@ float halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells
     }
     float global_tot_u;
     float global_tot_cells;
-    MPI_Reduce(tot_u, global_tot_u, 1, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+    //MPI_Reduce(tot_u, global_tot_u, 1, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
     if (rank == 0) {
          printf("Total sum = %f, ", global_tot_u
                 ));
