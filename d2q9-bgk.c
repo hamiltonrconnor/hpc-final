@@ -443,8 +443,8 @@ int main(int argc, char* argv[])
   //MPI_Barrier(MPI_COMM_WORLD);
   MPI_Barrier(MPI_COMM_WORLD);
   printf("BEFORE SWITCH" );
-  if(rank==0)print_halo_fushion(params,local_cells,work);
-  if(rank==0)print_fushion(params,cells);
+  // if(rank==0)print_halo_fushion(params,local_cells,work);
+  // if(rank==0)print_fushion(params,cells);
 
   t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
