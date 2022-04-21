@@ -214,7 +214,7 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
-
+  float* temp_av_vels  = (float *)malloc(sizeof(float) * params.maxIters);
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
