@@ -600,7 +600,7 @@ void print_fushion(const t_param params,t_speed* cells){
 }
 
 void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
-  char local_matrix[200000] ={0};
+  char local_matrix[2000] ={0};
   int jj;
   int ii;
   for (jj = 0; jj < work+2; jj++)
@@ -979,7 +979,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Barrier(MPI_COMM_WORLD);
 
     print_halo_fushion(params,cells,work);
-  
+
 
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
