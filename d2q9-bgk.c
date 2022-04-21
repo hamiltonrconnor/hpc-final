@@ -289,9 +289,9 @@ int main(int argc, char* argv[])
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    t_speed** temp = cells_ptr;
+    t_speed** temp_ptr = cells_ptr;
     cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp;
+    tmp_cells_ptr= temp_ptr;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
