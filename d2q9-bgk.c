@@ -397,9 +397,9 @@ int main(int argc, char* argv[])
   }
   //printf("\n AFTER \n");
 
-  //print_fushion(params,*cells_ptr);
+  print_fushion(params,*cells_ptr);
   //print_halo_fushion(params,*local_cells_ptr,work);
-//print_halo_fushion(params,*local_cells_ptr,work);
+  print_halo_fushion(params,*local_cells_ptr,work);
 //print_halo_fushion(params,local_cells,work);
   //MPI_Barrier(MPI_COMM_WORLD);
 
@@ -408,7 +408,7 @@ int main(int argc, char* argv[])
 
 
 
-  MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
+  //MPI_Gather(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,params.nx*NSPEEDS*work,MPI_FLOAT,0,MPI_COMM_WORLD);
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
