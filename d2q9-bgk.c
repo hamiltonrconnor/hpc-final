@@ -434,14 +434,16 @@ int main(int argc, char* argv[])
   int * rcounts = (int*)malloc(sizeof(int)*nprocs);
   int j;
   for(j = 0;j<nprocs;j++){
-    displs[j] = findStart(N,nprocs,i);
-    rcounts[j] = findWork(N,nprocs,i);
+    displs[j] = findStart(N,nprocs,j);
+    rcounts[j] = findWork(N,nprocs,j);
     //displs[j]=
   }
+  print_fushion(params,cells);
+  print_fushion(params,local_cells,work);
 
 
 
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  //MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
