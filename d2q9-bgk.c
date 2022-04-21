@@ -239,6 +239,8 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
+  if(rank==0)print_fushion(params,cells);
+  print_halo_fushion(params,local_cells,work);
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
