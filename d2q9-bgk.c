@@ -644,7 +644,7 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   float w2 = params.density * params.accel / 36.f;
 
   /* modify the 2nd row of the grid */
-  int jj = ((params.ny - 2)%work)+1;
+  int jj = ((start+work - 2))+1;
   //int jj = params.ny - 2 +1;
   int ii;
   for (ii = 0; ii < params.nx; ii++)
@@ -981,9 +981,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    print_halo_fushion(params,cells,work);
+    // MPI_Barrier(MPI_COMM_WORLD);
+    // print_halo_fushion(params,cells,work);
 
 
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
@@ -991,9 +990,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //printf("rank: %d tt:%d 3\n",rank,tt);
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-    MPI_Barrier(MPI_COMM_WORLD);
-    if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
-    print_halo_fushion(params,cells,work);
+    // MPI_Barrier(MPI_COMM_WORLD);
+    // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
+    // print_halo_fushion(params,cells,work);
 
 
     //printf("\n AFTER SENDRECV \n");
