@@ -323,6 +323,7 @@ int main(int argc, char* argv[])
 
     MPI_Barrier(MPI_COMM_WORLD);
     if(rank==0)print_fushion(params,cells);
+    if(rank==0)printf("\n END OF LOOP %d \n",tt);
 
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
