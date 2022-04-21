@@ -620,7 +620,7 @@ void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
   strcat(local_matrix,newline);
 
   }
-  printf("LOCAL CELLS\n%s", local_matrix);
+  printf("LOCAL CELLS  %d \n %s",rank. local_matrix);
 }
 
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
@@ -977,7 +977,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("RANK: %d",rank);
+
     print_halo_fushion(params,cells,work);
     MPI_Barrier(MPI_COMM_WORLD);
 
@@ -987,7 +987,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("RANK: %d",rank);
+
     print_halo_fushion(params,cells,work);
     MPI_Barrier(MPI_COMM_WORLD);
 
