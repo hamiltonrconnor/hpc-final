@@ -528,7 +528,7 @@ float r[2] = {rank,rank};
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
-    cells = output;
+    //cells = output;
 
 
     //print_fushion(params,cells);
