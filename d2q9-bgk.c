@@ -322,6 +322,7 @@ int main(int argc, char* argv[])
     tmp_cells_ptr= temp_ptr;
 
     MPI_Barrier(MPI_COMM_WORLD);
+    print_halo_fushion(params,local_cells,work);
     if(rank==0)print_fushion(params,cells);
     if(rank==0)printf("\n END OF LOOP %d \n",tt);
 
