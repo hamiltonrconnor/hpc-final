@@ -600,7 +600,7 @@ void print_fushion(const t_param params,t_speed* cells){
 }
 
 void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
-  char local_matrix[2000] ={0};
+  char local_matrix[200000000] ={0};
   int jj;
   int ii;
   for (jj = 0; jj < work+2; jj++)
