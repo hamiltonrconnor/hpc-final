@@ -238,7 +238,7 @@ int main(int argc, char* argv[])
   //
   //
   // }
-  //printf("%d\n",work );
+  printf("%d    %d\n",work,start );
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
