@@ -326,6 +326,9 @@ int main(int argc, char* argv[])
     cells_ptr= tmp_cells_ptr;
     tmp_cells_ptr= temp_ptr;
 
+    print_halo_fushion(params,local_cells,work);
+    if(rank==0)print_fushion(params,cells);
+
 
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
@@ -421,7 +424,7 @@ int main(int argc, char* argv[])
     //     printf("Rank: %d jj: %d\n",rank,jj);
     //   }
     // }
-    printf("av velocity: %.12E  %.12E    \n", temp_av_vels[tt],tot_u[tt]/(float)tot_cells[tt] );
+    //printf("av velocity: %.12E  %.12E    \n", temp_av_vels[tt],tot_u[tt]/(float)tot_cells[tt] );
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
