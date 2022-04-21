@@ -620,7 +620,7 @@ void print_halo_fushion(const t_param params,t_speed* local_cells,int work){
   strcat(local_matrix,newline);
 
   }
-  printf("LOCAL CELLS  %d \n %s",rank. local_matrix);
+  printf("LOCAL CELLS  %d \n %s",rank, local_matrix);
 }
 
 int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
