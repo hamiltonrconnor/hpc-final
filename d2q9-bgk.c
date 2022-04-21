@@ -1238,7 +1238,7 @@ float fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_cells_ptr,
     //printf("\n BEFORE \n");
     // printf("\n 5 \n");
     // print_fushion(params,cells);
-    if(rank==0)print_fushion(params,cells);
+    // /if(rank==0)print_fushion(params,cells);
 
     //print_fushion(params,cells);
     int jj,ii,kk;
