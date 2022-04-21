@@ -520,7 +520,7 @@ float r[2] = {rank,rank};
   comp_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   col_tic=comp_toc;
 
-  // Collate data from ranks here
+   // Collate data from ranks here
 
   /* Total/collate time stops here.*/
   gettimeofday(&timstr, NULL);
