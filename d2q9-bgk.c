@@ -321,7 +321,7 @@ int main(int argc, char* argv[])
     cells_ptr= tmp_cells_ptr;
     tmp_cells_ptr= temp_ptr;
     if(rank==0)print_fushion(params,cells);
-    print_halo_fushion(params,local_cells,work);
+
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
@@ -973,6 +973,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
+    print_halo_fushion(params,cells,work);
 
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
