@@ -324,10 +324,10 @@ int main(int argc, char* argv[])
     cells_ptr= tmp_cells_ptr;
     tmp_cells_ptr= temp_ptr;
 
-    MPI_Barrier(MPI_COMM_WORLD);
-    if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
-    print_halo_fushion(params,local_cells,work);
-    if(rank==0)print_fushion(params,cells);
+    // MPI_Barrier(MPI_COMM_WORLD);
+    // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
+    // print_halo_fushion(params,local_cells,work);
+    // if(rank==0)print_fushion(params,cells);
 
 
     //printf("rank: %d tt:%d 5\n",rank,tt);
