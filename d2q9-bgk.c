@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-   //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+    temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
     pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
@@ -316,9 +316,9 @@ int main(int argc, char* argv[])
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    // t_speed** temp_ptr = cells_ptr;
-    // cells_ptr= tmp_cells_ptr;
-    // tmp_cells_ptr= temp_ptr;
+    t_speed** temp_ptr = cells_ptr;
+    cells_ptr= tmp_cells_ptr;
+    tmp_cells_ptr= temp_ptr;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
@@ -422,6 +422,7 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
+
   //printf("\n AFTER \n");
 
   //print_fushion(params,*cells_ptr);
@@ -476,6 +477,7 @@ float r[2] = {rank,rank};
       av_vels[i] = t_tot_u[i]/(float)t_tot_cells[i];
       //printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
     }
+    if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters],av_vels[params.maxIters]);
 
 
 
