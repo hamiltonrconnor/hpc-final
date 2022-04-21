@@ -517,8 +517,8 @@ float r[2] = {rank,rank};
       //printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
     }
     // print_halo_fushion(params,local_cells,work);
-    if(rank==0)print_fushion(params,cells);
-    if(rank==0)print_fushion(params,output);
+    // if(rank==0)print_fushion(params,cells);
+    // if(rank==0)print_fushion(params,output);
     if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
 
 
