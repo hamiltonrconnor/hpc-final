@@ -987,7 +987,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
     MPI_Barrier(MPI_COMM_WORLD);
-
+    if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
     print_halo_fushion(params,cells,work);
     MPI_Barrier(MPI_COMM_WORLD);
 
