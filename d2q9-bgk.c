@@ -238,7 +238,7 @@ int main(int argc, char* argv[])
   //
   //
   // }
-  printf("%d    %d\n",work,start );
+  //printf("%d\n",work );
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
@@ -246,12 +246,6 @@ int main(int argc, char* argv[])
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
   for (tt = 0; tt < params.maxIters; tt++)
   {
-    // for (tt = 0; tt < 4; tt++)
-    // {
-
-
-    // print_halo_fushion(params,local_cells,work);
-    // if(rank==0)print_fushion(params,cells);
   // for (int tt = 0; tt < 10; tt++)
   // {
 
@@ -303,7 +297,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-    temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+    // temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
     pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
@@ -317,19 +311,13 @@ int main(int argc, char* argv[])
     // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&tmp_cells[start*params.nx],buffSize*sizeof(float)*work));
     // //printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[work*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-    //
     t_speed** local_temp = local_cells_ptr;
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    t_speed** temp_ptr = cells_ptr;
-    cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp_ptr;
-
-    // print_halo_fushion(params,local_cells,work);
-    // if(rank==0)print_fushion(params,cells);
-
-
+    // t_speed** temp_ptr = cells_ptr;
+    // cells_ptr= tmp_cells_ptr;
+    // tmp_cells_ptr= temp_ptr;
     //printf("rank: %d tt:%d 5\n",rank,tt);
     //MPI_Barrier(MPI_COMM_WORLD);
     //printf("\n AFTER \n");
@@ -424,7 +412,6 @@ int main(int argc, char* argv[])
     //     printf("Rank: %d jj: %d\n",rank,jj);
     //   }
     // }
-    //printf("av velocity: %.12E  %.12E    \n", temp_av_vels[tt],tot_u[tt]/(float)tot_cells[tt] );
 
 
     //av_vels[tt] = av_velocity(params, cells, obstacles);
@@ -441,44 +428,20 @@ int main(int argc, char* argv[])
 //print_halo_fushion(params,*local_cells_ptr,work);
 //print_halo_fushion(params,local_cells,work);
   //MPI_Barrier(MPI_COMM_WORLD);
-  MPI_Barrier(MPI_COMM_WORLD);
-  printf("BEFORE SWITCH" );
-  if(rank==0)print_halo_fushion(params,local_cells,work);
-  if(rank==0)print_fushion(params,cells);
 
-  t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
-  float* test= (float*)malloc(sizeof(float) * 2*nprocs);
-int * displs = (int*)malloc(sizeof(int)*nprocs);
-int * rcounts = (int*)malloc(sizeof(int)*nprocs);
-int j;
-int b =2;
-for(j = 0;j<nprocs;j++){
-  b=2;
-   displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
-
-  rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
-
-  if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
-  //displs[j]=
-}
-float r[2] = {rank,rank};
-//MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-
-
-
-  // print_halo_fushion(params,local_cells,work);
-
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*findWork(params.ny,nprocs,j),MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-  if(rank==0){
-    // int t;
-    // for(t =0;t<nprocs;t++){
-    //   printf("%f  ",test[t]);
-    // }
-    // print_fushion(params,output);
-    // print_fushion(params,cells);
-    // print_fushion(params,*cells_ptr);
-
+  t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
+  int * displs = (int*)malloc(sizeof(int)*nprocs);
+  int * rcounts = (int*)malloc(sizeof(int)*nprocs);
+  int j;
+  for(j = 0;j<nprocs;j++){
+    displs[j] = findStart(N,nprocs,i);
+    rcounts[j] = findWork(N,nprocs,i);
+    //displs[j]=
   }
+
+
+
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
@@ -500,10 +463,6 @@ float r[2] = {rank,rank};
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
-    //print_halo_fushion(params,local_cells,work);
-    print_fushion(params,output);
-    print_fushion(params,cells);
-
     cells = output;
 
 
@@ -556,20 +515,15 @@ float r[2] = {rank,rank};
   printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
   if(rank==0)write_values(params, cells, obstacles, av_vels);
 
-  // free(local_cells);
-  // free(local_tmp_cells);
-<<<<<<< HEAD
-  //
-=======
-  // free(local_cells_ptr);
-  // free(local_tmp_cells_ptr);
->>>>>>> parent of a2dfc52 (solving uneven chunks)
-  // free(local_obstacles);
-  // free(tot_u);
-  // free(tot_cells);
-  // free(output);
-  // free(t_tot_u);
-  // free(t_tot_cells);
+  free(local_cells);
+  free(local_tmp_cells);
+
+  free(local_obstacles);
+  free(tot_u);
+  free(tot_cells);
+  free(output);
+  free(t_tot_u);
+  free(t_tot_cells);
   finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
 
   MPI_Finalize();
@@ -993,7 +947,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     //printf("rank: %d tt:%d 3\n",rank,tt);
