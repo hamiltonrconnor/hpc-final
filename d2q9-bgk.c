@@ -442,9 +442,9 @@ int main(int argc, char* argv[])
 //print_halo_fushion(params,local_cells,work);
   //MPI_Barrier(MPI_COMM_WORLD);
   MPI_Barrier(MPI_COMM_WORLD);
-  printf("BEFORE SWITCH" );
-  if(rank==0)print_halo_fushion(params,local_cells,work);
-  if(rank==0)print_fushion(params,cells);
+  // printf("BEFORE SWITCH" );
+  // if(rank==0)print_halo_fushion(params,local_cells,work);
+  // if(rank==0)print_fushion(params,cells);
 
   t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
@@ -478,8 +478,6 @@ float r[2] = {rank,rank};
     // print_fushion(params,cells);
     // print_fushion(params,*cells_ptr);
 
-<<<<<<< HEAD
-=======
   t_speed* output= (t_speed*)malloc(sizeof(t_speed) * params.nx*params.ny);
   int * displs = (int*)malloc(sizeof(int)*nprocs);
   int * rcounts = (int*)malloc(sizeof(int)*nprocs);
@@ -488,7 +486,7 @@ float r[2] = {rank,rank};
     displs[j] = findStart(N,nprocs,i);
     rcounts[j] = findWork(N,nprocs,i);
     //displs[j]=
->>>>>>> parent of 5c02510 (Sorting gatherv)
+
   }
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
@@ -512,8 +510,8 @@ float r[2] = {rank,rank};
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
     //print_halo_fushion(params,local_cells,work);
-    print_fushion(params,output);
-    print_fushion(params,cells);
+    // print_fushion(params,output);
+    // print_fushion(params,cells);
 
     cells = output;
 
