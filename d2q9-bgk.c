@@ -645,7 +645,7 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   // /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
   float w2 = params.density * params.accel / 36.f;
-  printf("%d   %d   %d",rank,start+work,params.ny);
+  //printf("%d   %d   %d",rank,start+work,params.ny);
   /* modify the 2nd row of the grid */
   int jj = ((work - 2))+1;
   //int jj = params.ny - 2 +1;
