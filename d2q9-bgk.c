@@ -439,7 +439,7 @@ int main(int argc, char* argv[])
     //displs[j]=
   }
   print_fushion(params,cells);
-  print_fushion(params,local_cells,work);
+  print_halo_fushion(params,local_cells,work);
 
 
 
