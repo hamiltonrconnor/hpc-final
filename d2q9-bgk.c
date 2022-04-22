@@ -298,7 +298,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-    //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+     //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
 
