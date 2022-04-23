@@ -327,7 +327,7 @@ int main(int argc, char* argv[])
 
   //
     t_speed* test_output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
-    float* test= (float*)malloc(sizeof(float) * 2*nprocs);
+    //float* test= (float*)malloc(sizeof(float) * 2*nprocs);
   int * test_displs = (int*)malloc(sizeof(int)*nprocs);
   int * test_rcounts = (int*)malloc(sizeof(int)*nprocs);
   int q;
