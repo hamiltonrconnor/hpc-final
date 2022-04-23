@@ -363,8 +363,8 @@ int main(int argc, char* argv[])
   // if(rank==0)print_fushion(params,test_output);
   // if(rank==0)print_fushion(params,cells);
   //  }
-  if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
-  if(rank==4)print_halo_fushion(params,local_cells,work);
+  // if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
+  // if(rank==4)print_halo_fushion(params,local_cells,work);
     // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
     // print_halo_fushion(params,local_cells,work);
@@ -1036,8 +1036,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
      //MPI_Barrier(MPI_COMM_WORLD);
-    if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
-    if(rank==4)print_halo_fushion(params,cells,work);
+    if(rank==3)printf("\n \n \n AFTER SENDRECV\n\n\n");
+    if(rank==3)print_halo_fushion(params,cells,work);
      //
      //printf("Rank: %d  work:%d\n",rank,work);
 
@@ -1052,9 +1052,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
       for (ii = 0; ii < params.nx; ii++)
       {
-        if(rank==3){
-          printf("%d", obstacles[(jj-1)*params.nx + ii]);
-        }
+        // if(rank==3){
+        //   printf("%d", obstacles[(jj-1)*params.nx + ii]);
+        // }
 
       //printf("%d\n",omp_get_num_threads());
       //propagate(params,cells,tmp_cells,ii,jj);
@@ -1233,7 +1233,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       }
     }
     }
-    if(rank==3)printf("\n");
+    if(rank==3)printf("\n \n \n AFTER PROGRAMM RUN\n\n\n");
+    if(rank==3)print_halo_fushion(params,tmp_cells,work);
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
     pair_tot result;
