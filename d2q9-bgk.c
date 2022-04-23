@@ -246,7 +246,7 @@ int main(int argc, char* argv[])
     // char space[2] ="  ";
     // strcat(matrix,space);
   }
-  printf("CELLS  %d  %d \n%s",rank,work, matrix);
+  printf("OBSTACLES %d  %d \n%s",rank,work, local_matrix);
   //printf("%d\n",work );
 
 
