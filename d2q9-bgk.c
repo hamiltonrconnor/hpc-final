@@ -363,8 +363,8 @@ int main(int argc, char* argv[])
   // if(rank==0)print_fushion(params,test_output);
   // if(rank==0)print_fushion(params,cells);
   //  }
-   if(rank==5)printf("\n \n \n AFTER SENDRECV\n\n\n");
-   if(rank==5)print_halo_fushion(params,local_cells,work);
+   if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
+   if(rank==4)print_halo_fushion(params,local_cells,work);
     // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
     // print_halo_fushion(params,local_cells,work);
@@ -1036,8 +1036,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
      //MPI_Barrier(MPI_COMM_WORLD);
-    if(rank==5)printf("\n \n \n AFTER SENDRECV\n\n\n");
-    if(rank==5)print_halo_fushion(params,cells,work);
+    if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
+    if(rank==4)print_halo_fushion(params,cells,work);
      //printf("Rank: %d  work:%d\n",rank,work);
 
     //printf("\n AFTER SENDRECV \n");
