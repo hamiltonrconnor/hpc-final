@@ -498,7 +498,7 @@ for(j = 0;j<nprocs;j++){
   //if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
 }
-float r[2] = {rank,rank};
+//float r[2] = {rank,rank};
 //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
 
@@ -531,12 +531,12 @@ float r[2] = {rank,rank};
     // print_halo_fushion(params,local_cells,work);
     // if(rank==0)print_fushion(params,cells);
     // if(rank==0)print_fushion(params,output);
-    if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
+    //if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
 
 
 
 
-    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
+    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
