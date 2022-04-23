@@ -483,7 +483,7 @@ for(j = 0;j<nprocs;j++){
 
   rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
 
-  if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
+  //if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
 }
 float r[2] = {rank,rank};
@@ -666,9 +666,10 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
   // if(start>params.ny - 2||start+work<params.ny - 2){
   //   return EXIT_SUCCESS;
   // }
-  if(rank!=nprocs-1){
-    return EXIT_SUCCESS;
-  }
+  if(start<=params.ny-2&&params.ny-2<start+work){
+  // if(rank!=nprocs-1){
+  //   return EXIT_SUCCESS;
+  // }
 
   // /* compute weighting factors */
   float w1 = params.density * params.accel / 9.f;
@@ -697,6 +698,7 @@ int halo_accelerate_flow(const t_param params, t_speed* cells, int* obstacles)
       cells[ii + jj*params.nx].speeds[7] -= w2;
     }
   }
+}
 
 
 
