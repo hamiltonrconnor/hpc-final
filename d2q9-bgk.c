@@ -1049,9 +1049,12 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int jj,ii,kk;
     for (jj =1; jj < work+1; jj++)
     {
-      //if(work==1)printf("%d\n",jj);
+
       for (ii = 0; ii < params.nx; ii++)
       {
+        if(rank==4){
+          printf("%d", obstacles[(jj-1)*params.nx + ii]);
+        }
 
       //printf("%d\n",omp_get_num_threads());
       //propagate(params,cells,tmp_cells,ii,jj);
@@ -1230,6 +1233,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       }
     }
     }
+    printf("\n");
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
     pair_tot result;
