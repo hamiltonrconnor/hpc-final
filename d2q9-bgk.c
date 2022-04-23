@@ -352,7 +352,7 @@ int main(int argc, char* argv[])
   if(rank==0)printf("\nOUPUT %d\n",tt);
   if(rank==0)print_fushion(params,test_output);
   if(rank==0)print_fushion(params,cells);
-  // }
+   }
     // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
     // print_halo_fushion(params,local_cells,work);
