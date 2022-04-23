@@ -1026,7 +1026,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
      //MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
      //print_halo_fushion(params,cells,work);
-     printf("Rank: %d  work:%d\n",rank,work);
+     //printf("Rank: %d  work:%d\n",rank,work);
 
     //printf("\n AFTER SENDRECV \n");
     //print_halo_fushion(params,cells,work);
@@ -1034,9 +1034,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
-    for (jj =1; jj < work+1; jj++)
+    for (jj =1; jj < work+2; jj++)
     {
-      if(work==1)printf("%d\n",jj);
+      //if(work==1)printf("%d\n",jj);
       for (ii = 0; ii < params.nx; ii++)
       {
 
