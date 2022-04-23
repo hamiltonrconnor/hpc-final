@@ -235,6 +235,7 @@ int main(int argc, char* argv[])
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
 
   char local_matrix[200000000] ={0};
+  int i;
   for (i = 0; i < params.nx; i++)
   {
 
