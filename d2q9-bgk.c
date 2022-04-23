@@ -347,7 +347,7 @@ int main(int argc, char* argv[])
 
     //print_halo_fushion(params,local_cells,work);
 
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,test_output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,test_output,test_rcounts,test_displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(tt%1==0){
   if(rank==0)printf("\nOUPUT %d\n",tt);
   if(rank==0)print_fushion(params,test_output);
