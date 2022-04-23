@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
   MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  printf("Hello from rank %d of %d\n",rank,nprocs);
+  //printf("Hello from rank %d of %d\n",rank,nprocs);
   char*    paramfile = NULL;    /* name of the input parameter file */
   char*    obstaclefile = NULL; /* name of a the input obstacle file */
   t_param  params;              /* struct to hold parameter values */
@@ -476,17 +476,17 @@ int main(int argc, char* argv[])
 int * displs = (int*)malloc(sizeof(int)*nprocs);
 int * rcounts = (int*)malloc(sizeof(int)*nprocs);
 int j;
-int b =2;
+//int b =2;
 for(j = 0;j<nprocs;j++){
-  b=2;
+  //b=2;
    displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
 
   rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
 
-  if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
+  //if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
   //displs[j]=
 }
-float r[2] = {rank,rank};
+//float r[2] = {rank,rank};
 //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
 
@@ -519,12 +519,12 @@ float r[2] = {rank,rank};
     // print_halo_fushion(params,local_cells,work);
     // if(rank==0)print_fushion(params,cells);
     // if(rank==0)print_fushion(params,output);
-    if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
+    //if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
 
 
 
 
-    printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
+    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
     //print_fushion(params,output);
@@ -570,14 +570,14 @@ float r[2] = {rank,rank};
   gettimeofday(&timstr, NULL);
   col_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   tot_toc = col_toc;
-  MPI_Barrier(MPI_COMM_WORLD);
+  //MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
-  printf("==done==\n");
-  printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
-  printf("Elapsed Init time:\t\t\t%.6lf (s)\n",    init_toc - init_tic);
-  printf("Elapsed Compute time:\t\t\t%.6lf (s)\n", comp_toc - comp_tic);
-  printf("Elapsed Collate time:\t\t\t%.6lf (s)\n", col_toc  - col_tic);
-  printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
+  if(rank==0)printf("==done==\n");
+  if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
+  if(rank==0)printf("Elapsed Init time:\t\t\t%.6lf (s)\n",    init_toc - init_tic);
+  if(rank==0)printf("Elapsed Compute time:\t\t\t%.6lf (s)\n", comp_toc - comp_tic);
+  if(rank==0)printf("Elapsed Collate time:\t\t\t%.6lf (s)\n", col_toc  - col_tic);
+  if(rank==0)printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
   if(rank==0)write_values(params, cells, obstacles, av_vels);
 
   // free(local_cells);
@@ -1010,6 +1010,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int tag = 0;
     MPI_Status status;
     MPI_Request request_1;
+    MPI_Request request_2;
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
@@ -1021,7 +1022,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //     &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     // MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
     //     &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-     MPI_Request request_2;
+
      MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
      MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
      MPI_Irecv(&cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD,&request_1);
