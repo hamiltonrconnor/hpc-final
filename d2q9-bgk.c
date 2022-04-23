@@ -358,11 +358,13 @@ int main(int argc, char* argv[])
   //print_halo_fushion(params,local_cells,work);
 
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,test_output,test_rcounts,test_displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-  if(tt%1==0){
-  if(rank==0)printf("\nOUPUT %d\n",tt);
-  if(rank==0)print_fushion(params,test_output);
-  if(rank==0)print_fushion(params,cells);
-   }
+  // if(tt%1==0){
+  // if(rank==0)printf("\nOUPUT %d\n",tt);
+  // if(rank==0)print_fushion(params,test_output);
+  // if(rank==0)print_fushion(params,cells);
+  //  }
+   if(rank==5)printf("\n \n \n AFTER SENDRECV\n\n\n");
+   if(rank==5)print_halo_fushion(params,local_cells,work);
     // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
     // print_halo_fushion(params,local_cells,work);
@@ -1034,8 +1036,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
      //MPI_Barrier(MPI_COMM_WORLD);
-    // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
-     //print_halo_fushion(params,cells,work);
+    if(rank==5)printf("\n \n \n AFTER SENDRECV\n\n\n");
+    if(rank==5)print_halo_fushion(params,cells,work);
      //printf("Rank: %d  work:%d\n",rank,work);
 
     //printf("\n AFTER SENDRECV \n");
@@ -1070,7 +1072,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       ** appropriate directions of travel and writing into
       ** scratch space grid */
 
-      tmp_cells[ii + jj*params.nx].speeds[0] =cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
+      tmp_cells[ii + jj*params.nx].speeds[0] = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[1] = cells[x_w + jj*params.nx].speeds[1]; /* east */
       tmp_cells[ii + jj*params.nx].speeds[2] = cells[ii + y_s*params.nx].speeds[2]; /* north */
       tmp_cells[ii + jj*params.nx].speeds[3] = cells[x_e + jj*params.nx].speeds[3]; /* west */
@@ -1084,6 +1086,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
       // //REBOUND
       // /* if the cell contains an obstacle */
+      printf("Rank: %d",rank)
       if (obstacles[(jj-1)*params.nx + ii])
       {
         //.rebound(params, output,tmp_cells,ii, jj );
