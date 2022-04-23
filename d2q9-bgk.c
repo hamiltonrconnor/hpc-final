@@ -1052,7 +1052,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
       for (ii = 0; ii < params.nx; ii++)
       {
-        if(rank==4){
+        if(rank==3){
           printf("%d", obstacles[(jj-1)*params.nx + ii]);
         }
 
@@ -1233,7 +1233,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       }
     }
     }
-    if(rank==4)printf("\n");
+    if(rank==3)printf("\n");
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
     pair_tot result;
