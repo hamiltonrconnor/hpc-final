@@ -363,8 +363,8 @@ int main(int argc, char* argv[])
   // if(rank==0)print_fushion(params,test_output);
   // if(rank==0)print_fushion(params,cells);
   //  }
-   if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
-   if(rank==4)print_halo_fushion(params,local_cells,work);
+  if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
+  if(rank==4)print_halo_fushion(params,local_cells,work);
     // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
     // print_halo_fushion(params,local_cells,work);
@@ -1038,6 +1038,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
      //MPI_Barrier(MPI_COMM_WORLD);
     if(rank==4)printf("\n \n \n AFTER SENDRECV\n\n\n");
     if(rank==4)print_halo_fushion(params,cells,work);
+     //
      //printf("Rank: %d  work:%d\n",rank,work);
 
     //printf("\n AFTER SENDRECV \n");
@@ -1072,7 +1073,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       ** appropriate directions of travel and writing into
       ** scratch space grid */
 
-      tmp_cells[ii + jj*params.nx].speeds[0] = cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
+      tmp_cells[ii + jj*params.nx].speeds[0] =cells[ii + jj*params.nx].speeds[0]; /* central cell, no movement */
       tmp_cells[ii + jj*params.nx].speeds[1] = cells[x_w + jj*params.nx].speeds[1]; /* east */
       tmp_cells[ii + jj*params.nx].speeds[2] = cells[ii + y_s*params.nx].speeds[2]; /* north */
       tmp_cells[ii + jj*params.nx].speeds[3] = cells[x_e + jj*params.nx].speeds[3]; /* west */
@@ -1086,7 +1087,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
       // //REBOUND
       // /* if the cell contains an obstacle */
-      printf("Rank: %d",rank)
       if (obstacles[(jj-1)*params.nx + ii])
       {
         //.rebound(params, output,tmp_cells,ii, jj );
