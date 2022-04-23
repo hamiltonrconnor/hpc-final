@@ -1233,7 +1233,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       }
     }
     }
-    printf("\n");
+    if(rank==4)printf("\n");
 
     //printf("%f    %f\n",recvarray[0],recvarray[1]);
     pair_tot result;
