@@ -1036,7 +1036,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int jj,ii,kk;
     for (jj =1; jj < work+1; jj++)
     {
-      if(work==2)printf("%d\n",jj);
+      if(work==1)printf("%d\n",jj);
       for (ii = 0; ii < params.nx; ii++)
       {
 
