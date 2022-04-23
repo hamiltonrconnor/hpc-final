@@ -242,7 +242,7 @@ int main(int argc, char* argv[])
     int x =local_obstacles[i];
     snprintf(buf,12,"%d   ",x);
     //printf("%s", buf);
-    strcat(matrix,buf);
+    strcat(local_matrix),buf);
     // char space[2] ="  ";
     // strcat(matrix,space);
   }
