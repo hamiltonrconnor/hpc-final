@@ -234,27 +234,27 @@ int main(int argc, char* argv[])
 
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
 
-  char local_matrix[200000000] ={0};
-  int i;
-  for (i = 0; i < work *params.nx; i++)
-  {
-
-    char buf[20];
-    int x =local_obstacles[i];
-    snprintf(buf,12,"%d   ",x);
-    //printf("%s", buf);
-    strcat(local_matrix,buf);
-    // char space[2] ="  ";
-    // strcat(matrix,space);
-  }
-  printf("\nOBSTACLES %d  %d \n%s",rank,work, local_matrix);
+  // char local_matrix[200000000] ={0};
+  // int i;
+  // for (i = 0; i < work *params.nx; i++)
+  // {
+  //
+  //   char buf[20];
+  //   int x =local_obstacles[i];
+  //   snprintf(buf,12,"%d   ",x);
+  //   //printf("%s", buf);
+  //   strcat(local_matrix,buf);
+  //   // char space[2] ="  ";
+  //   // strcat(matrix,space);
+  // }
+  // printf("\nOBSTACLES %d  %d \n%s",rank,work, local_matrix);
   //printf("%d\n",work );
 
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
-  float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
+  //float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
   for (tt = 0; tt < params.maxIters; tt++)
   {
   // for (int tt = 0; tt < 10; tt++)
@@ -308,7 +308,7 @@ int main(int argc, char* argv[])
     //print_fushion(params,*cells_ptr);
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
-     temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
+     //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
 
 
 
@@ -329,27 +329,27 @@ int main(int argc, char* argv[])
     t_speed** local_temp = local_cells_ptr;
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
-
-    t_speed** temp_ptr = cells_ptr;
-    cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp_ptr;
+    //
+    // t_speed** temp_ptr = cells_ptr;
+    // cells_ptr= tmp_cells_ptr;
+    // tmp_cells_ptr= temp_ptr;
 
 
   //
-    t_speed* test_output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
-    //float* test= (float*)malloc(sizeof(float) * 2*nprocs);
-  int * test_displs = (int*)malloc(sizeof(int)*nprocs);
-  int * test_rcounts = (int*)malloc(sizeof(int)*nprocs);
-  int q;
-  for(q = 0;q<nprocs;q++){
-
-     test_displs[q] = params.nx*NSPEEDS*findStart(params.ny,nprocs,q);
-
-    test_rcounts[q] = params.nx*NSPEEDS*findWork(params.ny,nprocs,q);
-
-
-    //displs[j]=
-  }
+  //   t_speed* test_output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
+  //   //float* test= (float*)malloc(sizeof(float) * 2*nprocs);
+  // int * test_displs = (int*)malloc(sizeof(int)*nprocs);
+  // int * test_rcounts = (int*)malloc(sizeof(int)*nprocs);
+  // int q;
+  // for(q = 0;q<nprocs;q++){
+  //
+  //    test_displs[q] = params.nx*NSPEEDS*findStart(params.ny,nprocs,q);
+  //
+  //   test_rcounts[q] = params.nx*NSPEEDS*findWork(params.ny,nprocs,q);
+  //
+  //
+  //   //displs[j]=
+  // }
 
   //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
@@ -357,7 +357,7 @@ int main(int argc, char* argv[])
 
   //print_halo_fushion(params,local_cells,work);
 
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,test_output,test_rcounts,test_displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  //MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,test_output,test_rcounts,test_displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   // if(tt%1==0){
   // if(rank==0)printf("\nOUPUT %d\n",tt);
   // if(rank==0)print_fushion(params,test_output);
