@@ -236,7 +236,7 @@ int main(int argc, char* argv[])
 
   char local_matrix[200000000] ={0};
   int i;
-  for (i = 0; i < params.nx; i++)
+  for (i = 0; i < work *params.nx; i++)
   {
 
     char buf[20];
@@ -247,7 +247,7 @@ int main(int argc, char* argv[])
     // char space[2] ="  ";
     // strcat(matrix,space);
   }
-  printf("OBSTACLES %d  %d \n%s",rank,work, local_matrix);
+  printf("\nOBSTACLES %d  %d \n%s",rank,work, local_matrix);
   //printf("%d\n",work );
 
 
