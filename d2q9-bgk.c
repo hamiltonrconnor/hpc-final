@@ -326,20 +326,20 @@ int main(int argc, char* argv[])
 
 
   //
-  //   t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
-  //   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
-  // int * displs = (int*)malloc(sizeof(int)*nprocs);
-  // int * rcounts = (int*)malloc(sizeof(int)*nprocs);
-  // int j;
-  // for(j = 0;j<nprocs;j++){
-  //
-  //    displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
-  //
-  //   rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
-  //
-  //
-  //   //displs[j]=
-  // }
+    t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
+    float* test= (float*)malloc(sizeof(float) * 2*nprocs);
+  int * displs = (int*)malloc(sizeof(int)*nprocs);
+  int * rcounts = (int*)malloc(sizeof(int)*nprocs);
+  int j;
+  for(j = 0;j<nprocs;j++){
+
+     displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
+
+    rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
+
+
+    //displs[j]=
+  }
 
   //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
@@ -347,11 +347,11 @@ int main(int argc, char* argv[])
 
     //print_halo_fushion(params,local_cells,work);
 
-  //MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-  // if(tt%2000==0){
-  // if(rank==0)printf("\nOUPUT %d\n",tt);
-  // if(rank==0)print_fushion(params,output);
-  // if(rank==0)print_fushion(params,cells);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  if(tt%1==0){
+  if(rank==0)printf("\nOUPUT %d\n",tt);
+  if(rank==0)print_fushion(params,output);
+  if(rank==0)print_fushion(params,cells);
   // }
     // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
