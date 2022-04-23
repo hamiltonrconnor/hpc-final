@@ -345,7 +345,7 @@ int main(int argc, char* argv[])
 
 
 
-  print_halo_fushion(params,local_cells,work);
+  //print_halo_fushion(params,local_cells,work);
 
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,test_output,test_rcounts,test_displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(tt%1==0){
@@ -1014,8 +1014,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    // MPI_Barrier(MPI_COMM_WORLD);
-    // print_halo_fushion(params,cells,work);
+     MPI_Barrier(MPI_COMM_WORLD);
+    print_halo_fushion(params,cells,work);
 
 
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
@@ -1023,9 +1023,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //printf("rank: %d tt:%d 3\n",rank,tt);
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-    // MPI_Barrier(MPI_COMM_WORLD);
+     MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
-    // print_halo_fushion(params,cells,work);
+     print_halo_fushion(params,cells,work);
 
 
     //printf("\n AFTER SENDRECV \n");
