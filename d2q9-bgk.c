@@ -205,17 +205,24 @@ int main(int argc, char* argv[])
   //f(params.ny/2<nprocs)nprocs = params.ny/2;
 
   // Obtain the group of processes in the world communicator
-MPI_Group world_group;
-MPI_Comm_group(MPI_COMM_WORLD, &world_group);
-
-// Remove all unnecessary ranks
-MPI_Group new_group;
-int ranges[3] = { 5, 7, 1 };
-MPI_Group_range_excl(world_group, 2, ranges, &new_group);
-
-// Create a new communicator
-
-MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
+// MPI_Group world_group;
+// MPI_Comm_group(MPI_COMM_WORLD, &world_group);
+//
+// // Remove all unnecessary ranks
+// MPI_Group new_group;
+// int ranges[3] = { 5, 7, 1 };
+// MPI_Group_range_excl(world_group, 2, ranges, &new_group);
+//
+// // Create a new communicator
+//
+// MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
+int color;
+if(rank>4){
+  color =MPI_COMM_NULL;
+}else{
+  color = 0;
+}
+MPI_Comm_split(MPI_COMM_WORLD, color, 0, &newcomm);
 if (new_comm== MPI_COMM_NULL)
 {
    // Bye bye cruel world
