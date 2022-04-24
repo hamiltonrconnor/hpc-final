@@ -232,11 +232,11 @@ int main(int argc, char* argv[])
 // }
 if(rank>params.ny/2-1){
   MPI_Finalize();
-     //exit(0);
+     exit(0);
   }
-  nprocs = params.ny/2;
-  // MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
-  // MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+  //nprocs = params.ny/2;
+  MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
+  MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
 
 
