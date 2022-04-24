@@ -1039,7 +1039,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
-    
+
     for (jj =2; jj < work; jj++)
     {
       //printf("%d\n",jj);
@@ -1224,7 +1224,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
     }
 
-    // MPI_Wait(&request_1, &status);
+     // MPI_Wait(&request_1, &status);
     // MPI_Wait(&request_2, &status);
     jj=1;
     for (ii = 0; ii < params.nx; ii++)
