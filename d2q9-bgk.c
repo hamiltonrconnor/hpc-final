@@ -217,7 +217,7 @@ int main(int argc, char* argv[])
 //
 // MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
 int color;
-if(rank>4){
+if(rank>nprocs/2){
   color =MPI_UNDEFINED;
 }else{
   color = 0;
