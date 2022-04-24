@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
     MPI_Finalize();
     return EXIT_SUCCESS;
   }
-  printf("Rank: %d nprocs %d 'n'",rank,nprocs);
+  printf("Rank: %d nprocs %d \n",rank,nprocs);
 
   //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
