@@ -546,7 +546,7 @@ for(j = 0;j<nprocs;j++){
 
   gettimeofday(&timstr, NULL);
   stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-start;
+  timer += stop-startT;
   //print_halo_fushion(params,local_cells,work);
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
   if(rank==0){
@@ -632,7 +632,7 @@ for(j = 0;j<nprocs;j++){
   /* write final values and free memory */
   gettimeofday(&timstr, NULL);
   stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-start;
+  timer += stop-startT;
   if(rank==0)printf("Timer:  %f",timer);
   if(rank==0)printf("==done==    %d\n",nprocs);
   if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
@@ -1081,7 +1081,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     gettimeofday(&timstr, NULL);
     stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-    timer += start-stop;
+    timer += startT-stop;
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
