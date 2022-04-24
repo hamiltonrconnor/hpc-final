@@ -222,8 +222,8 @@ int main(int argc, char* argv[])
 // }else{
 //   color = 0;
 // }
-int color = 0;
-MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
+//int color = 0;
+//MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
 // if (new_comm== MPI_COMM_NULL)
 // {
 //    // Bye bye cruel world
@@ -234,8 +234,9 @@ if(rank>params.ny/2-1){
   MPI_Finalize();
      exit(0);
   }
-MPI_Comm_size(new_comm,&nprocs);
-MPI_Comm_rank(new_comm,&rank);
+  MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
+  MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
 
 
   printf("Rank: %d nprocs: %d\n",rank,nprocs);
@@ -537,7 +538,7 @@ for(j = 0;j<nprocs;j++){
 
 
   //print_halo_fushion(params,local_cells,work);
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD;
   if(rank==0){
     // int t;
     // for(t =0;t<nprocs;t++){
@@ -551,8 +552,8 @@ for(j = 0;j<nprocs;j++){
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
-  MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,new_comm);
-  MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,new_comm);
+  MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
+  MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,MPI_COMM_WORLD);
 
 
   if(rank==0){
@@ -1066,9 +1067,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, new_comm, &status);
+        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
-        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, new_comm, &status);
+        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
      // MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
      // MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
