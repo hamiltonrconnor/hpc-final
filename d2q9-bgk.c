@@ -293,7 +293,10 @@ if (new_comm== MPI_COMM_NULL)
   //
   // }
   //printf("%d\n",work );
-  //printf("Rank: %d  1\n",rank);
+  //printf("Rank: %d  1\n" ,rank);
+  gettimeofday(&timstr, NULL);
+  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+  printf("%f",stop-startT);
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
@@ -1663,6 +1666,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     pair_tot result;
     result.tot_u = tot_u;
     result.tot_cells = tot_cells;
+
     gettimeofday(&timstr, NULL);
     startT= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
     return result;
