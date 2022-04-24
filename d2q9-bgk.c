@@ -230,17 +230,17 @@ if (new_comm== MPI_COMM_NULL)
    MPI_Finalize();
    exit(0);
 }
-if(rank>params.ny/2-1){
-  MPI_Finalize();
-     exit(0);
-  }
+// if(rank>params.ny/2-1){
+//   MPI_Finalize();
+//      exit(0);
+//   }
   //nprocs = params.ny/2;
   MPI_Comm_size(new_comm,&nprocs);
   MPI_Comm_rank(new_comm,&rank);
 
 
 
-  printf("Rank: %d nprocs: %d\n",rank,nprocs);
+  //printf("Rank: %d nprocs: %d\n",rank,nprocs);
 
   // if(rank>nprocs-1){
   //   printf("rank greater than nprocs \n");
