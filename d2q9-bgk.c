@@ -222,7 +222,7 @@ if(rank>4){
 }else{
   color = 0;
 }
-MPI_Comm_split(MPI_COMM_WORLD, color, 0, &newcomm);
+MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
 if (new_comm== MPI_COMM_NULL)
 {
    // Bye bye cruel world
