@@ -202,6 +202,7 @@ int main(int argc, char* argv[])
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
+  if(params.ny/2<nprocs)nprocs = params.ny;
 
   //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
@@ -1408,7 +1409,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     }
   }
-    if(rank==0)print_halo_fushion(params,cells,work);
+    //if(rank==0)print_halo_fushion(params,cells,work);
     jj=work;
     for (ii = 0; ii < params.nx; ii++)
     {
@@ -1589,7 +1590,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     }
   }
-    if(rank==0)print_halo_fushion(params,tmp_cells,work);
+    //if(rank==0)print_halo_fushion(params,tmp_cells,work);
 
 
 
