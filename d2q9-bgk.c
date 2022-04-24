@@ -202,7 +202,7 @@ int main(int argc, char* argv[])
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
-  if(params.ny/2<nprocs)nprocs = params.ny;
+  if(params.ny/2<nprocs)nprocs = params.ny/2;
 
   //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
