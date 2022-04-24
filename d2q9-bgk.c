@@ -527,7 +527,8 @@ for(j = 0;j<nprocs;j++){
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
-    //print_fushion(params,output);
+    print_fushion(params,output);
+    print_fushion(params,cells);
     cells = output;
 
 
