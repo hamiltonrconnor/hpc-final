@@ -204,10 +204,11 @@ int main(int argc, char* argv[])
 
   if(params.ny/2<nprocs)nprocs = params.ny/2;
   if(rank>nprocs-1){
-    printf("rank greater than nprocs ");
+    printf("rank greater than nprocs \n");
     MPI_Finalize();
     return EXIT_SUCCESS;
   }
+  printf("Rank: %d nprocs %d 'n'",rank,nprocs);
 
   //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
