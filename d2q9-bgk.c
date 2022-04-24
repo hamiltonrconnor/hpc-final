@@ -214,16 +214,16 @@ int ranges[3] = { 6, 7, 1 };
 MPI_Group_range_excl(world_group, 1, ranges, &new_group);
 
 // Create a new communicator
-MPI_Comm newworld;
-MPI_Comm_create(MPI_COMM_WORLD, new_group, &newworld);
-if (newworld == MPI_COMM_NULL)
+
+MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm;
+if (new_comm== MPI_COMM_NULL)
 {
    // Bye bye cruel world
    MPI_Finalize();
    exit(0);
 }
-MPI_Comm_size(newworld,&nprocs);
-MPI_Comm_rank(newworld,&rank);
+MPI_Comm_size(new_comm,&nprocs);
+MPI_Comm_rank(new_comms,&rank);
 
 
   printf("Rank: %d nprocs: %d\n",rank,nprocs);
