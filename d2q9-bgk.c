@@ -212,6 +212,7 @@ int main(int argc, char* argv[])
   int N = params.ny;
   work =findWork(N,nprocs,rank);
   start = findStart(N,nprocs,rank);
+  printf("Rank: %d work: %d  start: %d",rank,work,start);
   //printf("Rank: %d work: %d start: %d \n",rank,work,start);
   int flag;
   //printf("%d    %d",start,rank*work);
