@@ -1017,16 +1017,16 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     // MPI_Barrier(MPI_COMM_WORLD);
     // print_halo_fushion(params,cells,work);
 
-    //WORKING SENDRECV
-    // MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-    //     &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    // MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
-    //     &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+    WORKING SENDRECV
+    MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+    MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
+        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
 
-     MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
-     MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
-     MPI_Irecv(&cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD,&request_1);
-     MPI_Irecv(&cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right,tag, MPI_COMM_WORLD,&request_2);
+     // MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
+     // MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
+     // MPI_Irecv(&cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD,&request_1);
+     // MPI_Irecv(&cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right,tag, MPI_COMM_WORLD,&request_2);
 
      // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
@@ -1039,6 +1039,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
+    
     for (jj =2; jj < work; jj++)
     {
       //printf("%d\n",jj);
@@ -1223,8 +1224,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
     }
 
-    MPI_Wait(&request_1, &status);
-    MPI_Wait(&request_2, &status);
+    // MPI_Wait(&request_1, &status);
+    // MPI_Wait(&request_2, &status);
     jj=1;
     for (ii = 0; ii < params.nx; ii++)
     {
