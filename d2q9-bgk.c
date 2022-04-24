@@ -214,7 +214,7 @@ int main(int argc, char* argv[])
   MPI_Comm_size(new_comm, &nprocs);
   MPI_Comm_rank(new_comm, &rank);
 
-  if(color==1){return;}
+  if(color==1){return EXIT_SUCCESS;}
 
   printf("Rank: %d nprocs: %d\n",rank,nprocs);
 
