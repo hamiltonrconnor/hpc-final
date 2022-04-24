@@ -219,7 +219,7 @@ int main(int argc, char* argv[])
   //   //MPI_Finalize();
   //   return EXIT_SUCCESS;
   // }
-  printf("Rank: %d nprocs %d \n",rank,nprocs);
+  //printf("Rank: %d nprocs %d \n",rank,nprocs);
 
   //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
@@ -230,7 +230,7 @@ int main(int argc, char* argv[])
   int N = params.ny;
   work =findWork(N,nprocs,rank);
   start = findStart(N,nprocs,rank);
-  printf("Rank: %d work: %d  start: %d\n",rank,work,start);
+  //printf("Rank: %d work: %d  start: %d\n",rank,work,start);
   //printf("Rank: %d work: %d start: %d \n",rank,work,start);
   int flag;
   //printf("%d    %d",start,rank*work);
@@ -258,7 +258,7 @@ int main(int argc, char* argv[])
   //
   // }
   //printf("%d\n",work );
-  printf("Rank: %d  1\n",rank);
+  //printf("Rank: %d  1\n",rank);
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
@@ -481,7 +481,7 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
-  printf("Rank: %d  2\n",rank);
+  //printf("Rank: %d  2\n",rank);
   //printf("\n AFTER \n");
 
   //print_fushion(params,*cells_ptr);
@@ -546,8 +546,8 @@ for(j = 0;j<nprocs;j++){
     //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
 
     //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
-    print_fushion(params,output);
-    print_fushion(params,cells);
+    // print_fushion(params,output);
+    // print_fushion(params,cells);
     cells = output;
 
 
