@@ -235,8 +235,8 @@ if(rank>params.ny/2-1){
      exit(0);
   }
   //nprocs = params.ny/2;
-  MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
-  MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+  MPI_Comm_size(new_comm,&nprocs);
+  MPI_Comm_rank(new_comm,&rank);
 
 
 
