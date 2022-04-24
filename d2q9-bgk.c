@@ -88,6 +88,7 @@ typedef struct Pair_tot
 int nprocs,rank,start,work;
 MPI_Comm new_comm;
 double timer,startT,stop;
+struct timeval timstr; 
 /*
 ** function prototypes
 */
@@ -180,7 +181,7 @@ int main(int argc, char* argv[])
   t_speed* tmp_cells = NULL;    /* scratch space */
   int*     obstacles = NULL;    /* grid indicating which cells are blocked */
   float* av_vels   = NULL;     /* a record of the av. velocity computed for each timestep */
-  struct timeval timstr;                                                             /* structure to hold elapsed time */
+                                                              /* structure to hold elapsed time */
   double tot_tic, tot_toc, init_tic, init_toc, comp_tic, comp_toc, col_tic, col_toc; /* floating point numbers to calculate elapsed wallclock time */
   t_speed** cells_ptr = &cells;
   t_speed** tmp_cells_ptr= &tmp_cells;
