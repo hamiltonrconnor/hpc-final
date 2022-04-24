@@ -215,7 +215,7 @@ int main(int argc, char* argv[])
 //
 // // Create a new communicator
 //
-MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
+//MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
 int color;
 if(rank>params.ny/2-1){
   color =MPI_UNDEFINED;
