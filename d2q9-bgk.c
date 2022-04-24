@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
   if(params.ny/2<nprocs)nprocs = params.ny/2;
   int color;
   if(rank>nprocs-1){
-    color=1;
+    color=MPI_UNDEFINED;
   }else{
     color=0;
 
@@ -214,7 +214,7 @@ int main(int argc, char* argv[])
   MPI_Comm_size(new_comm, &nprocs);
   MPI_Comm_rank(new_comm, &rank);
 
-  
+
 
   printf("Rank: %d nprocs: %d\n",rank,nprocs);
 
@@ -515,7 +515,7 @@ for(j = 0;j<nprocs;j++){
 
 
   //print_halo_fushion(params,local_cells,work);
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
   if(rank==0){
     // int t;
     // for(t =0;t<nprocs;t++){
