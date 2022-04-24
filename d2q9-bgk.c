@@ -210,7 +210,7 @@ MPI_Comm_group(MPI_COMM_WORLD, &world_group);
 
 // Remove all unnecessary ranks
 MPI_Group new_group;
-int ranges[3] = { nprocs, nprocs-1, 1 };
+int ranges[3] = { 2, nprocs-1, 1 };
 MPI_Group_range_excl(world_group, 1, ranges, &new_group);
 
 // Create a new communicator
