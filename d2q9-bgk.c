@@ -222,6 +222,8 @@ if (newworld == MPI_COMM_NULL)
    MPI_Finalize();
    exit(0);
 }
+MPI_Comm_size(newworld,&nprocs);
+MPI_Comm_rank(newworld,&rank);
 
 
   printf("Rank: %d nprocs: %d\n",rank,nprocs);
