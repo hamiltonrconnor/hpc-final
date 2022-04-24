@@ -515,7 +515,7 @@ for(j = 0;j<nprocs;j++){
 
 
   //print_halo_fushion(params,local_cells,work);
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
   if(rank==0){
     // int t;
     // for(t =0;t<nprocs;t++){
@@ -529,8 +529,8 @@ for(j = 0;j<nprocs;j++){
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
-  MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,MPI_COMM_WORLD);
-  MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,MPI_COMM_WORLD);
+  MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,new_comm));
+  MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,new_comm));
 
 
   if(rank==0){
