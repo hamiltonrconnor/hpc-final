@@ -222,7 +222,7 @@ if(rank>params.ny/2-1){
 }else{
   color = 0;
 }
-int color = 0;
+
 MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
 if (new_comm== MPI_COMM_NULL)
 {
