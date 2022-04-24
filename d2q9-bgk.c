@@ -202,7 +202,7 @@ int main(int argc, char* argv[])
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
-  if(params.ny/2<nprocs)nprocs = params.ny/2;
+  i//f(params.ny/2<nprocs)nprocs = params.ny/2;
 
   // Obtain the group of processes in the world communicator
 MPI_Group world_group;
@@ -210,8 +210,8 @@ MPI_Comm_group(MPI_COMM_WORLD, &world_group);
 
 // Remove all unnecessary ranks
 MPI_Group new_group;
-int ranges[3] = { 2, nprocs-1, 1 };
-MPI_Group_range_excl(world_group, 1, ranges, &new_group);
+int ranges[3] = { 4, 8, 1 };
+MPI_Group_range_excl(world_group, 4, ranges, &new_group);
 
 // Create a new communicator
 MPI_Comm newworld;
