@@ -205,7 +205,8 @@ int main(int argc, char* argv[])
   if(params.ny/2<nprocs)nprocs = params.ny/2;
   int color;
   if(rank>nprocs-1){
-    color=MPI_UNDEFINED;
+    //color=MPI_UNDEFINED;
+    color=1;
   }else{
     color=0;
 
