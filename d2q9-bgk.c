@@ -88,7 +88,7 @@ typedef struct Pair_tot
 int nprocs,rank,start,work;
 MPI_Comm new_comm;
 double timer,startT,stop;
-struct timeval timstr; 
+struct timeval timstr;
 /*
 ** function prototypes
 */
@@ -1081,7 +1081,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     gettimeofday(&timstr, NULL);
     stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-    timer += start-stop
+    timer += start-stop;
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
