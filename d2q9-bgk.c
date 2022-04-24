@@ -86,6 +86,7 @@ typedef struct Pair_tot
 } pair_tot;
 
 int nprocs,rank,start,work;
+MPI_Comm new_comm;
 /*
 ** function prototypes
 */
@@ -208,7 +209,7 @@ int main(int argc, char* argv[])
   }else{
     color=0;
   }
-  MPI_Comm new_comm;
+
   MPI_Comm_split(MPI_COMM_WORLD, color, rank, &new_comm);
   MPI_Comm_size(new_comm, &nprocs);
   MPI_Comm_rank(new_comm, &rank);
@@ -510,7 +511,7 @@ for(j = 0;j<nprocs;j++){
 
 
   //print_halo_fushion(params,local_cells,work);
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,&new_comm);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
   if(rank==0){
     // int t;
     // for(t =0;t<nprocs;t++){
@@ -1039,9 +1040,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
+        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, new_comm, &status);
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
-        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
+        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, new_comm, &status);
 
      // MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
      // MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
