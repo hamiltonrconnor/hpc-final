@@ -202,6 +202,17 @@ int main(int argc, char* argv[])
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
   if(params.ny/2<nprocs)nprocs = params.ny/2;
+  int color;
+  if(rank>nprocs-1){
+    color=1;
+  }else{
+    color=0;
+  }
+  MPI_Comm new_comm;
+  MPI_Comm_split(MPI_COMM_WORLD, color, rank, &new_comm);
+  MPI_Comm_size(new_comm, &nprocs);
+  MPI_Comm_rank(new_comm, &rank);
+
   // if(rank>nprocs-1){
   //   printf("rank greater than nprocs \n");
   //   //MPI_Finalize();
@@ -499,7 +510,7 @@ for(j = 0;j<nprocs;j++){
 
 
   //print_halo_fushion(params,local_cells,work);
-  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
+  MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,&new_comm);
   if(rank==0){
     // int t;
     // for(t =0;t<nprocs;t++){
