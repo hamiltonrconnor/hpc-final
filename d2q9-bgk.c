@@ -145,7 +145,7 @@ int findWork(int n,int procs,int rank){
     else
         min_plus=n%procs;
   int end = (rank+1)*floor(n/procs)+min_plus;
-
+  if(end-start<=1)return 2;
   return end - start ;
 
 }
@@ -1408,7 +1408,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
   }
 
-    if(rank==0)print_halo_fushion(params,cells,work);
     jj=work;
     for (ii = 0; ii < params.nx; ii++)
     {
@@ -1589,7 +1588,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     }
   }
-    if(rank==0)print_halo_fushion(params,tmp_cells,work);
+
 
 
 
