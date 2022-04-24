@@ -208,11 +208,12 @@ int main(int argc, char* argv[])
     color=1;
   }else{
     color=0;
+    MPI_Comm_split(MPI_COMM_WORLD, color, rank, &new_comm);
+    MPI_Comm_size(new_comm, &nprocs);
+    MPI_Comm_rank(new_comm, &rank);
   }
 
-  MPI_Comm_split(MPI_COMM_WORLD, color, rank, &new_comm);
-  MPI_Comm_size(new_comm, &nprocs);
-  MPI_Comm_rank(new_comm, &rank);
+
   printf("Rank: %d nprocs: %d\n",rank,nprocs);
 
   // if(rank>nprocs-1){
