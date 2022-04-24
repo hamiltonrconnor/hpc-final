@@ -469,7 +469,7 @@ int main(int argc, char* argv[])
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
-
+  printf("Rank: %d  2\n",rank);
   //printf("\n AFTER \n");
 
   //print_fushion(params,*cells_ptr);
