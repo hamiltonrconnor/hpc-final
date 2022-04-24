@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
 
   if(params.ny/2<nprocs)nprocs = params.ny/2;
   if(rank>nprocs-1){
-    printf("rank greater than nprocs ")
+    printf("rank greater than nprocs ");
     MPI_Finalize();
     return EXIT_SUCCESS;
   }
