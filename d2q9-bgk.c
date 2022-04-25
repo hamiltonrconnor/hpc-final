@@ -294,21 +294,13 @@ if (new_comm== MPI_COMM_NULL)
   // }
   //printf("%d\n",work );
   //printf("Rank: %d  1\n" ,rank);
-  gettimeofday(&timstr, NULL);
-  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-startT;
-  printf("%f",timer);
-  gettimeofday(&timstr, NULL);
-  startT = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
-  gettimeofday(&timstr, NULL);
-  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-startT;
-  printf("%f",timer);
+
   for (tt = 0; tt < params.maxIters; tt++)
   {
   // for (int tt = 0; tt < 10; tt++)
@@ -1091,7 +1083,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     gettimeofday(&timstr, NULL);
     stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-    timer += startT-stop;
+    timer += stop-startT;
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
