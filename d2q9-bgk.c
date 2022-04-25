@@ -1081,9 +1081,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     // MPI_Barrier(MPI_COMM_WORLD);
     // print_halo_fushion(params,cells,work);
 
-    gettimeofday(&timstr, NULL);
-    stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-    timer += stop-startT;
+
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
@@ -1107,7 +1105,9 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
-
+    gettimeofday(&timstr, NULL);
+    stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+    timer += stop-startT;
     for (jj =2; jj < work; jj++)
     {
       //printf("%d\n",jj);
@@ -1656,7 +1656,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
   }
     //if(rank==0)print_halo_fushion(params,tmp_cells,work);
-
+    gettimeofday(&timstr, NULL);
+    startT= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
 
 
 
@@ -1666,8 +1667,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     result.tot_u = tot_u;
     result.tot_cells = tot_cells;
 
-    gettimeofday(&timstr, NULL);
-    startT= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+
     return result;
 
 
