@@ -87,7 +87,6 @@ typedef struct Pair_tot
 
 int nprocs,rank,start,work;
 MPI_Comm new_comm;
-double timer,startT,stop;
 struct timeval timstr;
 /*
 ** function prototypes
@@ -203,9 +202,6 @@ int main(int argc, char* argv[])
   /* Total/init time starts here: initialise our data structures and load values from file */
   gettimeofday(&timstr, NULL);
   tot_tic = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-
-  startT = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer=0;
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
@@ -258,10 +254,7 @@ if (new_comm== MPI_COMM_NULL)
 
   //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
-  /* Init time stops here, compute time starts*/
-  gettimeofday(&timstr, NULL);
-  init_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  comp_tic=init_toc;
+
   int N = params.ny;
   work =findWork(N,nprocs,rank);
   start = findStart(N,nprocs,rank);
@@ -300,7 +293,10 @@ if (new_comm== MPI_COMM_NULL)
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
-
+  /* Init time stops here, compute time starts*/
+  gettimeofday(&timstr, NULL);
+  init_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+  comp_tic=init_toc;
   for (tt = 0; tt < params.maxIters; tt++)
   {
   // for (int tt = 0; tt < 10; tt++)
@@ -546,9 +542,7 @@ for(j = 0;j<nprocs;j++){
 //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
 
-  gettimeofday(&timstr, NULL);
-  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-startT;
+
   //print_halo_fushion(params,local_cells,work);
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
   if(rank==0){
@@ -566,8 +560,7 @@ for(j = 0;j<nprocs;j++){
 
   MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,new_comm);
   MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,new_comm);
-  gettimeofday(&timstr, NULL);
-  startT = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+
 
   if(rank==0){
     int i;
@@ -632,9 +625,6 @@ for(j = 0;j<nprocs;j++){
   tot_toc = col_toc;
   //MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
-  gettimeofday(&timstr, NULL);
-  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-startT;
   if(rank==0)printf("Timer:  %f",timer);
   if(rank==0)printf("==done==    %d\n",nprocs);
   if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
@@ -1084,15 +1074,15 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
 
     //WORKING SENDRECV
-    MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-        &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, new_comm, &status);
-    MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
-        &cells[0],  buffSize ,  MPI_FLOAT, left, tag, new_comm, &status);
+    // MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
+    //     &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, new_comm, &status);
+    // MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
+    //     &cells[0],  buffSize ,  MPI_FLOAT, left, tag, new_comm, &status);
 
-     // MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
-     // MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
-     // MPI_Irecv(&cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD,&request_1);
-     // MPI_Irecv(&cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right,tag, MPI_COMM_WORLD,&request_2);
+     MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
+     MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
+     MPI_Irecv(&cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD,&request_1);
+     MPI_Irecv(&cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right,tag, MPI_COMM_WORLD,&request_2);
 
      // MPI_Barrier(MPI_COMM_WORLD);
     // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
@@ -1105,9 +1095,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
-    gettimeofday(&timstr, NULL);
-    stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-    timer += stop-startT;
     for (jj =2; jj < work; jj++)
     {
       //printf("%d\n",jj);
@@ -1292,8 +1279,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
     }
 
-     // MPI_Wait(&request_1, &status);
-    // MPI_Wait(&request_2, &status);
+     MPI_Wait(&request_1, &status);
+    MPI_Wait(&request_2, &status);
     jj=1;
     for (ii = 0; ii < params.nx; ii++)
     {
@@ -1656,8 +1643,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
   }
     //if(rank==0)print_halo_fushion(params,tmp_cells,work);
-    gettimeofday(&timstr, NULL);
-    startT= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+
 
 
 
