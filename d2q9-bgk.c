@@ -87,8 +87,6 @@ typedef struct Pair_tot
 
 int nprocs,rank,start,work;
 MPI_Comm new_comm;
-double timer,startT,stop;
-struct timeval timstr;
 /*
 ** function prototypes
 */
@@ -181,7 +179,7 @@ int main(int argc, char* argv[])
   t_speed* tmp_cells = NULL;    /* scratch space */
   int*     obstacles = NULL;    /* grid indicating which cells are blocked */
   float* av_vels   = NULL;     /* a record of the av. velocity computed for each timestep */
-                                                              /* structure to hold elapsed time */
+  struct timeval timstr;                                                             /* structure to hold elapsed time */
   double tot_tic, tot_toc, init_tic, init_toc, comp_tic, comp_toc, col_tic, col_toc; /* floating point numbers to calculate elapsed wallclock time */
   t_speed** cells_ptr = &cells;
   t_speed** tmp_cells_ptr= &tmp_cells;
@@ -198,18 +196,12 @@ int main(int argc, char* argv[])
 
 
 
-
-
   /* Total/init time starts here: initialise our data structures and load values from file */
   gettimeofday(&timstr, NULL);
   tot_tic = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-
-  startT = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer=0;
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
-  printf("Hello");
   //f(params.ny/2<nprocs)nprocs = params.ny/2;
 
   // Obtain the group of processes in the world communicator
@@ -224,9 +216,6 @@ int main(int argc, char* argv[])
 // // Create a new communicator
 //
 //MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
-
-
-
 int color;
 if(rank>params.ny/2-1){
   color =MPI_UNDEFINED;
@@ -241,15 +230,17 @@ if (new_comm== MPI_COMM_NULL)
    MPI_Finalize();
    exit(0);
 }
-
-
+// if(rank>params.ny/2-1){
+//   MPI_Finalize();
+//      exit(0);
+//   }
   //nprocs = params.ny/2;
-  // MPI_Comm_size(new_comm,&nprocs);
-  // MPI_Comm_rank(new_comm,&rank);
-  //printf("1");
+  MPI_Comm_size(new_comm,&nprocs);
+  MPI_Comm_rank(new_comm,&rank);
 
 
-  printf("Rank: %d nprocs: %d\n",rank,nprocs);
+
+  //printf("Rank: %d nprocs: %d\n",rank,nprocs);
 
   // if(rank>nprocs-1){
   //   printf("rank greater than nprocs \n");
@@ -295,14 +286,12 @@ if (new_comm== MPI_COMM_NULL)
   //
   // }
   //printf("%d\n",work );
-  //printf("Rank: %d  1\n" ,rank);
-
+  //printf("Rank: %d  1\n",rank);
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
   int tt;
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
-
   for (tt = 0; tt < params.maxIters; tt++)
   {
   // for (int tt = 0; tt < 10; tt++)
@@ -357,7 +346,7 @@ if (new_comm== MPI_COMM_NULL)
     //print_halo_fushion(params,local_cells,work);
     //print_halo_fushion(params,*local_cells_ptr,work);
      //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
-     //printf("%d\n",tt);
+
 
 
 
@@ -548,9 +537,7 @@ for(j = 0;j<nprocs;j++){
 //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
 
-  gettimeofday(&timstr, NULL);
-  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-startT;
+
   //print_halo_fushion(params,local_cells,work);
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
   if(rank==0){
@@ -568,8 +555,7 @@ for(j = 0;j<nprocs;j++){
 
   MPI_Reduce(tot_u, t_tot_u, params.maxIters, MPI_FLOAT, MPI_SUM, 0,new_comm);
   MPI_Reduce(tot_cells,t_tot_cells, params.maxIters, MPI_INT, MPI_SUM, 0,new_comm);
-  gettimeofday(&timstr, NULL);
-  startT = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+
 
   if(rank==0){
     int i;
@@ -634,10 +620,7 @@ for(j = 0;j<nprocs;j++){
   tot_toc = col_toc;
   //MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
-  gettimeofday(&timstr, NULL);
-  stop = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  timer += stop-startT;
-  if(rank==0)printf("Timer:  %f",timer);
+
   if(rank==0)printf("==done==    %d\n",nprocs);
   if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
   if(rank==0)printf("Elapsed Init time:\t\t\t%.6lf (s)\n",    init_toc - init_tic);
@@ -1083,8 +1066,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     // MPI_Barrier(MPI_COMM_WORLD);
     // print_halo_fushion(params,cells,work);
 
-
-
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
         &cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, new_comm, &status);
@@ -1107,9 +1088,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     //print_halo_fushion(params,cells,work);
     //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
-    gettimeofday(&timstr, NULL);
-    stop= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-    timer += stop-startT;
+
     for (jj =2; jj < work; jj++)
     {
       //printf("%d\n",jj);
@@ -1658,8 +1637,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
   }
     //if(rank==0)print_halo_fushion(params,tmp_cells,work);
-    gettimeofday(&timstr, NULL);
-    startT= timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+
 
 
 
@@ -1668,8 +1646,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     pair_tot result;
     result.tot_u = tot_u;
     result.tot_cells = tot_cells;
-
-
     return result;
 
 
