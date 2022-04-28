@@ -224,20 +224,21 @@ int main(int argc, char* argv[])
 // // Create a new communicator
 //
 //MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
-int color;
-if(rank>params.ny/2-1){
-  color =MPI_UNDEFINED;
-}else{
-  color = 0;
-}
+// int color;
+// if(rank>params.ny/2-1){
+//   color =MPI_UNDEFINED;
+// }else{
+//   color = 0;
+// }
+//
+// MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
+// if (new_comm== MPI_COMM_NULL)
+// {
+//    // Bye bye cruel world
+//    MPI_Finalize();
+//    exit(0);
+// }
 
-MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
-if (new_comm== MPI_COMM_NULL)
-{
-   // Bye bye cruel world
-   MPI_Finalize();
-   exit(0);
-}
 // if(rank>params.ny/2-1){
 //   MPI_Finalize();
 //      exit(0);
@@ -245,7 +246,7 @@ if (new_comm== MPI_COMM_NULL)
   //nprocs = params.ny/2;
   MPI_Comm_size(new_comm,&nprocs);
   MPI_Comm_rank(new_comm,&rank);
-
+  printf("1");
 
 
   //printf("Rank: %d nprocs: %d\n",rank,nprocs);
