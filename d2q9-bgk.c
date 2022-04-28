@@ -625,7 +625,6 @@ for(j = 0;j<nprocs;j++){
   tot_toc = col_toc;
   //MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
-  if(rank==0)printf("Timer:  %f",timer);
   if(rank==0)printf("==done==    %d\n",nprocs);
   if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
   if(rank==0)printf("Elapsed Init time:\t\t\t%.6lf (s)\n",    init_toc - init_tic);
