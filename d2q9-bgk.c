@@ -246,10 +246,10 @@ if (new_comm== MPI_COMM_NULL)
   //nprocs = params.ny/2;
   // MPI_Comm_size(new_comm,&nprocs);
   // MPI_Comm_rank(new_comm,&rank);
-  printf("1");
+  //printf("1");
 
 
-  //printf("Rank: %d nprocs: %d\n",rank,nprocs);
+  printf("Rank: %d nprocs: %d\n",rank,nprocs);
 
   // if(rank>nprocs-1){
   //   printf("rank greater than nprocs \n");
