@@ -171,7 +171,6 @@ int main(int argc, char* argv[])
   MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  //printf("Hello from rank %d of %d\n",rank,nprocs);
   char*    paramfile = NULL;    /* name of the input parameter file */
   char*    obstaclefile = NULL; /* name of a the input obstacle file */
   t_param  params;              /* struct to hold parameter values */
@@ -194,62 +193,30 @@ int main(int argc, char* argv[])
     obstaclefile = argv[2];
   }
 
-
-
   /* Total/init time starts here: initialise our data structures and load values from file */
   gettimeofday(&timstr, NULL);
   tot_tic = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   init_tic=tot_tic;
   initialise(paramfile, obstaclefile, &params, &cells, &tmp_cells, &obstacles, &av_vels);
 
-  //f(params.ny/2<nprocs)nprocs = params.ny/2;
+  int color;
+  if(rank>params.ny/2-1){
+    color =MPI_UNDEFINED;
+  }else{
+    color = 0;
+  }
 
-  // Obtain the group of processes in the world communicator
-// MPI_Group world_group;
-// MPI_Comm_group(MPI_COMM_WORLD, &world_group);
-//
-// // Remove all unnecessary ranks
-// MPI_Group new_group;
-// int ranges[3] = { 5, 7, 1 };
-// MPI_Group_range_excl(world_group, 2, ranges, &new_group);
-//
-// // Create a new communicator
-//
-//MPI_Comm_create(MPI_COMM_WORLD, new_group, &new_comm);
-int color;
-if(rank>params.ny/2-1){
-  color =MPI_UNDEFINED;
-}else{
-  color = 0;
-}
+  MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
+  if (new_comm== MPI_COMM_NULL)
+  {
+     MPI_Finalize();
+     exit(0);
+  }
 
-MPI_Comm_split(MPI_COMM_WORLD, color, 0, &new_comm);
-if (new_comm== MPI_COMM_NULL)
-{
-   // Bye bye cruel world
-   MPI_Finalize();
-   exit(0);
-}
-// if(rank>params.ny/2-1){
-//   MPI_Finalize();
-//      exit(0);
-//   }
-  //nprocs = params.ny/2;
   MPI_Comm_size(new_comm,&nprocs);
   MPI_Comm_rank(new_comm,&rank);
 
 
-
-  //printf("Rank: %d nprocs: %d\n",rank,nprocs);
-
-  // if(rank>nprocs-1){
-  //   printf("rank greater than nprocs \n");
-  //   //MPI_Finalize();
-  //   return EXIT_SUCCESS;
-  // }
-  //printf("Rank: %d nprocs %d \n",rank,nprocs);
-
-  //initialise(paramfile, obstaclefile, &params, &test_cells, &test_tmp_cells, &obstacles, &av_vels);
 
   /* Init time stops here, compute time starts*/
   gettimeofday(&timstr, NULL);
@@ -258,18 +225,9 @@ if (new_comm== MPI_COMM_NULL)
   int N = params.ny;
   work =findWork(N,nprocs,rank);
   start = findStart(N,nprocs,rank);
-  //printf("Rank: %d work: %d  start: %d\n",rank,work,start);
-  //printf("Rank: %d work: %d start: %d \n",rank,work,start);
+
   int flag;
-  //printf("%d    %d",start,rank*work);
-  // for (int jj =0; jj < params.ny; jj++)
-  // {
-  //
-  //   for (int ii = 0; ii < params.nx; ii++)
-  //   {
-  //     cells[ii+jj*params.nx].speeds[0] = 0.1f;
-  //   }
-  // }
+
 
   t_speed* local_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
   t_speed* local_tmp_cells  =(t_speed*)malloc(sizeof(t_speed) * ((work+2) * params.nx));
@@ -280,13 +238,6 @@ if (new_comm== MPI_COMM_NULL)
   int* local_obstacles = malloc(sizeof(int) * (work * params.nx));
 
   memcpy(&local_obstacles[0],&obstacles[start*params.nx],sizeof(int) * (work * params.nx));
-  // for(int i = 0;i<(work+2) ;i++){
-  //   local_cells[i* params.nx].speeds[0] = i ;
-  //
-  //
-  // }
-  //printf("%d\n",work );
-  //printf("Rank: %d  1\n",rank);
 
   float* tot_u   = (float *)malloc(sizeof(float) * params.maxIters);
   int* tot_cells   = (int *)malloc(sizeof(int ) * params.maxIters);
@@ -294,215 +245,21 @@ if (new_comm== MPI_COMM_NULL)
   float* temp_av_vels   = (float *)malloc(sizeof(float) * params.maxIters);
   for (tt = 0; tt < params.maxIters; tt++)
   {
-  // for (int tt = 0; tt < 10; tt++)
-  // {
-
-
-    //print_halo_fushion(params,local_cells,work);
-    //print_halo_fushion(params,local_cells,work);
-    //printf("rank: %d tt:%d 1\n",rank,tt);
-    //Init local regions
-
-    //printf("%d",work);
-      // printf("rank: %d tt:%d 2\n",rank,tt);
-    // printf("rank: %d tt:%d send:%d 2\n",rank,tt,local_cells[1*params.nx].speeds[0]);
-    // printf("rank: %d tt:%d recv: %d2\n",rank,tt,local_cells[work*params.nx].speeds[0]);
-
-        // printf("before Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
-        // printf("before Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-        // printf("before Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
-
-    //printf("rank: %d tt:%d local_cells: %d end:%d buffSize:%d\n",rank,tt,sizeof(t_speed) * ((work+2) * params.nx),end*params.nx,buffSize*sizeof(float));
-    // MPI_Sendrecv(&local_cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
-    //     &local_cells[(129)*params.nx],  buffSize ,  MPI_FLOAT, right, tag, MPI_COMM_WORLD, &status);
-    // //printf("rank: %d tt:%d 3\n",rank,tt);
-    // MPI_Sendrecv(&local_cells[(128)*params.nx],buffSize , MPI_FLOAT, right, tag,
-    //     &local_cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD, &status);
-
-    // for(int i = 0 ;i<work+2;i++){
-    //   printf("Rank%d result: %d %f \n",rank,i,local_cells[i*params.nx].speeds[0]);
-    // }
-
-
-    // printf("mid tt :%d Memcompare left Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
-    // // printf("mid Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    //  printf("mid tt:%d Memcompare right Rank:%d result: %d\n",tt,rank,memcmp(&local_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
-    //
-    //printf("%d",work);
-
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //   for (int kk = 0; kk < NSPEEDS; kk++)
-    //   {
-    //   local_cells[ii+0*params.nx].speeds[kk] = local_cells[ii+128*params.nx].speeds[kk] ;
-    //   local_cells[ii+129*params.nx].speeds[kk] = local_cells[ii+1*params.nx].speeds[kk] ;
-    //   }
-    // }
-
-
-    //printf("\n BEFORE \n");
-    //print_fushion(params,cells);
-    //print_fushion(params,*cells_ptr);
-    //print_halo_fushion(params,local_cells,work);
-    //print_halo_fushion(params,*local_cells_ptr,work);
-     //temp_av_vels[tt] = timestep(params, cells_ptr, tmp_cells_ptr, obstacles);
-
-
-
-
 
     pair_tot temp= halo_timestep(params, local_cells_ptr, local_tmp_cells_ptr, local_obstacles);
     tot_u[tt] = temp.tot_u;
     tot_cells[tt] = temp.tot_cells;
 
-    // printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[0],&cells[(posLeft)*params.nx],buffSize*sizeof(float)));
-    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
-    // printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[(work+1)*params.nx],&cells[(posRight)*params.nx],buffSize*sizeof(float)));
-
-    // //printf("After Memcompare left Rank:%d result: %d\n",rank,memcmp(&local_cells[0],&cells[posLeft*params.nx],buffSize*sizeof(float)));
-    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_tmp_cells[1*params.nx],&tmp_cells[start*params.nx],buffSize*sizeof(float)*work));
-    // //printf("After Memcompare right Rank:%d result: %d\n",rank,memcmp(&test_cells[work*params.nx],&cells[posRight*params.nx],buffSize*sizeof(float)));
-    //
     t_speed** local_temp = local_cells_ptr;
     local_cells_ptr= local_tmp_cells_ptr;
     local_tmp_cells_ptr= local_temp;
 
-    t_speed** temp_ptr = cells_ptr;
-    cells_ptr= tmp_cells_ptr;
-    tmp_cells_ptr= temp_ptr;
-
-
-  //
-  //   t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
-  //   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
-  // int * displs = (int*)malloc(sizeof(int)*nprocs);
-  // int * rcounts = (int*)malloc(sizeof(int)*nprocs);
-  // int j;
-  // for(j = 0;j<nprocs;j++){
-  //
-  //    displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
-  //
-  //   rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
-  //
-  //
-  //   //displs[j]=
-  // }
-
-  //MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-
-
-
-    //print_halo_fushion(params,local_cells,work);
-
-  //MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
-  // if(tt%2000==0){
-  // if(rank==0)printf("\nOUPUT %d\n",tt);
-  // if(rank==0)print_fushion(params,output);
-  // if(rank==0)print_fushion(params,cells);
-  // }
-    // MPI_Barrier(MPI_COMM_WORLD);
-    // if(rank==0)printf("\n OUTPUTS OF LOOP %d \n",tt);
-    // print_halo_fushion(params,local_cells,work);
-    // if(rank==0)print_fushion(params,cells);
-
-
-    //printf("rank: %d tt:%d 5\n",rank,tt);
-    //MPI_Barrier(MPI_COMM_WORLD);
-    //printf("\n AFTER \n");
-    //print_fushion(params,cells);
-    //print_fushion(params,*cells_ptr);
-    //print_halo_fushion(params,local_cells,work);
-    //print_halo_fushion(params,*local_cells_ptr,work);
-
-    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(&local_cells[1*params.nx],&cells[start*params.nx],buffSize*sizeof(float)*work));
 
 
 
 
-    //int flag = 0;
 
 
-
-    // flag = 0;
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //   for (int kk = 0; kk < NSPEEDS; kk++)
-    //   {
-    //     if(cells[ii + posRight].speeds[kk] !=test_cells[ii + posRight].speeds[kk] ){
-    //       flag =1;
-    //
-    //     }
-    //   }
-    //
-    // }
-    // if(flag==1){
-    //   printf("posRight Rank: %d jj: %d\n",rank,posRight);
-    // }
-    //
-    //
-    //
-    //
-    // int flag = 0;
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //   for (int kk = 0; kk < NSPEEDS; kk++)
-    //   {
-    //     if(cells[ii + (params.ny-1)*params.nx].speeds[kk] !=local_cells[ii+0*params.nx].speeds[kk] ){
-    //       flag =1;
-    //
-    //     }
-    //   }
-    //
-    // }
-    // if(flag==1){
-    //   printf(" Rank: %d 127\n",rank);
-    // }
-    // flag = 0;
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //   for (int kk = 0; kk < NSPEEDS; kk++)
-    //   {
-    //     if(cells[ii + 0*params.nx].speeds[kk] !=local_cells[ii+(work+1)*params.nx].speeds[kk] ){
-    //       flag =1;
-    //
-    //     }
-    //   }
-    //
-    // }
-    // if(flag==1){
-    //   printf(" Rank: %d 0\n",rank);
-    // }
-
-    //
-    //
-    //
-    // int flag;
-    // for (int jj =1; jj < work+1; jj++)
-    // {
-    //   flag = 0;
-    //   for (int ii = 0; ii < params.nx; ii++)
-    //   {
-    //     // if(ii == 2 &&jj ==2){
-    //     //   local_cells[ii + jj*params.nx].speeds[0] = 0;
-    //     //   cells[ii + (jj-1)*params.nx +start*params.nx].speeds[0] = 0;
-    //     // }
-    //     for (int kk = 0; kk < NSPEEDS; kk++)
-    //     {
-    //       if(cells[ii + (jj-1)*params.nx +start*params.nx].speeds[kk] !=local_cells[ii + jj*params.nx].speeds[kk] ){
-    //         flag =1;
-    //
-    //       }
-    //     }
-    //
-    //
-    //   }
-    //   if(flag==1){
-    //     printf("Rank: %d jj: %d\n",rank,jj);
-    //   }
-    // }
-
-
-    //av_vels[tt] = av_velocity(params, cells, obstacles);
 #ifdef DEBUG
     printf("==timestep: %d==\n", tt);
     printf("av velocity: %.12E\n", av_vels[tt]);
@@ -513,47 +270,25 @@ if (new_comm== MPI_COMM_NULL)
   gettimeofday(&timstr, NULL);
   comp_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   col_tic=comp_toc;
-  //printf("Rank: %d  2\n",rank);
-  //printf("\n AFTER \n");
 
-  //print_fushion(params,*cells_ptr);
-  //print_halo_fushion(params,*local_cells_ptr,work);
-//print_halo_fushion(params,*local_cells_ptr,work);
-//print_halo_fushion(params,local_cells,work);
-  //MPI_Barrier(MPI_COMM_WORLD);
 
   t_speed* output= (t_speed*)malloc(sizeof(t_speed)*NSPEEDS * params.nx*params.ny);
   float* test= (float*)malloc(sizeof(float) * 2*nprocs);
 int * displs = (int*)malloc(sizeof(int)*nprocs);
 int * rcounts = (int*)malloc(sizeof(int)*nprocs);
 int j;
-//int b =2;
+
 for(j = 0;j<nprocs;j++){
-  //b=2;
+
    displs[j] = params.nx*NSPEEDS*findStart(params.ny,nprocs,j);
 
   rcounts[j] = params.nx*NSPEEDS*findWork(params.ny,nprocs,j);
 
-  //if(rank==0)printf("%d   %d   %d   %d    %d\n ",j,displs[j],rcounts[j],findStart(N,nprocs,j),findWork(N,nprocs,j));
-  //displs[j]=
+
 }
-//float r[2] = {rank,rank};
-//MPI_Gatherv(&r[1],1,MPI_FLOAT,test,rcounts,displs,MPI_FLOAT,0,MPI_COMM_WORLD);
 
-
-
-  //print_halo_fushion(params,local_cells,work);
   MPI_Gatherv(&local_cells[1*params.nx],params.nx*NSPEEDS*work,MPI_FLOAT,output,rcounts,displs,MPI_FLOAT,0,new_comm);
-  if(rank==0){
-    // int t;
-    // for(t =0;t<nprocs;t++){
-    //   printf("%f  ",test[t]);
-    // }
-    // print_fushion(params,output);
-    // print_fushion(params,cells);
-    // print_fushion(params,*cells_ptr);
 
-  }
   float* t_tot_u   = (float*)malloc(sizeof(float) * params.maxIters);
   int* t_tot_cells   = (int*)malloc(sizeof(int) * params.maxIters);
 
@@ -565,48 +300,12 @@ for(j = 0;j<nprocs;j++){
     int i;
     for(i =0;i<params.maxIters;i++){
       av_vels[i] = t_tot_u[i]/(float)t_tot_cells[i];
-      //printf("%f   %f \n",av_vels[i],temp_av_vels[i]);
     }
-    // print_halo_fushion(params,local_cells,work);
-    // if(rank==0)print_fushion(params,cells);
-    // if(rank==0)print_fushion(params,output);
-    //if(rank==0)printf("av velocity: %.12E,     %.12E\n",temp_av_vels[params.maxIters-1],av_vels[params.maxIters-1]);
 
-
-
-
-    //printf("After Memcompare mid Rank:%d result: %d\n",rank,memcmp(output,cells,sizeof(t_speed) * params.nx*params.ny));
-
-    //printf("AV: %d ",memcmp(temp_av_vels,av_vels,sizeof(float) * params.maxIters));
-    // print_fushion(params,output);
-    // print_fushion(params,cells);
     cells = output;
 
-
-    //print_fushion(params,cells);
   }
-  //print_fushion(params,output);
-  //
-  // int tag = 0;
-  // MPI_Status status;
-  // if (rank != 0) {
-  //  int dest = 0;
-  //
-  //  MPI_Send(&*local_cells_ptr[1*params.nx],  NSPEEDS*params.nx*(work), MPI_FLOAT, dest, tag, MPI_COMM_WORLD);
-  //
-  // }
-  // else {             /* i.e. this is the master process */
-  //
-  //  for (int i=1; i<nprocs; i++) {
-  //    int size = findWork(N,nprocs,i);
-  //    int mystart = size*i;
-  //    /* recieving their messages.. */
-  //    MPI_Recv(&cells[mystart*params.nx], NSPEEDS*params.nx*(size), MPI_FLOAT, i, tag, MPI_COMM_WORLD, &status);
-  //
-  //  }
-  //  //printf("\n OUTPUT \n");
-  //  //print_fushion(params,output);
-  // }
+
 
 
 
@@ -1027,36 +726,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
   /* initialise */
   tot_u = 0.f;
 
-	//Comment asdas
-  /* loop over _all_ cells */
-  //
 
-    //#pragma omp parallel for collapse(2) reduction(+:tot_u,tot_cells)
-    // //Init local regions
-    // int tag = 0;
-    // MPI_Status status;
-
-
-
-    //Intialiase local cells
-    //printf("work %d",work);
-    // int flag =0;
-    // for (int ii = 0; ii < params.nx; ii++)
-    // {
-    //   for (int kk = 0; kk < NSPEEDS; kk++)
-    //   {
-    //     cells[ii + 0*params.nx].speeds[kk] = cells[ii + 128*params.nx].speeds[kk];
-    //     cells[ii+129*params.nx].speeds[kk] = cells[ii+1*params.nx].speeds[kk] ;
-    //
-    //
-    //   }
-    // }
-    //cells[5 + 5*params.nx].speeds[0] = 0;
-
-
-    // memcpy(&cells[0],&cells[128*params.nx],sizeof(t_speed) *  params.nx);
-    // memcpy(&cells[129*params.nx],&cells[1*params.nx],sizeof(t_speed) *  params.nx);
-    //print_halo_fushion(params,cells,work);
     int tag = 0;
     MPI_Status status;
     MPI_Request request_1;
@@ -1064,8 +734,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     int buffSize = params.nx *NSPEEDS;
     int right = (rank + 1) % nprocs;
     int left = (rank == 0) ? (rank + nprocs - 1) : (rank - 1);
-    // MPI_Barrier(MPI_COMM_WORLD);
-    // print_halo_fushion(params,cells,work);
+
 
     //WORKING SENDRECV
     MPI_Sendrecv(&cells[1*params.nx],buffSize , MPI_FLOAT, left, tag,
@@ -1073,44 +742,22 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     MPI_Sendrecv(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,
         &cells[0],  buffSize ,  MPI_FLOAT, left, tag, new_comm, &status);
 
-     // MPI_Isend(&cells[1*params.nx],buffSize , MPI_FLOAT,left, tag,MPI_COMM_WORLD,&request_1);
-     // MPI_Isend(&cells[(work)*params.nx],buffSize , MPI_FLOAT, right, tag,MPI_COMM_WORLD,&request_2);
-     // MPI_Irecv(&cells[0],  buffSize ,  MPI_FLOAT, left, tag, MPI_COMM_WORLD,&request_1);
-     // MPI_Irecv(&cells[(work+1)*params.nx],  buffSize ,  MPI_FLOAT, right,tag, MPI_COMM_WORLD,&request_2);
-
-     // MPI_Barrier(MPI_COMM_WORLD);
-    // if(rank==0)printf("\n \n \n AFTER SENDRECV\n\n\n");
-    // print_halo_fushion(params,cells,work);
-
-
-    //printf("\n AFTER SENDRECV \n");
-    //print_halo_fushion(params,cells,work);
-
-    //print_halo_fushion(params,cells,work);
-    //cells[5+1*params.nx+1*params.nx].speeds[0] = 0;
     int jj,ii,kk;
 
     for (jj =2; jj < work; jj++)
     {
-      //printf("%d\n",jj);
+
       for (ii = 0; ii < params.nx; ii++)
       {
 
-      //printf("%d\n",omp_get_num_threads());
-      //propagate(params,cells,tmp_cells,ii,jj);
+
       //PROPAGATE
       /* determine indices of axis-direction neighbours
       ** respecting periodic boundary conditions (wrap around) */
 
       short y_n = (jj + 1) ;
-      // if(jj ==128){
-      //   y_n = 1;
-      // }
       const short x_e = (ii + 1) % params.nx;
-       short y_s = (jj - 1);
-      // if(jj==1){
-      //   y_s = 128;
-      // }
+      short y_s = (jj - 1);
       const short x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
       /* propagate densities from neighbouring cells, following
       ** appropriate directions of travel and writing into
@@ -1125,7 +772,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       tmp_cells[ii + jj*params.nx].speeds[6] = cells[x_e + y_s*params.nx].speeds[6]; /* north-west */
       tmp_cells[ii + jj*params.nx].speeds[7] = cells[x_e + y_n*params.nx].speeds[7]; /* south-west */
       tmp_cells[ii + jj*params.nx].speeds[8] = cells[x_w + y_n*params.nx].speeds[8]; /* south-east */
-      //printf("%d 3\n",jj);
+
 
 
       // //REBOUND
@@ -1274,27 +921,20 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     }
     }
 
-     // MPI_Wait(&request_1, &status);
-    // MPI_Wait(&request_2, &status);
+
     jj=1;
     for (ii = 0; ii < params.nx; ii++)
     {
 
-    //printf("%d\n",omp_get_num_threads());
+
     //propagate(params,cells,tmp_cells,ii,jj);
     //PROPAGATE
     /* determine indices of axis-direction neighbours
     ** respecting periodic boundary conditions (wrap around) */
 
     short y_n = (jj + 1) ;
-    // if(jj ==128){
-    //   y_n = 1;
-    // }
     const short x_e = (ii + 1) % params.nx;
-     short y_s = (jj - 1);
-    // if(jj==1){
-    //   y_s = 128;
-    // }
+    short y_s = (jj - 1);
     const short x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
     /* propagate densities from neighbouring cells, following
     ** appropriate directions of travel and writing into
@@ -1309,7 +949,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     tmp_cells[ii + jj*params.nx].speeds[6] = cells[x_e + y_s*params.nx].speeds[6]; /* north-west */
     tmp_cells[ii + jj*params.nx].speeds[7] = cells[x_e + y_n*params.nx].speeds[7]; /* south-west */
     tmp_cells[ii + jj*params.nx].speeds[8] = cells[x_w + y_n*params.nx].speeds[8]; /* south-east */
-    //printf("%d 3\n",jj);
 
 
     // //REBOUND
@@ -1335,9 +974,6 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
       tmp_cells[ii + jj*params.nx].speeds[6] = tmp_cells[ii + jj*params.nx].speeds[8];
       tmp_cells[ii + jj*params.nx].speeds[7] = c5;
       tmp_cells[ii + jj*params.nx].speeds[8] = c6;
-
-
-
 
 
 
@@ -1456,7 +1092,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     }
   }
-    //if(rank==0)print_halo_fushion(params,cells,work);
+
     jj=work;
     for (ii = 0; ii < params.nx; ii++)
     {
@@ -1468,14 +1104,8 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
     ** respecting periodic boundary conditions (wrap around) */
 
     short y_n = (jj + 1) ;
-    // if(jj ==128){
-    //   y_n = 1;
-    // }
     const short x_e = (ii + 1) % params.nx;
      short y_s = (jj - 1);
-    // if(jj==1){
-    //   y_s = 128;
-    // }
     const short x_w = (ii == 0) ? (ii + params.nx - 1) : (ii - 1);
     /* propagate densities from neighbouring cells, following
     ** appropriate directions of travel and writing into
@@ -1637,13 +1267,7 @@ pair_tot halo_fusion(const t_param params, t_speed** cells_ptr, t_speed** tmp_ce
 
     }
   }
-    //if(rank==0)print_halo_fushion(params,tmp_cells,work);
 
-
-
-
-
-    //printf("%f    %f\n",recvarray[0],recvarray[1]);
     pair_tot result;
     result.tot_u = tot_u;
     result.tot_cells = tot_cells;
