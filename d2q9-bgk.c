@@ -307,18 +307,13 @@ for(j = 0;j<nprocs;j++){
   }
 
 
-
-
-
-
-
    // Collate data from ranks here
 
   /* Total/collate time stops here.*/
   gettimeofday(&timstr, NULL);
   col_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
   tot_toc = col_toc;
-  //MPI_Barrier(MPI_COMM_WORLD);
+  
   /* write final values and free memory */
 
   if(rank==0)printf("==done==\n");
@@ -329,15 +324,7 @@ for(j = 0;j<nprocs;j++){
   if(rank==0)printf("Elapsed Total time:\t\t\t%.6lf (s)\n",   tot_toc  - tot_tic);
   if(rank==0)write_values(params, cells, obstacles, av_vels);
 
-  // free(local_cells);
-  // free(local_tmp_cells);
-  //
-  // free(local_obstacles);
-  // free(tot_u);
-  // free(tot_cells);
-  // free(output);
-  // free(t_tot_u);
-  // free(t_tot_cells);
+
   finalise(&params, &cells, &tmp_cells, &obstacles, &av_vels);
 
   MPI_Finalize();
