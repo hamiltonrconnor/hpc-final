@@ -509,6 +509,10 @@ if (new_comm== MPI_COMM_NULL)
     printf("tot density: %.12E\n", total_density(params, cells));
 #endif
   }
+  /* Compute time stops here, collate time starts*/
+  gettimeofday(&timstr, NULL);
+  comp_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
+  col_tic=comp_toc;
   //printf("Rank: %d  2\n",rank);
   //printf("\n AFTER \n");
 
@@ -607,10 +611,7 @@ for(j = 0;j<nprocs;j++){
 
 
 
-  /* Compute time stops here, collate time starts*/
-  gettimeofday(&timstr, NULL);
-  comp_toc = timstr.tv_sec + (timstr.tv_usec / 1000000.0);
-  col_tic=comp_toc;
+
 
    // Collate data from ranks here
 
@@ -621,7 +622,7 @@ for(j = 0;j<nprocs;j++){
   //MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
 
-  if(rank==0)printf("==done==    %d\n",nprocs);
+  if(rank==0)printf("==done==");
   if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
   if(rank==0)printf("Elapsed Init time:\t\t\t%.6lf (s)\n",    init_toc - init_tic);
   if(rank==0)printf("Elapsed Compute time:\t\t\t%.6lf (s)\n", comp_toc - comp_tic);
