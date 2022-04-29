@@ -622,7 +622,7 @@ for(j = 0;j<nprocs;j++){
   //MPI_Barrier(MPI_COMM_WORLD);
   /* write final values and free memory */
 
-  if(rank==0)printf("==done==");
+  if(rank==0)printf("==done==\n");
   if(rank==0)printf("Reynolds number:\t\t%.12E\n", calc_reynolds(params, cells, obstacles));
   if(rank==0)printf("Elapsed Init time:\t\t\t%.6lf (s)\n",    init_toc - init_tic);
   if(rank==0)printf("Elapsed Compute time:\t\t\t%.6lf (s)\n", comp_toc - comp_tic);
